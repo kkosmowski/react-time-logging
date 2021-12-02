@@ -1,0 +1,1 @@
+export const PRECISION_CONST = 2;
