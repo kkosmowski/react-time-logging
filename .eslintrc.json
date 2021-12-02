@@ -83,6 +83,10 @@
         "no-empty-function": "off",
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-inferrable-types": "warn",
-        "no-console": "warn"
-    }
+        "no-console": "warn",
+        "react/react-in-jsx-scope": "off"
+    },
+    "ignorePatterns": [
+        "config-overrides.js"
+    ]
 }
