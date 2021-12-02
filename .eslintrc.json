@@ -87,6 +87,11 @@
         "react/react-in-jsx-scope": "off"
     },
     "ignorePatterns": [
-        "config-overrides.js"
+        "config-overrides.js",
+        "src/react-app-env.d.ts",
+        "src/reportWebVitals.ts",
+        "src/service-worker.ts",
+        "src/serviceWorkerRegistration.ts",
+        "src/setupTests.ts"
     ]
 }
