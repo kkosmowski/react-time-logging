@@ -11,16 +11,32 @@ import {
   TimeIndicator
 } from './Column.styled';
 import { Task } from '@interfaces/task.interface';
-import { MINUTES_IN_HOUR } from '@consts/date.consts';
+import {
+  COLUMN_DATE_FORMAT,
+  DATE_FORMAT,
+  DAY_NAME_FORMAT,
+  MINUTES_IN_HOUR
+} from '@consts/date.consts';
 import { PRECISION_CONST } from '@consts/numbers.consts';
+import moment, { Moment } from 'moment';
 
 interface Props {
+  date: Moment;
   tasks: Task[];
 }
 
-const Column = ({ tasks }: Props): ReactElement => {
+const Column = ({ date, tasks }: Props): ReactElement => {
   const [totalTime, setTotalTime] = useState(0);
   const [cards, setCards] = useState<ReactElement[]>([]);
+  const [isToday, setIsToday] = useState(false);
+
+  const checkIfIsToday = (): void => {
+    setIsToday(moment().format(DATE_FORMAT) === date.format(DATE_FORMAT));
+  }
+
+  useEffect(() => {
+    checkIfIsToday();
+  }, [date]);
 
   useEffect(() => {
     const cardsArray: ReactElement[] = [];
@@ -39,20 +55,22 @@ const Column = ({ tasks }: Props): ReactElement => {
   }, [tasks]);
 
   return (
-    <ColumnWrapper>
+    <ColumnWrapper className={ isToday ? '--today' : '' }>
       <ColumnHeader>
         <Row justify="space-between">
           <p>
-            <DayName>Monday</DayName>
-            <DayDate>02–12</DayDate>
+            <DayName>{ date.format(DAY_NAME_FORMAT) }</DayName>
+            <DayDate>{ date.format(COLUMN_DATE_FORMAT) }</DayDate>
           </p>
 
           <HoursDetails>
             { (totalTime / MINUTES_IN_HOUR).toPrecision(PRECISION_CONST) }h
           </HoursDetails>
         </Row>
-        <TimeIndicator />
       </ColumnHeader>
+
+      <TimeIndicator />
+
       <ColumnBody>
         { cards }
       </ColumnBody>

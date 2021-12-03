@@ -5,6 +5,8 @@ const aliasMap = {
   '@consts': 'src/domain/consts',
   '@interfaces': 'src/domain/interfaces',
   '@mytypes': 'src/domain/types',
+  '@utils': 'src/domain/utils',
+  '@store': 'src/store',
 }
 
 module.exports = alias(aliasMap)

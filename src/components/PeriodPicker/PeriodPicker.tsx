@@ -1,31 +1,32 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { DatePicker } from 'antd';
 import moment, { Moment } from 'moment';
 
-import { DATE_FORMAT } from '../../domain/consts/date.consts';
+import { formatWeekStartAndEnd } from '@utils/date.utils';
 
 interface Props {
   onChange: (date: Moment) => void;
-  value: Moment;
+  value: Moment | null;
   withMargin?: boolean;
 }
 
-const customWeekStartEndFormat = (value: Moment) => `${
-  moment(value).startOf('isoWeek').format(DATE_FORMAT)
-} — ${
-  moment(value).endOf('isoWeek').format(DATE_FORMAT)
-}`;
-
 const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
+  const today: Moment = moment();
   const handleChange = (newValue: Moment | null): void => {
     newValue && onChange(newValue);
   };
 
+  useEffect(() => {
+    if (!value) {
+      handleChange(today);
+    }
+  }, []);
+
   return (
     <DatePicker
       onChange={ handleChange }
-      value={ value }
-      format={ customWeekStartEndFormat }
+      value={ value || today }
+      format={ formatWeekStartAndEnd }
       picker="week"
       style={ withMargin ? { margin: '0 16px' } : {} }
     />
