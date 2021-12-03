@@ -19,6 +19,9 @@ import {
 } from '@consts/date.consts';
 import { PRECISION_CONST } from '@consts/numbers.consts';
 import moment, { Moment } from 'moment';
+import AddTask from '@components/AddTask';
+import { useDispatch } from 'react-redux';
+import uiActionCreators from '@store/actionCreators/ui-action.creators';
 
 interface Props {
   date: Moment;
@@ -29,10 +32,15 @@ const Column = ({ date, tasks }: Props): ReactElement => {
   const [totalTime, setTotalTime] = useState(0);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isToday, setIsToday] = useState(false);
+  const dispatch = useDispatch();
 
   const checkIfIsToday = (): void => {
     setIsToday(moment().format(DATE_FORMAT) === date.format(DATE_FORMAT));
-  }
+  };
+
+  const handleAddTask = (): void => {
+    dispatch(uiActionCreators.openAddTaskDialog());
+  };
 
   useEffect(() => {
     checkIfIsToday();
@@ -73,6 +81,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
       <ColumnBody>
         { cards }
+        <AddTask onAdd={ handleAddTask } />
       </ColumnBody>
     </ColumnWrapper>
   );
