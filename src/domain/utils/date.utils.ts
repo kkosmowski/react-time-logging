@@ -14,8 +14,19 @@ export const formatWeekStartAndEnd = (value: Moment): string =>
   `${ getWeekStart(value).format(DATE_FORMAT) } — ${ getWeekEnd(value).format(DATE_FORMAT) }`;
 
 export const minutesToHoursAndMinutes = (minutes: number): string => {
-  const hours = Math.floor(minutes / MINUTES_IN_HOUR);
+  if (!minutes) {
+    return '0h';
+  }
+
   const minutesLeft = minutes % MINUTES_IN_HOUR;
 
-  return `${ hours }h ${ minutesLeft !== ZERO ? `${ minutesLeft }min` : '' }`;
+  if (minutes < MINUTES_IN_HOUR) {
+    return `${ minutesLeft }m`;
+  }
+
+  const hours = Math.floor(minutes / MINUTES_IN_HOUR);
+  const hoursString = hours ? `${ hours }h` : '';
+  const minutesString = minutesLeft ? `${ minutesLeft }m` : '';
+
+  return `${ hoursString } ${ minutesString }`;
 };
