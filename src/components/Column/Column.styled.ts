@@ -19,11 +19,11 @@ export const ColumnWrapper = styled.section`
   
   &.--today {
     position: relative;
-    background-color: var(--primary-100);
-    border-color: var(--primary-400);
+    background-color: var(--primary-50);
+    border-color: var(--primary-300);
     
     + * {
-      border-left-color: var(--primary-400);
+      border-left-color: var(--primary-300);
     }
   }
 `;
@@ -84,14 +84,5 @@ export const ColumnBody = styled.div`
       opacity: 1;
       pointer-events: all;
     }
-  }
-`;
-
-export const TimeIndicator = styled.div`
-  height: 6px;
-  background-color: var(--background-200);
-  
-  .--today & {
-    background-color: var(--primary-200);
   }
 `;
