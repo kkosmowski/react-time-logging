@@ -7,6 +7,7 @@ const addTaskValidationSchema = yup.object().shape({
     .max(255, 'Title must not be longer than 255 characters')
     .required('Title is required'),
   description: yup.string().trim(),
+  date: yup.object().required(),
   duration: yup.string()
     .matches(/(\d{1,2}[h]\s\d{1,2}m)|(\d{1,2}[h|m])/, 'Invalid time input')
     .required('Duration is required')

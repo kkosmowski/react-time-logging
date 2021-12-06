@@ -7,4 +7,8 @@ export const StyledForm = styled.form`
   > input + p {
     margin-bottom: 16px;
   }
+  
+  > p + div {
+    margin-bottom: 38px;
+  }
 `;

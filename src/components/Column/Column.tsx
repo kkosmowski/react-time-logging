@@ -14,14 +14,14 @@ import { Task } from '@interfaces/task.interface';
 import {
   COLUMN_DATE_FORMAT,
   DATE_FORMAT,
-  DAY_NAME_FORMAT,
-  MINUTES_IN_HOUR
+  DAY_NAME_FORMAT
 } from '@consts/date.consts';
-import { PRECISION_CONST } from '@consts/numbers.consts';
+import { ZERO } from '@consts/numbers.consts';
 import moment, { Moment } from 'moment';
 import AddTask from '@components/AddTask';
 import { useDispatch } from 'react-redux';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
+import { minutesToHoursAndMinutes } from '@utils/date.utils';
 
 interface Props {
   date: Moment;
@@ -29,7 +29,7 @@ interface Props {
 }
 
 const Column = ({ date, tasks }: Props): ReactElement => {
-  const [totalTime, setTotalTime] = useState(0);
+  const [totalMinutes, setTotalMinutes] = useState(ZERO);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isToday, setIsToday] = useState(false);
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
   };
 
   const handleAddTask = (): void => {
-    dispatch(uiActionCreators.openAddTaskDialog());
+    dispatch(uiActionCreators.openAddTaskDialog(date.toISOString()));
   };
 
   useEffect(() => {
@@ -48,17 +48,17 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
   useEffect(() => {
     const cardsArray: ReactElement[] = [];
-    let time = 0;
+    let minutes = 0;
 
     tasks.forEach((task) => {
       cardsArray.push(
         <div key={ task.id }>{ task.title }</div>
       );
-      time += task.duration;
+      minutes += task.duration;
     });
 
     setCards(cardsArray);
-    setTotalTime(time);
+    setTotalMinutes(minutes);
 
   }, [tasks]);
 
@@ -72,7 +72,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
           </p>
 
           <HoursDetails>
-            { (totalTime / MINUTES_IN_HOUR).toPrecision(PRECISION_CONST) }h
+            { minutesToHoursAndMinutes(totalMinutes) }
           </HoursDetails>
         </Row>
       </ColumnHeader>

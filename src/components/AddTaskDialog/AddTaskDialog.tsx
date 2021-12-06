@@ -1,7 +1,9 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Modal } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
+import { v4 } from 'uuid';
+import moment from 'moment';
 
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { AddTaskFormInterface } from '@interfaces/add-task-form.interface';
@@ -9,11 +11,11 @@ import addTaskValidationSchema from './validationSchema';
 import initialAddTaskFormValues from './initial-form';
 import AddTaskDialogForm from './AddTaskDialogForm';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
-import { v4 } from 'uuid';
-import moment from 'moment';
 import { calculateDurationFromString } from '@utils/task.utils';
+import uiSelectors from '@store/selectors/ui.selectors';
 
 const AddTaskDialog = (): ReactElement => {
+  const data: string | null = useSelector(uiSelectors.addTaskDialogData);
   const dispatch = useDispatch();
   const formik = useFormik<AddTaskFormInterface>({
     initialValues: initialAddTaskFormValues,
@@ -21,7 +23,7 @@ const AddTaskDialog = (): ReactElement => {
     onSubmit: (values) => {
       dispatch(taskActionCreators.add({
         id: v4(),
-        date: moment(),
+        date: values.date.toISOString(),
         title: values.title,
         description: values.description,
         duration: calculateDurationFromString(values.duration)
@@ -29,11 +31,17 @@ const AddTaskDialog = (): ReactElement => {
       dispatch(uiActionCreators.closeAddTaskDialog());
     },
   });
-  const { submitForm } = formik;
+  const { submitForm, setFieldValue } = formik;
 
   const handleClose = (): void => {
     dispatch(uiActionCreators.closeAddTaskDialog());
   };
+
+  useEffect(() => {
+    if (data !== null) {
+      setFieldValue('date', moment(data));
+    }
+  }, [data]);
 
   return (
     <Modal

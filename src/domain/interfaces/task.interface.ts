@@ -1,9 +1,8 @@
 import { EntityUid } from '@mytypes/entity-uid.type';
-import { Moment } from 'moment';
 import { AddTaskFormInterface } from './add-task-form.interface';
 
-export interface Task extends Omit<AddTaskFormInterface, 'duration'> {
+export interface Task extends Omit<AddTaskFormInterface, 'date' | 'duration'> {
   id: EntityUid;
-  date: Moment;
+  date: string;
   duration: number;
 }

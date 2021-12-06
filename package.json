@@ -16,6 +16,7 @@
     "@types/react-redux": "^7.1.20",
     "antd": "^4.17.2",
     "formik": "^2.2.9",
+    "localbase": "^0.7.5",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-app-rewire-alias": "^1.1.5",

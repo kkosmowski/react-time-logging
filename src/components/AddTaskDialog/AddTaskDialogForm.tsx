@@ -1,15 +1,16 @@
 import { ReactElement } from 'react';
 import { FormikProps } from 'formik';
 import { AddTaskFormInterface } from '@interfaces/add-task-form.interface';
-import { Input } from 'antd';
+import { DatePicker, Input } from 'antd';
 import ErrorText from '@components/ErrorText';
 import { StyledForm } from './AddTaskDialogForm.styled';
+import { DATE_FORMAT } from '@consts/date.consts';
 
 interface Props {
   formik: FormikProps<AddTaskFormInterface>;
 }
 const AddTaskDialogForm = ({ formik }: Props): ReactElement => {
-  const { handleChange, handleBlur, values, touched, errors } = formik;
+  const { handleChange, handleBlur, setFieldValue, values, touched, errors } = formik;
 
   return (
     <StyledForm>
@@ -32,6 +33,18 @@ const AddTaskDialogForm = ({ formik }: Props): ReactElement => {
         value={ values.description }
       />
       <ErrorText>{ touched.description ? errors.description : '' }</ErrorText>
+
+      <DatePicker
+        id="date"
+        name="date"
+        placeholder="When?"
+        onChange={ date => setFieldValue('date', date) }
+        format={ DATE_FORMAT }
+        onBlur={ handleBlur }
+        value={ values.date }
+        allowClear={ false }
+      />
+
       <Input
         id="duration"
         name="duration"
