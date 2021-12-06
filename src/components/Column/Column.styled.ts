@@ -8,6 +8,8 @@ const columnPadding = css`
 export const ColumnWrapper = styled.section`
   width: 20%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
   background-color: var(--background);
   border: 1px solid var(--background-200);
   
@@ -60,8 +62,25 @@ export const HoursDetails = styled.p`
 `;
 
 export const ColumnBody = styled.div`
-  
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   ${ columnPadding } 
+  
+  .add-task {
+    align-self: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s ease-in-out opacity;
+    will-change: opacity;
+  }
+  
+  &:hover {
+    .add-task {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
 `;
 
 export const TimeIndicator = styled.div`

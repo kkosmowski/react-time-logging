@@ -28,6 +28,7 @@ const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
       value={ value || today }
       format={ formatWeekStartAndEnd }
       picker="week"
+      allowClear={ false }
       style={ withMargin ? { margin: '0 16px' } : {} }
     />
   );

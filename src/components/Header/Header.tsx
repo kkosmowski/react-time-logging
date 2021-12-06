@@ -8,14 +8,14 @@ import PeriodPicker from '@components/PeriodPicker';
 import { PeriodPickerWrapper, StyledHeader } from './Header.styled';
 import { DAYS_IN_WEEK } from '@consts/date.consts';
 import boardSelectors from '@store/selectors/board.selectors';
-import boardActionsCreators from '@store/actionCreators/board.actions-creators';
+import boardActionCreators from '@store/actionCreators/board-action.creators';
 
 const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);
   const dispatch = useDispatch();
 
   const handlePeriodChange = (date: Moment): void => {
-    dispatch(boardActionsCreators.setViewedDate(date));
+    dispatch(boardActionCreators.setViewedDate(date));
   };
 
   const setPreviousWeek = (): void => {

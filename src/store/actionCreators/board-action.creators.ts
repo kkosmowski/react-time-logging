@@ -4,7 +4,7 @@ import { Dispatch } from 'redux';
 import boardActions from '@store/actions/board.actions';
 import { getWeek } from '@utils/date.utils';
 
-const boardActionsCreators = {
+const boardActionCreators = {
   setViewedDate(date: Moment): (d: Dispatch) => void {
     return function (dispatch: Dispatch): void {
       dispatch(boardActions.setViewedDate(date));
@@ -13,4 +13,4 @@ const boardActionsCreators = {
   },
 }
 
-export default boardActionsCreators;
+export default boardActionCreators;

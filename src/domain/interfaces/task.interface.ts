@@ -1,7 +1,8 @@
 import { EntityUid } from '@mytypes/entity-uid.type';
+import { AddTaskFormInterface } from './add-task-form.interface';
 
-export interface Task {
+export interface Task extends Omit<AddTaskFormInterface, 'date' | 'duration'> {
   id: EntityUid;
-  title: string;
-  duration: number; // in minutes
+  date: string;
+  duration: number;
 }
