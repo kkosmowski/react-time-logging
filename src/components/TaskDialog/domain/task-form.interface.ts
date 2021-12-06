@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 
-export interface AddTaskFormInterface {
+export interface TaskFormInterface {
   title: string;
   date: Moment;
   description: string;

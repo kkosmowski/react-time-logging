@@ -3,13 +3,21 @@ import { Action } from 'redux';
 import uiActions from '@store/actions/ui.actions';
 import moment from 'moment';
 import { DATE_FORMAT } from '@consts/date.consts';
+import { ConfirmationAction } from '@enums/confirmation-action.enum';
 
 const uiActionCreators = {
-  openAddTaskDialog(date: string = moment().format(DATE_FORMAT)): Action {
-    return uiActions.openAddTaskDialog(date);
+  openTaskDialog(date: string = moment().format(DATE_FORMAT)): Action {
+    return uiActions.openTaskDialog(date);
   },
-  closeAddTaskDialog(): Action {
-    return uiActions.closeAddTaskDialog();
+  closeTaskDialog(): Action {
+    return uiActions.closeTaskDialog();
+  },
+
+  openConfirmationDialog(action: ConfirmationAction): Action {
+    return uiActions.openConfirmationDialog(action);
+  },
+  closeConfirmationDialog(result: boolean): Action {
+    return uiActions.closeConfirmationDialog(result);
   },
 }
 

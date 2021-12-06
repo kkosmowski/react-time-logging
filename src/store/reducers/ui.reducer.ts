@@ -4,20 +4,45 @@ import { UiState } from '@store/interfaces/ui-state.interface';
 import uiActions from '@store/actions/ui.actions';
 
 export const initialUiState: UiState = {
-  addTaskDialogOpened: false,
-  addTaskDialogData: null
+  taskDialog: {
+    opened: false,
+    data: null,
+  },
+  confirmationDialog: {
+    opened: false,
+    action: null,
+    result: null,
+  },
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
   builder
-    .addCase(uiActions.openAddTaskDialog, (state, { payload }) => {
-      state.addTaskDialogOpened = true;
-      state.addTaskDialogData = payload;
+    .addCase(uiActions.openTaskDialog, (state, { payload }) => {
+      state.taskDialog = {
+        opened: true,
+        data: payload,
+      };
+    })
+    .addCase(uiActions.closeTaskDialog, (state) => {
+      state.taskDialog = {
+        opened: false,
+        data: null,
+      };
     })
 
-    .addCase(uiActions.closeAddTaskDialog, (state) => {
-      state.addTaskDialogOpened = false;
-      state.addTaskDialogData = null;
+    .addCase(uiActions.openConfirmationDialog, (state, { payload }) => {
+      state.confirmationDialog = {
+        opened: true,
+        action: payload,
+        result: null,
+      };
+    })
+    .addCase(uiActions.closeConfirmationDialog, (state, { payload }) => {
+      state.confirmationDialog = {
+        opened: false,
+        action: null,
+        result: payload,
+      };
     })
 });
 

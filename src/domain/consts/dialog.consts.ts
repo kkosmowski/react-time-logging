@@ -1,0 +1,1 @@
+export const DIALOG_WIDTH_SMALL = 400;

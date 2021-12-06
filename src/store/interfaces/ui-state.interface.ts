@@ -1,4 +1,7 @@
+import { TaskDialogState } from '@components/TaskDialog';
+import { ConfirmationDialogState } from '@components/ConfirmationDialog';
+
 export interface UiState {
-  addTaskDialogOpened: boolean;
-  addTaskDialogData: string | null;
+  taskDialog: TaskDialogState;
+  confirmationDialog: ConfirmationDialogState;
 }

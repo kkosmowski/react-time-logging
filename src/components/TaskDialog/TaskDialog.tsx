@@ -1,24 +1,26 @@
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { v4 } from 'uuid';
-import moment from 'moment';
 
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
-import { AddTaskFormInterface } from '@interfaces/add-task-form.interface';
+import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
 import addTaskValidationSchema from './validationSchema';
 import initialAddTaskFormValues from './initial-form';
-import AddTaskDialogForm from './AddTaskDialogForm';
+import TaskDialogForm from './TaskDialogForm';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
 import { calculateDurationFromString } from '@utils/task.utils';
 import uiSelectors from '@store/selectors/ui.selectors';
+import { DIALOG_WIDTH_SMALL } from '@consts/dialog.consts';
+import { ConfirmationAction } from '@enums/confirmation-action.enum';
+import { TaskDialogState } from '@components/TaskDialog/domain/task-dialog-state.interface';
 
-const AddTaskDialog = (): ReactElement => {
-  const data: string | null = useSelector(uiSelectors.addTaskDialogData);
+const TaskDialog = (): ReactElement => {
+  const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
   const dispatch = useDispatch();
-  const formik = useFormik<AddTaskFormInterface>({
-    initialValues: initialAddTaskFormValues,
+  const formik = useFormik<TaskFormInterface>({
+    initialValues: initialAddTaskFormValues(state.data),
     validationSchema: addTaskValidationSchema,
     onSubmit: (values) => {
       dispatch(taskActionCreators.add({
@@ -28,33 +30,35 @@ const AddTaskDialog = (): ReactElement => {
         description: values.description,
         duration: calculateDurationFromString(values.duration)
       }));
-      dispatch(uiActionCreators.closeAddTaskDialog());
+      close();
     },
   });
-  const { submitForm, setFieldValue } = formik;
+  const { submitForm, dirty } = formik;
+
+  const close = (): void => {
+    dispatch(uiActionCreators.closeTaskDialog());
+  }
 
   const handleClose = (): void => {
-    dispatch(uiActionCreators.closeAddTaskDialog());
-  };
-
-  useEffect(() => {
-    if (data !== null) {
-      setFieldValue('date', moment(data));
+    if (dirty) {
+      dispatch(uiActionCreators.openConfirmationDialog(ConfirmationAction.LeaveProgress));
+    } else {
+      close();
     }
-  }, [data]);
+  };
 
   return (
     <Modal
       visible
-      width={ 400 }
+      width={ DIALOG_WIDTH_SMALL }
       title={ 'Add task' }
       onCancel={ handleClose }
       onOk={ submitForm }
       okText={ 'Add' }
     >
-      <AddTaskDialogForm formik={ formik } />
+      <TaskDialogForm formik={ formik } />
     </Modal>
   )
 };
 
-export default AddTaskDialog;
+export default TaskDialog;

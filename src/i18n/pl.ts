@@ -1,7 +1,5 @@
-import en from './en';
+const pl = {
 
-const pl: typeof en = {
-
-}
+};
 
 export default pl;

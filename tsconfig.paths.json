@@ -6,6 +6,7 @@
       "@consts/*": ["src/domain/consts/*"],
       "@interfaces/*": ["src/domain/interfaces/*"],
       "@mytypes/*": ["src/domain/types/*"],
+      "@enums/*": ["src/domain/enums/*"],
       "@services/*": ["src/domain/services/*"],
       "@utils/*": ["src/domain/utils/*"],
       "@store/*": ["src/store/*"],
