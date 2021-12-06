@@ -1,13 +1,13 @@
 import { ReactElement } from 'react';
 import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { DIALOG_WIDTH_SMALL } from '@consts/dialog.consts';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import uiSelectors from '@store/selectors/ui.selectors';
 import { ConfirmationDialogState } from './domain/confirmation-dialog-state.interface';
 import { handleConfirmedAction } from './handle-confirmed-action.util';
-import { useTranslation } from 'react-i18next';
 
 const ConfirmationDialog = (): ReactElement => {
   const state: ConfirmationDialogState = useSelector(uiSelectors.confirmationDialog);

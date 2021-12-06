@@ -1,15 +1,15 @@
 import { ReactElement } from 'react';
 import { FormikProps } from 'formik';
-import { AddTaskFormInterface } from '@interfaces/add-task-form.interface';
+import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
 import { DatePicker, Input } from 'antd';
 import ErrorText from '@components/ErrorText';
-import { StyledForm } from './AddTaskDialogForm.styled';
+import { StyledForm } from './TaskDialogForm.styled';
 import { DATE_FORMAT } from '@consts/date.consts';
 
 interface Props {
-  formik: FormikProps<AddTaskFormInterface>;
+  formik: FormikProps<TaskFormInterface>;
 }
-const AddTaskDialogForm = ({ formik }: Props): ReactElement => {
+const TaskDialogForm = ({ formik }: Props): ReactElement => {
   const { handleChange, handleBlur, setFieldValue, values, touched, errors } = formik;
 
   return (
@@ -58,4 +58,4 @@ const AddTaskDialogForm = ({ formik }: Props): ReactElement => {
   )
 };
 
-export default AddTaskDialogForm;
+export default TaskDialogForm;
