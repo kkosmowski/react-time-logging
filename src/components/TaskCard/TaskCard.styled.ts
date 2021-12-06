@@ -20,6 +20,12 @@ export const StyledCard = styled(Card)`
     flex-direction: column;
     padding-bottom: 4px;
   }
+  
+  .--today & {
+    &, * {
+      border-color: var(--primary-200);
+    }
+  }
 `;
 
 export const Description = styled.span`

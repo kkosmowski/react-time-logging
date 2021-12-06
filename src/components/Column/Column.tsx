@@ -10,7 +10,6 @@ import {
   DayDate,
   DayName,
   HoursDetails,
-  TimeIndicator
 } from './Column.styled';
 import { Task } from '@interfaces/task.interface';
 import {
@@ -23,6 +22,7 @@ import AddTask from '@components/AddTask';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { minutesToHoursAndMinutes } from '@utils/date.utils';
 import TaskCard from '@components/TaskCard';
+import TimeIndicator from './TimeIndicator';
 
 interface Props {
   date: Moment;
@@ -78,7 +78,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
         </Row>
       </ColumnHeader>
 
-      <TimeIndicator />
+      <TimeIndicator value={ totalMinutes } />
 
       <ColumnBody>
         { cards }
