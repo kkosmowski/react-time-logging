@@ -19,11 +19,11 @@ export const ColumnWrapper = styled.section`
   
   &.--today {
     position: relative;
-    background-color: var(--primary-50);
-    border-color: var(--primary-300);
+    background-color: var(--ant-primary-1);
+    border-color: var(--ant-primary-4);
     
     + * {
-      border-left-color: var(--primary-300);
+      border-left-color: var(--ant-primary-4);
     }
   }
 `;
@@ -56,7 +56,7 @@ export const HoursDetails = styled.p`
   color: var(--foreground-300);
   
   .--today & {
-    color: var(--primary-700);
+    color: var(--ant-primary-7);
   }
   
 `;

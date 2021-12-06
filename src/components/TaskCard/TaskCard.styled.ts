@@ -23,7 +23,7 @@ export const StyledCard = styled(Card)`
   
   .--today & {
     &, * {
-      border-color: var(--primary-200);
+      border-color: var(--ant-primary-3);
     }
   }
 `;
@@ -34,5 +34,5 @@ export const Description = styled.span`
 
 export const Duration = styled.span`
   margin-left: auto;
-  color: var(--primary-500);
+  color: var(--ant-primary-10);
 `;
