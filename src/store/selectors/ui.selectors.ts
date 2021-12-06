@@ -4,8 +4,11 @@ import { RootState } from '@store/interfaces/root-state.interface';
 const uiSelector = (state: RootState) => state.ui;
 
 const uiSelectors = {
-  addTaskDialogOpened: createSelector(uiSelector, ui => ui.addTaskDialogOpened),
-  addTaskDialogData: createSelector(uiSelector, ui => ui.addTaskDialogData),
+  taskDialog: createSelector(uiSelector, ui => ui.taskDialog),
+  taskDialogOpened: createSelector(uiSelector, ui => ui.taskDialog.opened),
+
+  confirmationDialogOpened: createSelector(uiSelector, ui => ui.confirmationDialog.opened),
+  confirmationDialog: createSelector(uiSelector, ui => ui.confirmationDialog),
 }
 
 export default uiSelectors;

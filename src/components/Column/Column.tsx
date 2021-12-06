@@ -40,7 +40,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
   };
 
   const handleAddTask = (): void => {
-    dispatch(uiActionCreators.openAddTaskDialog(date.toISOString()));
+    dispatch(uiActionCreators.openTaskDialog(date.toISOString()));
   };
 
   useEffect(() => {

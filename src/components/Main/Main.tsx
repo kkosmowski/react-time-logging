@@ -5,16 +5,19 @@ import Header from '@components/Header';
 import Board from '@components/Board';
 import { MainWrapper } from './Main.styled';
 import uiSelectors from '@store/selectors/ui.selectors';
-import AddTaskDialog from '@components/AddTaskDialog';
+import TaskDialog from '@components/TaskDialog';
+import ConfirmationDialog from '@components/ConfirmationDialog';
 
 const Main = (): ReactElement => {
-  const addTaskDialogOpened = useSelector(uiSelectors.addTaskDialogOpened);
+  const taskDialogOpened = useSelector(uiSelectors.taskDialogOpened);
+  const confirmationDialogOpened = useSelector(uiSelectors.confirmationDialogOpened);
 
   return (
     <MainWrapper>
       <Header />
       <Board />
-      { addTaskDialogOpened && <AddTaskDialog /> }
+      { taskDialogOpened && <TaskDialog /> }
+      { confirmationDialogOpened && <ConfirmationDialog /> }
     </MainWrapper>
   );
 };
