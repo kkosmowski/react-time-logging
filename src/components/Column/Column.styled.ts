@@ -73,6 +73,10 @@ export const ColumnBody = styled.div`
     pointer-events: none;
     transition: 0.2s ease-in-out opacity;
     will-change: opacity;
+    
+    &:first-child {
+      margin-top: 16px;
+    }
   }
   
   &:hover {

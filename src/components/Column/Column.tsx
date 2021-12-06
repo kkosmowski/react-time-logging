@@ -1,5 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Row } from 'antd';
+import moment, { Moment } from 'moment';
+import { useDispatch } from 'react-redux';
 
 import {
   ColumnBody,
@@ -17,11 +19,10 @@ import {
   DAY_NAME_FORMAT
 } from '@consts/date.consts';
 import { ZERO } from '@consts/numbers.consts';
-import moment, { Moment } from 'moment';
 import AddTask from '@components/AddTask';
-import { useDispatch } from 'react-redux';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { minutesToHoursAndMinutes } from '@utils/date.utils';
+import TaskCard from '@components/TaskCard';
 
 interface Props {
   date: Moment;
@@ -52,7 +53,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
     tasks.forEach((task) => {
       cardsArray.push(
-        <div key={ task.id }>{ task.title }</div>
+        <TaskCard task={ task } key={ task.id } />
       );
       minutes += task.duration;
     });
