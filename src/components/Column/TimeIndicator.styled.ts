@@ -6,7 +6,7 @@ export const IndicatorBackground = styled.div`
   background-color: var(--background-200);
   
   .--today & {
-    background-color: var(--primary-100);
+    background-color: var(--ant-primary-2);
   }
 `;
 
@@ -17,7 +17,7 @@ export const IndicatorForeground = styled.div`
   transform-origin: left;
   width: 100%;
   height: 100%;
-  background-color: var(--primary-400);
+  background-color: var(--ant-primary-5);
   transition: transform 0.25s ease-in-out;
   will-change: transform;
 `;

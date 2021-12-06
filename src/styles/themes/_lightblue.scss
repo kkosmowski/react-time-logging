@@ -1,11 +1,14 @@
-:root {
-  --primary-50: #f5faff;
-  --primary-100: #d4e6ff;
-  --primary-200: #b7d2f5;
-  --primary-300: #79abec;
-  --primary-400: #4289e6;
-  --primary-500: #2271d8;
-
-  --primary-700: #4577b0;
+body {
+  --ant-primary-1: #f5faff;
+  --ant-primary-2: #d4e6ff;
+  --ant-primary-3: #b7d2f5;
+  --ant-primary-4: #79abec;
+  --ant-primary-5: #4289e6;
+  --ant-primary-6: #2271d8;
+  --ant-primary-7: #4577b0;
   --primary-800: #283d57;
+
+  --ant-primary-color: var(--ant-primary-6);
+  --ant-primary-color-hover: var(--ant-primary-5);
+  --ant-primary-color-active: var(--ant-primary-7);
 }
