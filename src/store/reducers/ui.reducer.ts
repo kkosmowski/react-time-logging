@@ -13,6 +13,7 @@ export const initialUiState: UiState = {
     action: null,
     result: null,
   },
+  settingsDialogOpened: false,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -43,6 +44,13 @@ const uiReducer = createReducer(initialUiState, (builder) => {
         action: null,
         result: payload,
       };
+    })
+
+    .addCase(uiActions.openSettingsDialog, (state) => {
+      state.settingsDialogOpened = true;
+    })
+    .addCase(uiActions.closeSettingsDialog, (state) => {
+      state.settingsDialogOpened = false;
     })
 });
 

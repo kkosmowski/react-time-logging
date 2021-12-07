@@ -7,10 +7,12 @@ import { MainWrapper } from './Main.styled';
 import uiSelectors from '@store/selectors/ui.selectors';
 import TaskDialog from '@components/TaskDialog';
 import ConfirmationDialog from '@components/ConfirmationDialog';
+import SettingsDialog from '@components/SettingsDialog';
 
 const Main = (): ReactElement => {
   const taskDialogOpened = useSelector(uiSelectors.taskDialogOpened);
   const confirmationDialogOpened = useSelector(uiSelectors.confirmationDialogOpened);
+  const settingsDialogOpened = useSelector(uiSelectors.settingsDialogOpened);
 
   return (
     <MainWrapper>
@@ -18,6 +20,7 @@ const Main = (): ReactElement => {
       <Board />
       { taskDialogOpened && <TaskDialog /> }
       { confirmationDialogOpened && <ConfirmationDialog /> }
+      { settingsDialogOpened && <SettingsDialog /> }
     </MainWrapper>
   );
 };

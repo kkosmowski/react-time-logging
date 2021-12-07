@@ -1,14 +1,13 @@
 import { ReactElement } from 'react';
-import moment, { Moment } from 'moment';
-import { Button } from 'antd';
-import { LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
+import { SettingOutlined } from '@ant-design/icons';
 
 import PeriodPicker from '@components/PeriodPicker';
-import { PeriodPickerWrapper, StyledHeader } from './Header.styled';
-import { DAYS_IN_WEEK } from '@consts/date.consts';
+import { SettingsButton, StyledHeader } from './Header.styled';
 import boardSelectors from '@store/selectors/board.selectors';
 import boardActionCreators from '@store/actionCreators/board-action.creators';
+import uiActionCreators from '@store/actionCreators/ui-action.creators';
 
 const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);
@@ -18,35 +17,23 @@ const Header = (): ReactElement => {
     dispatch(boardActionCreators.setViewedDate(date));
   };
 
-  const setPreviousWeek = (): void => {
-    handlePeriodChange(moment(viewedDate).subtract(DAYS_IN_WEEK, 'days'));
-  };
-
-  const setNextWeek = (): void => {
-    handlePeriodChange(moment(viewedDate).add(DAYS_IN_WEEK, 'days'));
-  };
+  const handleSettingsButtonClick = (): void => {
+    dispatch(uiActionCreators.openSettingsDialog());
+  }
 
   return (
     <StyledHeader>
-      <PeriodPickerWrapper>
-        <Button
-          onClick={ setPreviousWeek }
-          type="default"
-          icon={ <LeftOutlined /> }
-        />
+      <PeriodPicker
+        onChange={ handlePeriodChange }
+        value={ viewedDate }
+        withMargin
+      />
 
-        <PeriodPicker
-          onChange={ handlePeriodChange }
-          value={ viewedDate }
-          withMargin
-        />
-
-        <Button
-          onClick={ setNextWeek }
-          type="default"
-          icon={ <RightOutlined /> }
-        />
-      </PeriodPickerWrapper>
+      <SettingsButton
+        onClick={ handleSettingsButtonClick }
+        icon={ <SettingOutlined /> }
+        shape="circle"
+      />
     </StyledHeader>
   );
 };
