@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { TaskState } from '@store/interfaces/task-state.interface';
-import taskActions from '@store/actions/task.actions';
+import { TaskState } from '../interfaces/task-state.interface';
+import taskActions from '../actions/task.actions';
 
 export const initialTaskState: TaskState = {
   tasks: [],

@@ -34,5 +34,5 @@ export const Description = styled.span`
 
 export const Duration = styled.span`
   margin-left: auto;
-  color: var(--ant-primary-10);
+  color: var(--ant-primary-6);
 `;
