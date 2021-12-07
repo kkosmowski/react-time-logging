@@ -16,7 +16,10 @@ const TimeIndicator = ({ value }: Props): ReactElement => {
 
   return (
     <IndicatorBackground>
-      <IndicatorForeground style={ { transform: `scaleX(${ fractionValue })` } } />
+      <IndicatorForeground
+        overtime={ value > targetMinutes }
+        style={ { transform: `scaleX(${ fractionValue })` } }
+      />
     </IndicatorBackground>
   )
 };
