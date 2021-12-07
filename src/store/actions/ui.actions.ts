@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 
 const uiActions = {

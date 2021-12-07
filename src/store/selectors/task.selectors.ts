@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
-import { RootState } from '@store/interfaces/root-state.interface';
+
+import { RootState } from '../interfaces/root-state.interface';
 
 const taskSelector = (state: RootState) => state.task;
 

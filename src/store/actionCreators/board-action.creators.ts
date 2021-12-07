@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 import { Dispatch } from 'redux';
 
-import boardActions from '@store/actions/board.actions';
+import boardActions from '../actions/board.actions';
 import { getWeek } from '@utils/date.utils';
 
 const boardActionCreators = {

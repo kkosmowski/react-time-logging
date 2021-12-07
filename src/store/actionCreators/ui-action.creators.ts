@@ -1,7 +1,7 @@
 import { Action } from 'redux';
-
-import uiActions from '@store/actions/ui.actions';
 import moment from 'moment';
+
+import uiActions from '../actions/ui.actions';
 import { DATE_FORMAT } from '@consts/date.consts';
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 

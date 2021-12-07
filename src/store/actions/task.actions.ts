@@ -1,4 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
+
 import { Task } from '@interfaces/task.interface';
 
 const taskActions = {

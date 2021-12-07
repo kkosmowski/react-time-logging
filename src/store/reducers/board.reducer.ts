@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 
-import { BoardState } from '@store/interfaces/board-state.interface';
-import boardActions from '@store/actions/board.actions';
+import { BoardState } from '../interfaces/board-state.interface';
+import boardActions from '../actions/board.actions';
 
 export const initialBoardState: BoardState = {
   viewedDate: null,

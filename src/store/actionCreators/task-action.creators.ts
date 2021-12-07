@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import taskActions from '@store/actions/task.actions';
+import taskActions from '../actions/task.actions';
 import { Task } from '@interfaces/task.interface';
 import { StorageService } from '@services/storage.service';
 
