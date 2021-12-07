@@ -1,16 +1,35 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
 import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
-import { DatePicker, Input } from 'antd';
+import { DatePicker, Input, Select } from 'antd';
 import ErrorText from '@components/ErrorText';
 import { StyledForm } from './TaskDialogForm.styled';
 import { DATE_FORMAT } from '@consts/date.consts';
+import { SelectOption } from '@interfaces/select-option.interface';
+import { Category } from '@interfaces/category.interface';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
+  categories: Category[];
 }
-const TaskDialogForm = ({ formik }: Props): ReactElement => {
+const TaskDialogForm = ({ formik, categories }: Props): ReactElement => {
   const { handleChange, handleBlur, setFieldValue, values, touched, errors } = formik;
+  const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
+
+  const handleCategorySelect = (value: string): void => {
+    setFieldValue('categories', [...values.categories, value]);
+  };
+
+  const handleCategoryDeselect = (value: string): void => {
+    setFieldValue('categories', values.categories.filter(category => category !== value));
+  };
+
+  useEffect(() => {
+    setCategoryOptions(categories.map(category => ({
+      label: category.name,
+      value: category.id,
+    })));
+  }, [categories]);
 
   return (
     <StyledForm>
@@ -33,6 +52,16 @@ const TaskDialogForm = ({ formik }: Props): ReactElement => {
         value={ values.description }
       />
       <ErrorText>{ touched.description ? errors.description : '' }</ErrorText>
+
+      <Select
+        id="categories"
+        placeholder="Categories"
+        onSelect={ handleCategorySelect }
+        onDeselect={ handleCategoryDeselect }
+        options={ categoryOptions }
+        value={ values.categories }
+        mode="tags"
+      />
 
       <DatePicker
         id="date"

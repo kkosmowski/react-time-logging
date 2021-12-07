@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import boardReducer from './board.reducer';
 import uiReducer from './ui.reducer';
 import taskReducer from './task.reducer';
-import categoryReducer from './task.reducer';
+import categoryReducer from './category.reducer';
 
 const rootReducer = combineReducers({
   board: boardReducer,
