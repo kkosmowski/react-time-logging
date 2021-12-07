@@ -4,4 +4,6 @@ export interface CategoryState {
   categories: Category[];
   addInProgress: boolean;
   categoriesLoading: boolean;
+  updateInProgress: boolean;
+  deleteInProgress: boolean;
 }

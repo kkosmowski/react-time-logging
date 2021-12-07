@@ -8,6 +8,7 @@ const aliasMap = {
   '@enums': 'src/domain/enums',
   '@services': 'src/domain/services',
   '@utils': 'src/domain/utils',
+  '@payloads': 'src/domain/payloads',
   '@store': 'src/store',
   '@localbase': 'src/localbase',
 }

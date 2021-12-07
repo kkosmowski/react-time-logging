@@ -1,5 +1,6 @@
 const en = {
   COMMON: {
+    CANCEL: 'Cancel',
     SETTINGS: 'Settings',
   },
   CONFIRMATION_DIALOG: {
@@ -9,6 +10,7 @@ const en = {
   },
   SETTINGS_DIALOG: {
     MANAGE_CATEGORIES: 'Manage categories',
+    NEW_CATEGORY: 'New category',
     ADD_CATEGORY: 'Add category',
   }
 };

@@ -21,21 +21,17 @@ const CategoriesListItem = ({ category, onUpdate, onDelete }: Props): ReactEleme
     setIsEditMode(true);
   };
 
-  const handleEditCancel = (): void => {
+  const disableEditMode = (): void => {
     setIsEditMode(false);
   };
 
   const handleUpdate = (): void => {
-    onUpdate({
-      ...category,
-      name: inputName,
-    });
+    onUpdate({ ...category, name: inputName });
+    disableEditMode();
   };
 
   useLayoutEffect(() => {
-    if (isEditMode) {
-      inputRef.current?.focus();
-    }
+    isEditMode && inputRef.current?.focus();
   }, [isEditMode]);
 
   return (
@@ -63,12 +59,11 @@ const CategoriesListItem = ({ category, onUpdate, onDelete }: Props): ReactEleme
               />
 
               <GrayButton
-                onClick={ handleEditCancel }
+                onClick={ disableEditMode }
                 shape="circle"
                 icon={ <CloseCircleOutlined /> }
               />
             </>
-
           )
           : (
             <>
