@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment';
+
 import { DATE_FORMAT, MINUTES_IN_HOUR } from '@consts/date.consts';
-import { ZERO } from '@consts/numbers.consts';
 import { Week } from '@interfaces/week.interface';
 
 export const getWeekStart = (date: Moment): Moment => moment(date).startOf('isoWeek');

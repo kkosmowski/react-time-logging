@@ -1,10 +1,12 @@
 import * as yup from 'yup';
 
+import { TASK_TITLE_MAX_LENGTH, TASK_TITLE_MIN_LENGTH } from '@consts/task.consts';
+
 const addTaskValidationSchema = yup.object().shape({
   title: yup.string()
     .trim()
-    .min(2, 'Title must be longer than 2 characters')
-    .max(255, 'Title must not be longer than 255 characters')
+    .min(TASK_TITLE_MIN_LENGTH, 'Title must be longer than 2 characters')
+    .max(TASK_TITLE_MAX_LENGTH, 'Title must not be longer than 255 characters')
     .required('Title is required'),
   categories: yup.array(),
   description: yup.string().trim(),
