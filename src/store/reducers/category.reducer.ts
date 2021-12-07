@@ -7,6 +7,8 @@ export const initialCategoryState: CategoryState = {
   categories: [],
   addInProgress: false,
   categoriesLoading: false,
+  updateInProgress: false,
+  deleteInProgress: false,
 };
 
 const categoryReducer = createReducer(initialCategoryState, (builder) => {
@@ -25,6 +27,25 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     .addCase(categoryActions.getAllSuccess, (state, { payload }) => {
       state.categoriesLoading = false;
       state.categories = payload;
+    })
+
+    .addCase(categoryActions.update, (state) => {
+      state.updateInProgress = true;
+    })
+    .addCase(categoryActions.updateSuccess, (state, { payload }) => {
+      state.updateInProgress = false;
+      state.categories = state.categories.map(category => category.id === payload.categoryId
+        ? { ...category, ...payload.update }
+        : category
+      );
+    })
+
+    .addCase(categoryActions.delete, (state) => {
+      state.deleteInProgress = true;
+    })
+    .addCase(categoryActions.deleteSuccess, (state, { payload }) => {
+      state.deleteInProgress = false;
+      state.categories = state.categories.filter(category => category.id !== payload);
     })
 });
 

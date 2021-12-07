@@ -17,3 +17,8 @@ export const SettingsSection = styled.section`
     align-self: flex-start;
   }
 `;
+
+export const AddCategoryRow = styled.div`
+  display: flex;
+  column-gap: 8px;
+`;
