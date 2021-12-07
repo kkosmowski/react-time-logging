@@ -66,6 +66,8 @@ const SettingsDialog = (): ReactElement => {
       width={ DIALOG_WIDTH_MEDIUM }
       title={ t('COMMON:SETTINGS') }
       onCancel={ handleCancel }
+      cancelText={ t('COMMON:CLOSE') }
+      okButtonProps={ { style: { display: 'none' } } }
     >
       <SettingsSection>
         <SettingsHeading>{ t('MANAGE_CATEGORIES') }</SettingsHeading>
