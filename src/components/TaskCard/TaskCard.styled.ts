@@ -1,6 +1,8 @@
 import styled from 'styled-components/macro';
 import { Card } from 'antd';
 
+import { TASK_DESCRIPTION_MAX_HEIGHT } from '@consts/task.consts';
+
 export const StyledCard = styled(Card)`
   &:first-child {
     margin-top: 8px;
@@ -30,6 +32,8 @@ export const StyledCard = styled(Card)`
 
 export const Description = styled.span`
   color: var(--foreground-200);
+  max-height: ${ TASK_DESCRIPTION_MAX_HEIGHT }px;
+  overflow: hidden;
 `;
 
 export const Duration = styled.span`
