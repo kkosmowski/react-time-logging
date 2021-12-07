@@ -10,6 +10,8 @@ const uiSelectors = {
 
   confirmationDialogOpened: createSelector(uiSelector, ui => ui.confirmationDialog.opened),
   confirmationDialog: createSelector(uiSelector, ui => ui.confirmationDialog),
+
+  settingsDialogOpened: createSelector(uiSelector, ui => ui.settingsDialogOpened),
 }
 
 export default uiSelectors;

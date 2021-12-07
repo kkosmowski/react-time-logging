@@ -8,6 +8,9 @@ const uiActions = {
 
   openConfirmationDialog: createAction<ConfirmationAction>('OPEN_CONFIRMATION_DIALOG'),
   closeConfirmationDialog: createAction<boolean>('CLOSE_CONFIRMATION_DIALOG'),
+
+  openSettingsDialog: createAction<void>('OPEN_SETTINGS_DIALOG'),
+  closeSettingsDialog: createAction<void>('CLOSE_SETTINGS_DIALOG'),
 };
 
 export default uiActions;

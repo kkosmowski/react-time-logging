@@ -19,6 +19,13 @@ const uiActionCreators = {
   closeConfirmationDialog(result: boolean): Action {
     return uiActions.closeConfirmationDialog(result);
   },
+
+  openSettingsDialog(): Action {
+    return uiActions.openSettingsDialog();
+  },
+  closeSettingsDialog(): Action {
+    return uiActions.closeSettingsDialog();
+  },
 }
 
 export default uiActionCreators;
