@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
@@ -15,9 +15,13 @@ import uiSelectors from '@store/selectors/ui.selectors';
 import { DIALOG_WIDTH_SMALL } from '@consts/dialog.consts';
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import { TaskDialogState } from '@components/TaskDialog/domain/task-dialog-state.interface';
+import categorySelectors from '@store/selectors/category.selectors';
+import { Category } from '@interfaces/category.interface';
+import categoryActionCreators from '@store/actionCreators/category-action.creators';
 
 const TaskDialog = (): ReactElement => {
   const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
+  const categories: Category[] = useSelector(categorySelectors.categories);
   const dispatch = useDispatch();
   const formik = useFormik<TaskFormInterface>({
     initialValues: initialAddTaskFormValues(state.data),
@@ -25,8 +29,9 @@ const TaskDialog = (): ReactElement => {
     onSubmit: (values) => {
       dispatch(taskActionCreators.add({
         id: v4(),
-        date: values.date.toISOString(),
         title: values.title,
+        categories: values.categories,
+        date: values.date.toISOString(),
         description: values.description,
         duration: calculateDurationFromString(values.duration)
       }));
@@ -47,6 +52,10 @@ const TaskDialog = (): ReactElement => {
     }
   };
 
+  useEffect(() => {
+    dispatch(categoryActionCreators.getAll());
+  }, []);
+
   return (
     <Modal
       visible
@@ -56,7 +65,7 @@ const TaskDialog = (): ReactElement => {
       onOk={ submitForm }
       okText={ 'Add' }
     >
-      <TaskDialogForm formik={ formik } />
+      <TaskDialogForm formik={ formik } categories={ categories } />
     </Modal>
   )
 };

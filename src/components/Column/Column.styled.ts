@@ -7,6 +7,7 @@ const columnPadding = css`
 
 export const ColumnWrapper = styled.section`
   width: 20%;
+  min-width: 180px;
   height: 100%;
   display: flex;
   flex-direction: column;

@@ -6,6 +6,7 @@ const addTaskValidationSchema = yup.object().shape({
     .min(2, 'Title must be longer than 2 characters')
     .max(255, 'Title must not be longer than 255 characters')
     .required('Title is required'),
+  categories: yup.array(),
   description: yup.string().trim(),
   date: yup.object().required(),
   duration: yup.string()
