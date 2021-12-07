@@ -2,6 +2,7 @@ const en = {
   COMMON: {
     CANCEL: 'Cancel',
     CLOSE: 'Close',
+    ADD: 'Add',
     SETTINGS: 'Settings',
   },
   CONFIRMATION_DIALOG: {
@@ -13,7 +14,10 @@ const en = {
     MANAGE_CATEGORIES: 'Manage categories',
     NEW_CATEGORY: 'New category',
     ADD_CATEGORY: 'Add category',
-  }
+  },
+  TASK_DIALOG: {
+    ADD_TASK: 'Add task',
+  },
 };
 
 export default en;

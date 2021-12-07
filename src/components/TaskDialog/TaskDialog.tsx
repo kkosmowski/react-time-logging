@@ -3,6 +3,7 @@ import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { v4 } from 'uuid';
+import { useTranslation } from 'react-i18next';
 
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
@@ -38,7 +39,8 @@ const TaskDialog = (): ReactElement => {
       close();
     },
   });
-  const { submitForm, dirty } = formik;
+  const { submitForm, dirty, isValid } = formik;
+  const { t } = useTranslation('TASK_DIALOG');
 
   const close = (): void => {
     dispatch(uiActionCreators.closeTaskDialog());
@@ -60,10 +62,12 @@ const TaskDialog = (): ReactElement => {
     <Modal
       visible
       width={ DIALOG_WIDTH_SMALL }
-      title={ 'Add task' }
+      title={ t('ADD_TASK') }
       onCancel={ handleClose }
+      cancelText={ t('COMMON:CANCEL') }
       onOk={ submitForm }
-      okText={ 'Add' }
+      okText={ t('COMMON:ADD') }
+      okButtonProps={ { disabled: !isValid } }
     >
       <TaskDialogForm formik={ formik } categories={ categories } />
     </Modal>
