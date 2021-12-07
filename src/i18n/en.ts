@@ -1,6 +1,7 @@
 const en = {
   COMMON: {
     CANCEL: 'Cancel',
+    CLOSE: 'Close',
     SETTINGS: 'Settings',
   },
   CONFIRMATION_DIALOG: {
