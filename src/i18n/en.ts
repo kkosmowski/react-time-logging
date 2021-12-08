@@ -5,13 +5,16 @@ const en = {
     ADD: 'Add',
     SAVE: 'Save',
     EDIT: 'Edit',
+    DELETE: 'Delete',
     SETTINGS: 'Settings',
     NONE: 'None',
   },
   CONFIRMATION_DIALOG: {
-    TITLE_LEAVE_PROGRESS: 'Leave progress?',
-    LEAVE_PROGRESS: 'Please confirm that you want to abandon your progress. Otherwise cancel.',
     CONFIRM: 'Confirm',
+    TITLE_LEAVE_PROGRESS: 'Leave progress?',
+    LEAVE_PROGRESS: 'Please confirm that you want to abandon your progress.\n\nOtherwise cancel.',
+    TITLE_DELETE_TASK: 'Delete task',
+    DELETE_TASK: 'Please confirm that you want to delete task\n"{{ name }}".\n\nThis operation cannot be reverted.',
   },
   SETTINGS_DIALOG: {
     MANAGE_CATEGORIES: 'Manage categories',

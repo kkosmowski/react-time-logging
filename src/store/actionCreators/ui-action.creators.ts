@@ -3,26 +3,27 @@ import { Action } from 'redux';
 import uiActions from '../actions/ui.actions';
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import { TaskDialogPayload } from '@payloads/task-dialog.payload';
+import { Task } from '@interfaces/task.interface';
 
 const uiActionCreators = {
-  openTaskDialog(payload: TaskDialogPayload): Action {
+  openTaskDialog(payload: TaskDialogPayload): Action<string> {
     return uiActions.openTaskDialog(payload);
   },
-  closeTaskDialog(): Action {
+  closeTaskDialog(): Action<string> {
     return uiActions.closeTaskDialog();
   },
 
-  openConfirmationDialog(action: ConfirmationAction): Action {
-    return uiActions.openConfirmationDialog(action);
+  openConfirmationDialog(action: ConfirmationAction, data?: Task): Action<string> {
+    return uiActions.openConfirmationDialog({ action, data });
   },
-  closeConfirmationDialog(result: boolean): Action {
+  closeConfirmationDialog(result: boolean): Action<string> {
     return uiActions.closeConfirmationDialog(result);
   },
 
-  openSettingsDialog(): Action {
+  openSettingsDialog(): Action<string> {
     return uiActions.openSettingsDialog();
   },
-  closeSettingsDialog(): Action {
+  closeSettingsDialog(): Action<string> {
     return uiActions.closeSettingsDialog();
   },
 }

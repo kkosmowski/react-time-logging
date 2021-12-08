@@ -13,6 +13,7 @@ const taskActionCreators = {
       dispatch(taskActions.addSuccess(task));
     }
   },
+
   getAll(): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.getAll());
@@ -20,11 +21,20 @@ const taskActionCreators = {
       dispatch(taskActions.getAllSuccess(tasks));
     }
   },
+
   update(taskId: EntityUid, update: Partial<Task>): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.update());
       await StorageService.update<Task>('tasks', { id: taskId }, update);
       dispatch(taskActions.updateSuccess({ id: taskId, update }));
+    }
+  },
+
+  delete(taskId: EntityUid): (d: Dispatch) => Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(taskActions.delete());
+      await StorageService.delete('tasks', taskId);
+      dispatch(taskActions.deleteSuccess(taskId));
     }
   },
 }

@@ -34,8 +34,9 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     .addCase(uiActions.openConfirmationDialog, (state, { payload }) => {
       state.confirmationDialog = {
         opened: true,
-        action: payload,
+        action: payload.action,
         result: null,
+        data: payload.data,
       };
     })
     .addCase(uiActions.closeConfirmationDialog, (state, { payload }) => {
