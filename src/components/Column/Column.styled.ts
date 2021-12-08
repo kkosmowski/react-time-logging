@@ -62,11 +62,15 @@ export const HoursDetails = styled.p`
   
 `;
 
-export const ColumnBody = styled.div`
+export const ColumnBody = styled.div<{ draggedOver: boolean }>`
   flex: 1;
   display: flex;
   flex-direction: column;
-  ${ columnPadding } 
+  ${ columnPadding }; 
+  ${ ({ draggedOver }) => draggedOver
+    ? css`background-color: var(--foreground-200)`
+    : css`background-color: inherit`
+  };
   
   .add-task {
     align-self: center;

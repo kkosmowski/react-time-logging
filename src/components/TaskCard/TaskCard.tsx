@@ -1,12 +1,13 @@
 import { ReactElement } from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 
-import { Task } from '@interfaces/task.interface';
+import { TaskInterface } from '@interfaces/task.interface';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import { Description, Duration, StyledCard } from './TaskCard.styled';
 
 interface Props {
-  onClick: (task: Task) => void;
-  task: Task;
+  onClick: (task: TaskInterface) => void;
+  task: TaskInterface;
 }
 
 const TaskCard = ({ task, onClick }: Props): ReactElement => {
@@ -15,15 +16,25 @@ const TaskCard = ({ task, onClick }: Props): ReactElement => {
   };
 
   return (
-    <StyledCard
-      onClick={ handleClick }
-      title={ task.title }
-      size="small"
-      hoverable
-    >
-      <Description>{ task.description }</Description>
-      <Duration>{ minutesToHoursAndMinutes(task.duration) }</Duration>
-    </StyledCard>
+    <Draggable draggableId={ task.id } index={ task.numericId }>
+      { (provided) => (
+        <div
+          ref={ provided.innerRef }
+          { ...provided.draggableProps }
+          { ...provided.dragHandleProps }
+        >
+          <StyledCard
+            onClick={ handleClick }
+            title={ task.title }
+            size="small"
+            hoverable
+          >
+            <Description>{ task.description }</Description>
+            <Duration>{ minutesToHoursAndMinutes(task.duration) }</Duration>
+          </StyledCard>
+        </div>
+      )}
+    </Draggable>
   );
 };
 
