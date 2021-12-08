@@ -29,7 +29,7 @@ const categoryActionCreators = {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(categoryActions.update());
       await StorageService.update<Category>('categories', { id: categoryId }, update);
-      dispatch(categoryActions.updateSuccess({ categoryId, update }));
+      dispatch(categoryActions.updateSuccess({ id: categoryId, update }));
     }
   },
 

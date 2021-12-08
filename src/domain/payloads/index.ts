@@ -1,1 +1,1 @@
-export * from './category-update.payload';
+export * from './update.payload';

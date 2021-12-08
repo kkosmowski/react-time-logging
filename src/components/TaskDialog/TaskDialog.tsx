@@ -26,28 +26,57 @@ const TaskDialog = (): ReactElement => {
   const isNewTask = state.data?.type === TaskDialogType.NewTask;
   const categories: Category[] = useSelector(categorySelectors.categories);
   const [isEditMode, setIsEditMode] = useState(isNewTask);
+  const titleTranslationKey = isNewTask
+    ? 'ADD_TASK'
+    : isEditMode ? 'EDIT_TASK' : 'VIEW_TASK';
   const dispatch = useDispatch();
   const formik = useFormik<TaskFormInterface>({
     initialValues: initialAddTaskFormValues(state.data),
     validationSchema: addTaskValidationSchema,
     onSubmit: (values) => {
-      dispatch(taskActionCreators.add({
-        id: v4(),
-        title: values.title,
-        categories: values.categories,
-        date: values.date.toISOString(),
-        description: values.description,
-        duration: calculateDurationFromString(values.duration)
-      }));
-      close();
+      if (isNewTask) {
+        handleAddTask(values);
+      } else {
+        handleUpdateTask(values);
+      }
     },
   });
-  const { submitForm, dirty, isValid } = formik;
+  const { submitForm, dirty, isValid, resetForm } = formik;
   const { t } = useTranslation('TASK_DIALOG');
+
+  const handleAddTask = (values: TaskFormInterface): void => {
+    dispatch(taskActionCreators.add({
+      id: v4(),
+      title: values.title,
+      categories: values.categories,
+      date: values.date.toISOString(),
+      description: values.description,
+      duration: calculateDurationFromString(values.duration)
+    }));
+    close();
+  };
+
+  const handleUpdateTask = (values: TaskFormInterface): void => {
+    if (!state.data?.task) return;
+
+    dispatch(taskActionCreators.update(
+      state.data.task.id,
+      {
+        ...state.data.task,
+        title: values.title,
+        description: values.description,
+        categories: values.categories,
+        date: values.date.toISOString(),
+        duration: calculateDurationFromString(values.duration),
+      }
+    ));
+    resetForm({ values });
+    setIsEditMode(false);
+  }
 
   const close = (): void => {
     dispatch(uiActionCreators.closeTaskDialog());
-  }
+  };
 
   const handleClose = (): void => {
     if (dirty) {
@@ -55,6 +84,10 @@ const TaskDialog = (): ReactElement => {
     } else {
       close();
     }
+  };
+
+  const handleEdit = (): void => {
+    setIsEditMode(true);
   };
 
   useEffect(() => {
@@ -71,15 +104,20 @@ const TaskDialog = (): ReactElement => {
     <Modal
       visible
       width={ DIALOG_WIDTH_SMALL }
-      title={ t(isNewTask ? 'ADD_TASK' : 'VIEW_TASK') }
+      title={ t(titleTranslationKey) }
       onCancel={ handleClose }
       footer={ [
+        !isNewTask && !isEditMode ? (
+          <Button key="submit" type="primary" onClick={ handleEdit }>
+            { t('COMMON:EDIT') }
+          </Button>
+        ) : null,
         <Button key="back" onClick={ handleClose }>
-          { t(isNewTask ? 'COMMON:CANCEL' : 'COMMON:CLOSE' ) }
+          { t(isEditMode ? 'COMMON:CANCEL' : 'COMMON:CLOSE' ) }
         </Button>,
-        isNewTask ? (
+        isEditMode ? (
           <Button key="submit" type="primary" onClick={ submitForm }>
-          { t('COMMON:ADD') }
+          { t(isNewTask ? 'COMMON:ADD' : 'COMMON:SAVE') }
         </Button>
           ) : null,
       ] }

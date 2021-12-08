@@ -1,8 +1,8 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { Category } from '@interfaces/category.interface';
-import { CategoryUpdatePayload } from '@payloads/category-update.payload';
 import { EntityUid } from '@mytypes/entity-uid.type';
+import { UpdatePayload } from '@payloads/task-update.payload';
 
 const categoryActions = {
   add: createAction<void>('ADD_CATEGORY'),
@@ -12,7 +12,7 @@ const categoryActions = {
   getAllSuccess: createAction<Category[]>('GET_CATEGORIES_SUCCESS'),
 
   update: createAction<void>('UPDATE_CATEGORY'),
-  updateSuccess: createAction<CategoryUpdatePayload>('UPDATE_CATEGORY_SUCCESS'),
+  updateSuccess: createAction<UpdatePayload<Category>>('UPDATE_CATEGORY_SUCCESS'),
 
   delete: createAction<void>('DELETE_CATEGORY'),
   deleteSuccess: createAction<EntityUid>('DELETE_CATEGORY_SUCCESS'),

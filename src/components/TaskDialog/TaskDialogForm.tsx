@@ -1,14 +1,15 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
 import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
-import { DatePicker, Input, Select } from 'antd';
+import { DatePicker, Input, Select, Tag } from 'antd';
+import { useTranslation } from 'react-i18next';
+
 import ErrorText from '@components/ErrorText';
-import { StyledForm, StyledText, StyledTextArea, TaskDialogGroup, TaskDialogHeading } from './TaskDialogForm.styled';
+import { Italic, StyledForm, StyledTextArea, TaskDialogGroup, TaskDialogHeading } from './TaskDialogForm.styled';
 import { DATE_FORMAT } from '@consts/date.consts';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
 import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
-import { EntityUid } from '@mytypes/entity-uid.type';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
@@ -18,17 +19,29 @@ interface Props {
 const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement => {
   const { handleChange, handleBlur, setFieldValue, values, touched, errors } = formik;
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
+  const { t } = useTranslation('COMMON');
 
-  const handleCategorySelect = (value: string): void => {
-    setFieldValue('categories', [...values.categories, value]);
+  const handleCategorySelect = (option: string): void => {
+    const category = categories.find(category => category.id === option);
+
+    if (category) {
+      setFieldValue('categories', [...values.categories, category]);
+    }
   };
 
-  const handleCategoryDeselect = (value: string): void => {
-    setFieldValue('categories', values.categories.filter(category => category !== value));
+  const handleCategoryDeselect = (option: string): void => {
+    setFieldValue('categories', values.categories.filter(category => category.id !== option));
   };
 
-  const findCategoryLabel = (categoryId: EntityUid): string =>
-    categories.find(category => category.id === categoryId)?.name || '';
+  const mapSelectOptionToCategoryTag = (category: Category): ReactElement | null => {
+    if (!categories.map(c => c.id).includes(category.id)) return null;
+    return <Tag color="var(--ant-primary-6)" key={ category.id }>{ category.name }</Tag>;
+  };
+
+  const categoryTags = values.categories
+    .map(mapSelectOptionToCategoryTag)
+    .filter(tag => tag !== null);
+  const noneText = <Italic>{ t('NONE') }</Italic>;
 
   useEffect(() => {
     setCategoryOptions(categories.map(category => ({
@@ -67,7 +80,7 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
           onSelect={ handleCategorySelect }
           onDeselect={ handleCategoryDeselect }
           options={ categoryOptions }
-          value={ values.categories }
+          value={ values.categories.map(c => c.id) }
           mode="tags"
         />
 
@@ -97,27 +110,27 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
       <>
         <TaskDialogGroup>
           <TaskDialogHeading>Title</TaskDialogHeading>
-          <StyledText>{ values.title }</StyledText>
+          <p>{ values.title }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
           <TaskDialogHeading>Description</TaskDialogHeading>
-          <StyledText>{ values.description }</StyledText>
+          <p>{ values.description }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
           <TaskDialogHeading>Categories</TaskDialogHeading>
-          <StyledText>{ values.categories ? values.categories.map(findCategoryLabel) : 'None' }</StyledText>
+          <p>{ categoryTags.length ? categoryTags : noneText }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
           <TaskDialogHeading>Date</TaskDialogHeading>
-          <StyledText>{ values.date.format(DATE_FORMAT) }</StyledText>
+          <p>{ values.date.format(DATE_FORMAT) }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
           <TaskDialogHeading>Duration</TaskDialogHeading>
-          <StyledText>{ values.duration }</StyledText>
+          <p>{ values.duration }</p>
         </TaskDialogGroup>
       </>
     );
