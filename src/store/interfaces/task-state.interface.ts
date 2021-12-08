@@ -1,7 +1,7 @@
-import { Task } from '@interfaces/task.interface';
+import { TaskModel } from '@interfaces/task.interface';
 
 export interface TaskState {
-  tasks: Task[];
+  tasks: TaskModel[];
   addInProgress: boolean;
   tasksLoading: boolean;
   updateInProgress: boolean;

@@ -64,7 +64,13 @@
         "unused-imports/no-unused-imports": "warn",
         "unused-imports/no-unused-vars": [
             "warn",
-            { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+            {
+                "vars": "all",
+                "varsIgnorePattern": "^_",
+                "args": "after-used",
+                "argsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }
         ],
         "no-unused-expressions": "off",
         "@typescript-eslint/no-unused-expressions": [

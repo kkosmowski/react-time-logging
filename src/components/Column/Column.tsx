@@ -2,6 +2,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { Row } from 'antd';
 import moment, { Moment } from 'moment';
 import { useDispatch } from 'react-redux';
+import { Droppable } from 'react-beautiful-dnd';
 
 import {
   ColumnBody,
@@ -11,7 +12,7 @@ import {
   DayName,
   HoursDetails,
 } from './Column.styled';
-import { Task } from '@interfaces/task.interface';
+import { TaskInterface } from '@interfaces/task.interface';
 import { COLUMN_DATE_FORMAT, DATE_FORMAT, DAY_NAME_FORMAT } from '@consts/date.consts';
 import { ZERO } from '@consts/numbers.consts';
 import AddTask from '@components/AddTask';
@@ -23,7 +24,7 @@ import { TaskDialogType } from '@enums/task-dialog-type.enum';
 
 interface Props {
   date: Moment;
-  tasks: Task[];
+  tasks: TaskInterface[];
 }
 
 const Column = ({ date, tasks }: Props): ReactElement => {
@@ -43,10 +44,11 @@ const Column = ({ date, tasks }: Props): ReactElement => {
     }));
   };
 
-  const handleTaskCardClick = (task: Task): void => {
+  const handleTaskCardClick = (task: TaskInterface): void => {
+    const { numericId, ...taskModel } = task;
     dispatch(uiActionCreators.openTaskDialog({
       type: TaskDialogType.ExistingTask,
-      task,
+      task: taskModel,
     }));
   };
 
@@ -87,10 +89,18 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
       <TimeIndicator value={ totalMinutes } />
 
-      <ColumnBody>
-        { cards }
-        <AddTask onAdd={ handleAddTask } />
-      </ColumnBody>
+      <Droppable droppableId={ date.toISOString() }>
+        { (provided, snapshot) => (
+          <ColumnBody
+            ref={ provided.innerRef }
+            draggedOver={ snapshot.isDraggingOver }
+            { ...provided.droppableProps }
+          >
+            { cards }
+            <AddTask onAdd={ handleAddTask } />
+          </ColumnBody>
+        ) }
+      </Droppable>
     </ColumnWrapper>
   );
 };
