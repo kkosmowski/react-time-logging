@@ -1,10 +1,10 @@
 import { Moment } from 'moment';
 
-import { EntityUid } from '@mytypes/entity-uid.type';
+import { Category } from '@interfaces/category.interface';
 
 export interface TaskFormInterface {
   title: string;
-  categories: EntityUid[];
+  categories: Category[];
   date: Moment;
   description: string;
   duration: string;

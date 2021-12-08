@@ -34,7 +34,7 @@ const categoryReducer = createReducer(initialCategoryState, (builder) => {
     })
     .addCase(categoryActions.updateSuccess, (state, { payload }) => {
       state.updateInProgress = false;
-      state.categories = state.categories.map(category => category.id === payload.categoryId
+      state.categories = state.categories.map(category => category.id === payload.id
         ? { ...category, ...payload.update }
         : category
       );

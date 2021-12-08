@@ -25,12 +25,18 @@ export const StyledTextArea = styled(Input.TextArea)`
 export const TaskDialogGroup = styled.article`
   display: flex;
   flex-direction: column;
+  
+  &:not(:last-child) {
+    margin-bottom: 24px;
+  }
 `;
 
 export const TaskDialogHeading = styled.h2`
-  font-size: 18px;
+  font-size: 15px;
+  text-transform: uppercase;
+  color: var(--foreground-500);
 `;
 
-export const StyledText = styled.p`
-  
+export const Italic = styled.span`
+  font-style: italic;
 `;

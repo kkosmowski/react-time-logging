@@ -3,6 +3,7 @@ import { Dispatch } from 'redux';
 import taskActions from '../actions/task.actions';
 import { Task } from '@interfaces/task.interface';
 import { StorageService } from '@services/storage.service';
+import { EntityUid } from '@mytypes/entity-uid.type';
 
 const taskActionCreators = {
   add(task: Task): (d: Dispatch) => Promise<void> {
@@ -17,6 +18,13 @@ const taskActionCreators = {
       dispatch(taskActions.getAll());
       const tasks = await StorageService.getAll<Task[]>('tasks');
       dispatch(taskActions.getAllSuccess(tasks));
+    }
+  },
+  update(taskId: EntityUid, update: Partial<Task>): (d: Dispatch) => Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(taskActions.update());
+      await StorageService.update<Task>('tasks', { id: taskId }, update);
+      dispatch(taskActions.updateSuccess({ id: taskId, update }));
     }
   },
 }

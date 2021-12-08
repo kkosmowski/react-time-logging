@@ -4,4 +4,5 @@ export interface TaskState {
   tasks: Task[];
   addInProgress: boolean;
   tasksLoading: boolean;
+  updateInProgress: boolean;
 }

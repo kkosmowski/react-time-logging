@@ -3,7 +3,10 @@ const en = {
     CANCEL: 'Cancel',
     CLOSE: 'Close',
     ADD: 'Add',
+    SAVE: 'Save',
+    EDIT: 'Edit',
     SETTINGS: 'Settings',
+    NONE: 'None',
   },
   CONFIRMATION_DIALOG: {
     TITLE_LEAVE_PROGRESS: 'Leave progress?',
@@ -17,6 +20,8 @@ const en = {
   },
   TASK_DIALOG: {
     ADD_TASK: 'Add task',
+    VIEW_TASK: 'View task',
+    EDIT_TASK: 'Edit task',
   },
 };
 
