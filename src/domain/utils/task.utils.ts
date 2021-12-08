@@ -10,3 +10,21 @@ export const calculateDurationFromString = (string: string): number => {
       : (prev + (MINUTES_IN_HOUR * +curr))
       , initialValue);
 };
+
+export const minutesToHoursAndMinutes = (minutes: number): string => {
+  if (!minutes) {
+    return '0h';
+  }
+
+  const minutesLeft = minutes % MINUTES_IN_HOUR;
+
+  if (minutes < MINUTES_IN_HOUR) {
+    return `${ minutesLeft }m`;
+  }
+
+  const hours = Math.floor(minutes / MINUTES_IN_HOUR);
+  const hoursString = hours ? `${ hours }h` : '';
+  const minutesString = minutesLeft ? `${ minutesLeft }m` : '';
+
+  return `${ hoursString } ${ minutesString }`;
+};

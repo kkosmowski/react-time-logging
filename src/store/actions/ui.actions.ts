@@ -1,9 +1,10 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
+import { TaskDialogPayload } from '@payloads/task-dialog.payload';
 
 const uiActions = {
-  openTaskDialog: createAction<string>('OPEN_TASK_DIALOG'),
+  openTaskDialog: createAction<TaskDialogPayload>('OPEN_TASK_DIALOG'),
   closeTaskDialog: createAction<void>('CLOSE_TASK_DIALOG'),
 
   openConfirmationDialog: createAction<ConfirmationAction>('OPEN_CONFIRMATION_DIALOG'),

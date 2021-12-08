@@ -1,5 +1,5 @@
-import { ReactElement, useEffect } from 'react';
-import { Modal } from 'antd';
+import { ReactElement, useEffect, useState } from 'react';
+import { Button, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { v4 } from 'uuid';
@@ -19,10 +19,13 @@ import { TaskDialogState } from '@components/TaskDialog/domain/task-dialog-state
 import categorySelectors from '@store/selectors/category.selectors';
 import { Category } from '@interfaces/category.interface';
 import categoryActionCreators from '@store/actionCreators/category-action.creators';
+import { TaskDialogType } from '@enums/task-dialog-type.enum';
 
 const TaskDialog = (): ReactElement => {
   const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
+  const isNewTask = state.data?.type === TaskDialogType.NewTask;
   const categories: Category[] = useSelector(categorySelectors.categories);
+  const [isEditMode, setIsEditMode] = useState(isNewTask);
   const dispatch = useDispatch();
   const formik = useFormik<TaskFormInterface>({
     initialValues: initialAddTaskFormValues(state.data),
@@ -58,18 +61,31 @@ const TaskDialog = (): ReactElement => {
     dispatch(categoryActionCreators.getAll());
   }, []);
 
+  // useEffect(() => {
+  //   if (state.data) {
+  //     setIsEditMode(isNewTask);
+  //   }
+  // }, [setIsEditMode, state]);
+
   return (
     <Modal
       visible
       width={ DIALOG_WIDTH_SMALL }
-      title={ t('ADD_TASK') }
+      title={ t(isNewTask ? 'ADD_TASK' : 'VIEW_TASK') }
       onCancel={ handleClose }
-      cancelText={ t('COMMON:CANCEL') }
-      onOk={ submitForm }
-      okText={ t('COMMON:ADD') }
+      footer={ [
+        <Button key="back" onClick={ handleClose }>
+          { t(isNewTask ? 'COMMON:CANCEL' : 'COMMON:CLOSE' ) }
+        </Button>,
+        isNewTask ? (
+          <Button key="submit" type="primary" onClick={ submitForm }>
+          { t('COMMON:ADD') }
+        </Button>
+          ) : null,
+      ] }
       okButtonProps={ { disabled: !isValid } }
     >
-      <TaskDialogForm formik={ formik } categories={ categories } />
+      <TaskDialogForm formik={ formik } isEditMode={ isEditMode } categories={ categories } />
     </Modal>
   )
 };
