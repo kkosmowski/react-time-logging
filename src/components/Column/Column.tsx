@@ -45,7 +45,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
   const handleTaskCardClick = (task: Task): void => {
     dispatch(uiActionCreators.openTaskDialog({
-      type: TaskDialogType.EditTask,
+      type: TaskDialogType.ExistingTask,
       task,
     }));
   };

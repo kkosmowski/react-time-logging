@@ -5,7 +5,7 @@ import { TaskDialogType } from '@enums/task-dialog-type.enum';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
 
 const initialAddTaskFormValues = (data: TaskDialogPayload | null): TaskFormInterface => {
-  if (data?.type === TaskDialogType.EditTask) {
+  if (data?.type === TaskDialogType.ExistingTask) {
     if (data?.task) {
       return {
         ...data.task,
@@ -13,7 +13,7 @@ const initialAddTaskFormValues = (data: TaskDialogPayload | null): TaskFormInter
         duration: minutesToHoursAndMinutes(data.task.duration),
       };
     }
-    throw new Error('Task Dialog payload type is EditTask but no task is provided.');
+    throw new Error('Task Dialog payload type is ExistingTask but no task is provided.');
   } else if (data?.type === TaskDialogType.NewTask) {
     if (data?.date) {
       return {

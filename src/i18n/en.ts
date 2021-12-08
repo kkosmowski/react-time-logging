@@ -8,6 +8,7 @@ const en = {
     DELETE: 'Delete',
     SETTINGS: 'Settings',
     NONE: 'None',
+    DUPLICATE: 'Duplicate',
   },
   CONFIRMATION_DIALOG: {
     CONFIRM: 'Confirm',

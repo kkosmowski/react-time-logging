@@ -1,4 +1,4 @@
-import { Action, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
 
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
