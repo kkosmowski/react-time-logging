@@ -16,6 +16,9 @@ const taskActions = {
 
   delete: createAction<void>('DELETE_TASK'),
   deleteSuccess: createAction<EntityUid>('DELETE_TASK_SUCCESS'),
+
+  duplicate: createAction<void>('DUPLICATE_TASK'),
+  duplicateSuccess: createAction<Task>('DUPLICATE_TASK_SUCCESS'),
 };
 
 export default taskActions;

@@ -79,8 +79,11 @@ const TaskDialog = (): ReactElement => {
     dispatch(uiActionCreators.closeTaskDialog());
   };
 
-  const handleClose = (): void => {
-    if (dirty) {
+  const handleCancel = (): void => {
+    if (isEditMode) {
+      resetForm();
+      setIsEditMode(false);
+    } else if (dirty) {
       dispatch(uiActionCreators.openConfirmationDialog(ConfirmationAction.LeaveProgress));
     } else {
       close();
@@ -92,38 +95,40 @@ const TaskDialog = (): ReactElement => {
   };
 
   const handleDelete = (): void => {
-
     dispatch(uiActionCreators.openConfirmationDialog(ConfirmationAction.DeleteTask, state.data?.task));
+  };
+
+  const handleDuplicate = (): void => {
+    if (state.data?.task) {
+      taskActionCreators.duplicate(state.data.task)(dispatch);
+    }
   };
 
   useEffect(() => {
     categoryActionCreators.getAll()(dispatch);
   }, []);
 
-  // useEffect(() => {
-  //   if (state.data) {
-  //     setIsEditMode(isNewTask);
-  //   }
-  // }, [setIsEditMode, state]);
-
   return (
     <Modal
       visible
       width={ DIALOG_WIDTH_SMALL }
       title={ t(titleTranslationKey) }
-      onCancel={ handleClose }
+      onCancel={ handleCancel }
       footer={ [
         !isNewTask ? (
           <Button key="delete" danger onClick={ handleDelete }>
             { t('COMMON:DELETE') }
           </Button>
         ) : null,
-        !isNewTask && !isEditMode ? (
+        ...(!isNewTask && !isEditMode ? [
+          <Button key="delete" onClick={ handleDuplicate }>
+            { t('COMMON:DUPLICATE') }
+          </Button>,
           <Button key="submit" type="primary" onClick={ handleEdit }>
             { t('COMMON:EDIT') }
-          </Button>
-        ) : null,
-        <Button key="back" onClick={ handleClose }>
+          </Button>,
+        ] : []),
+        <Button key="back" onClick={ handleCancel }>
           { t(isEditMode ? 'COMMON:CANCEL' : 'COMMON:CLOSE' ) }
         </Button>,
         isEditMode ? (

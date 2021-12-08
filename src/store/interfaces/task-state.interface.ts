@@ -6,4 +6,5 @@ export interface TaskState {
   tasksLoading: boolean;
   updateInProgress: boolean;
   deleteInProgress: boolean;
+  duplicationInProgress: boolean;
 }
