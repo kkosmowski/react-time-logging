@@ -12,17 +12,14 @@ import {
   HoursDetails,
 } from './Column.styled';
 import { Task } from '@interfaces/task.interface';
-import {
-  COLUMN_DATE_FORMAT,
-  DATE_FORMAT,
-  DAY_NAME_FORMAT
-} from '@consts/date.consts';
+import { COLUMN_DATE_FORMAT, DATE_FORMAT, DAY_NAME_FORMAT } from '@consts/date.consts';
 import { ZERO } from '@consts/numbers.consts';
 import AddTask from '@components/AddTask';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
-import { minutesToHoursAndMinutes } from '@utils/date.utils';
+import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import TaskCard from '@components/TaskCard';
 import TimeIndicator from './TimeIndicator';
+import { TaskDialogType } from '@enums/task-dialog-type.enum';
 
 interface Props {
   date: Moment;
@@ -40,7 +37,17 @@ const Column = ({ date, tasks }: Props): ReactElement => {
   };
 
   const handleAddTask = (): void => {
-    dispatch(uiActionCreators.openTaskDialog(date.toISOString()));
+    dispatch(uiActionCreators.openTaskDialog({
+      type: TaskDialogType.NewTask,
+      date: date.toISOString(),
+    }));
+  };
+
+  const handleTaskCardClick = (task: Task): void => {
+    dispatch(uiActionCreators.openTaskDialog({
+      type: TaskDialogType.EditTask,
+      task,
+    }));
   };
 
   useEffect(() => {
@@ -53,7 +60,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
     tasks.forEach((task) => {
       cardsArray.push(
-        <TaskCard task={ task } key={ task.id } />
+        <TaskCard onClick={ handleTaskCardClick } task={ task } key={ task.id } />
       );
       minutes += task.duration;
     });

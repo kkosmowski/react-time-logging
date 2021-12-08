@@ -1,6 +1,6 @@
 import moment, { Moment } from 'moment';
 
-import { DATE_FORMAT, MINUTES_IN_HOUR } from '@consts/date.consts';
+import { DATE_FORMAT } from '@consts/date.consts';
 import { Week } from '@interfaces/week.interface';
 
 export const getWeekStart = (date: Moment): Moment => moment(date).startOf('isoWeek');
@@ -12,21 +12,3 @@ export const getWeek = (date: Moment): Week => ({
 
 export const formatWeekStartAndEnd = (value: Moment): string =>
   `${ getWeekStart(value).format(DATE_FORMAT) } — ${ getWeekEnd(value).format(DATE_FORMAT) }`;
-
-export const minutesToHoursAndMinutes = (minutes: number): string => {
-  if (!minutes) {
-    return '0h';
-  }
-
-  const minutesLeft = minutes % MINUTES_IN_HOUR;
-
-  if (minutes < MINUTES_IN_HOUR) {
-    return `${ minutesLeft }m`;
-  }
-
-  const hours = Math.floor(minutes / MINUTES_IN_HOUR);
-  const hoursString = hours ? `${ hours }h` : '';
-  const minutesString = minutesLeft ? `${ minutesLeft }m` : '';
-
-  return `${ hoursString } ${ minutesString }`;
-};
