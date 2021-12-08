@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { Task } from '@interfaces/task.interface';
 import { UpdatePayload } from '@payloads/task-update.payload';
+import { EntityUid } from '@mytypes/entity-uid.type';
 
 const taskActions = {
   add: createAction<void>('ADD_TASK'),
@@ -12,6 +13,9 @@ const taskActions = {
 
   update: createAction<void>('UPDATE_TASK'),
   updateSuccess: createAction<UpdatePayload<Task>>('UPDATE_TASK_SUCCESS'),
+
+  delete: createAction<void>('DELETE_TASK'),
+  deleteSuccess: createAction<EntityUid>('DELETE_TASK_SUCCESS'),
 };
 
 export default taskActions;

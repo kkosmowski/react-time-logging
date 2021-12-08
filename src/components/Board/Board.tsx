@@ -19,7 +19,7 @@ const Board = (): ReactElement => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(taskActionCreators.getAll());
+    taskActionCreators.getAll()(dispatch);
   }, []);
 
   useEffect(() => {

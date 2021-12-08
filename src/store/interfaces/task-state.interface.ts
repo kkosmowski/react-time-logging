@@ -5,4 +5,5 @@ export interface TaskState {
   addInProgress: boolean;
   tasksLoading: boolean;
   updateInProgress: boolean;
+  deleteInProgress: boolean;
 }

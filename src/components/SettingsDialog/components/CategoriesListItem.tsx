@@ -2,9 +2,10 @@ import { ReactElement, useLayoutEffect, useRef, useState } from 'react';
 import { CloseCircleOutlined, DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 
-import { Buttons, DeleteButton, GrayButton } from './CategoriesListItem.styled';
+import { Buttons } from './CategoriesListItem.styled';
 import { Category } from '@interfaces/category.interface';
 import { EntityUid } from '@mytypes/entity-uid.type';
+import { GrayButton } from '@components/Buttons';
 
 interface Props {
   category: Category;
@@ -73,9 +74,10 @@ const CategoriesListItem = ({ category, onUpdate, onDelete }: Props): ReactEleme
                 icon={ <EditOutlined /> }
               />
 
-              <DeleteButton
+              <Button
                 onClick={ () => onDelete(category.id) }
                 shape="circle"
+                danger
                 icon={ <DeleteOutlined /> }
               />
             </>

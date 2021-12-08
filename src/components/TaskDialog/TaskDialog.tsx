@@ -45,21 +45,21 @@ const TaskDialog = (): ReactElement => {
   const { t } = useTranslation('TASK_DIALOG');
 
   const handleAddTask = (values: TaskFormInterface): void => {
-    dispatch(taskActionCreators.add({
+    taskActionCreators.add({
       id: v4(),
       title: values.title,
       categories: values.categories,
       date: values.date.toISOString(),
       description: values.description,
       duration: calculateDurationFromString(values.duration)
-    }));
+    })(dispatch);
     close();
   };
 
   const handleUpdateTask = (values: TaskFormInterface): void => {
     if (!state.data?.task) return;
 
-    dispatch(taskActionCreators.update(
+    taskActionCreators.update(
       state.data.task.id,
       {
         ...state.data.task,
@@ -69,7 +69,8 @@ const TaskDialog = (): ReactElement => {
         date: values.date.toISOString(),
         duration: calculateDurationFromString(values.duration),
       }
-    ));
+    )(dispatch);
+
     resetForm({ values });
     setIsEditMode(false);
   }
@@ -90,8 +91,13 @@ const TaskDialog = (): ReactElement => {
     setIsEditMode(true);
   };
 
+  const handleDelete = (): void => {
+
+    dispatch(uiActionCreators.openConfirmationDialog(ConfirmationAction.DeleteTask, state.data?.task));
+  };
+
   useEffect(() => {
-    dispatch(categoryActionCreators.getAll());
+    categoryActionCreators.getAll()(dispatch);
   }, []);
 
   // useEffect(() => {
@@ -107,6 +113,11 @@ const TaskDialog = (): ReactElement => {
       title={ t(titleTranslationKey) }
       onCancel={ handleClose }
       footer={ [
+        !isNewTask ? (
+          <Button key="delete" danger onClick={ handleDelete }>
+            { t('COMMON:DELETE') }
+          </Button>
+        ) : null,
         !isNewTask && !isEditMode ? (
           <Button key="submit" type="primary" onClick={ handleEdit }>
             { t('COMMON:EDIT') }

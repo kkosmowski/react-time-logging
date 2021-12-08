@@ -27,11 +27,11 @@ const SettingsDialog = (): ReactElement => {
   };
 
   const handleCategoryUpdate = (category: Category): void => {
-    dispatch(categoryActionCreators.update(category.id, category));
+    categoryActionCreators.update(category.id, category)(dispatch);
   };
 
   const handleCategoryDelete = (categoryId: EntityUid): void => {
-    dispatch(categoryActionCreators.delete(categoryId));
+    categoryActionCreators.delete(categoryId)(dispatch);
   };
 
   const disableAddCategoryMode = (): void => {
@@ -42,7 +42,7 @@ const SettingsDialog = (): ReactElement => {
     if (!isAddCategoryMode) {
       setIsAddCategoryMode(true);
     } else {
-      dispatch(categoryActionCreators.add(categoryName));
+      categoryActionCreators.add(categoryName)(dispatch);
       disableAddCategoryMode();
       setCategoryName('');
 
@@ -53,7 +53,7 @@ const SettingsDialog = (): ReactElement => {
   };
 
   useEffect(() => {
-    dispatch(categoryActionCreators.getAll());
+    categoryActionCreators.getAll()(dispatch);
   }, []);
 
   useLayoutEffect(() => {

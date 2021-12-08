@@ -8,6 +8,7 @@ import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import uiSelectors from '@store/selectors/ui.selectors';
 import { ConfirmationDialogState } from './domain/confirmation-dialog-state.interface';
 import { handleConfirmedAction } from './handle-confirmed-action.util';
+import { ConfirmationDialogText } from './domain/ConfirmationDialog.styled';
 
 const ConfirmationDialog = (): ReactElement => {
   const state: ConfirmationDialogState = useSelector(uiSelectors.confirmationDialog);
@@ -19,7 +20,12 @@ const ConfirmationDialog = (): ReactElement => {
   };
 
   const handleConfirm = (): void => {
-    handleConfirmedAction(dispatch, state.action);
+    if (state.action) {
+      handleConfirmedAction(dispatch, {
+        action: state.action,
+        data: state.data,
+      });
+    }
   };
 
   return state.action
@@ -32,7 +38,9 @@ const ConfirmationDialog = (): ReactElement => {
         onOk={ handleConfirm }
         okText={ t('CONFIRM') }
       >
-        { t(state.action) }
+        <ConfirmationDialogText>
+          { t(state.action, { name: state.data?.title || '' }) }
+        </ConfirmationDialogText>
       </Modal>
     )
     : <></>;

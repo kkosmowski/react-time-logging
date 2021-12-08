@@ -8,6 +8,7 @@ export const initialTaskState: TaskState = {
   addInProgress: false,
   tasksLoading: false,
   updateInProgress: false,
+  deleteInProgress: false,
 };
 
 const taskReducer = createReducer(initialTaskState, (builder) => {
@@ -37,6 +38,14 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
         ? { ...task, ...payload.update }
         : task
       );
+    })
+
+    .addCase(taskActions.delete, (state) => {
+      state.deleteInProgress = true;
+    })
+    .addCase(taskActions.deleteSuccess, (state, { payload }) => {
+      state.deleteInProgress = false;
+      state.tasks = state.tasks.filter(task => task.id !== payload);
     })
 });
 
