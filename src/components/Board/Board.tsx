@@ -28,7 +28,6 @@ const Board = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    console.log(tasks.map(t => t.title));
     const filtered: Record<string, TaskModel[]> = {};
 
     tasks.forEach((task) => {
@@ -38,7 +37,7 @@ const Board = (): ReactElement => {
         filtered[taskFormattedDate] = [];
       }
 
-      filtered[taskFormattedDate].push({ ...task });
+      filtered[taskFormattedDate].push(task);
     });
 
     setFilteredTasks(filtered);
@@ -77,6 +76,8 @@ const Board = (): ReactElement => {
       let modifier = 0;
 
       if (newDate === oldDate) {
+        if (result.source.index === result.destination.index) return;
+
         endId = oldColumn[result.destination.index].id;
         await taskActionCreators.reorder(startId, endId)(dispatch);
       } else {
