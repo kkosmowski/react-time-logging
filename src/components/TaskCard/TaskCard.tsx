@@ -30,6 +30,7 @@ const TaskCard = ({ task, onClick }: Props): ReactElement => {
             hoverable
           >
             <Description>{ task.description }</Description>
+            <span>{ task.numericId }</span>
             <Duration>{ minutesToHoursAndMinutes(task.duration) }</Duration>
           </StyledCard>
         </div>

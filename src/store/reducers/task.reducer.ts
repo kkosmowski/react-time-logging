@@ -7,9 +7,6 @@ export const initialTaskState: TaskState = {
   tasks: [],
   addInProgress: false,
   tasksLoading: false,
-  updateInProgress: false,
-  deleteInProgress: false,
-  duplicationInProgress: false,
 };
 
 const taskReducer = createReducer(initialTaskState, (builder) => {
@@ -31,10 +28,10 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     })
 
     .addCase(taskActions.update, (state) => {
-      state.updateInProgress = true;
+      state.tasksLoading = true;
     })
     .addCase(taskActions.updateSuccess, (state, { payload }) => {
-      state.updateInProgress = false;
+      state.tasksLoading = false;
       state.tasks = state.tasks.map(task => task.id === payload.id
         ? { ...task, ...payload.update }
         : task
@@ -42,19 +39,28 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     })
 
     .addCase(taskActions.delete, (state) => {
-      state.deleteInProgress = true;
+      state.tasksLoading = true;
     })
     .addCase(taskActions.deleteSuccess, (state, { payload }) => {
-      state.deleteInProgress = false;
+      state.tasksLoading = false;
       state.tasks = state.tasks.filter(task => task.id !== payload);
     })
 
     .addCase(taskActions.duplicate, (state) => {
-      state.duplicationInProgress = true;
+      state.tasksLoading = true;
     })
     .addCase(taskActions.duplicateSuccess, (state, { payload }) => {
-      state.duplicationInProgress = false;
+      state.tasksLoading = false;
       state.tasks = [...state.tasks, payload];
+    })
+
+    .addCase(taskActions.reorder, (state) => {
+      state.tasksLoading = true;
+    })
+
+    .addCase(taskActions.reorderSuccess, (state, { payload }) => {
+      state.tasksLoading = false;
+      state.tasks = payload;
     })
 });
 

@@ -12,7 +12,7 @@ import {
   DayName,
   HoursDetails,
 } from './Column.styled';
-import { TaskInterface } from '@interfaces/task.interface';
+import { TaskInterface, TaskModel } from '@interfaces/task.interface';
 import { COLUMN_DATE_FORMAT, DATE_FORMAT, DAY_NAME_FORMAT } from '@consts/date.consts';
 import { ZERO } from '@consts/numbers.consts';
 import AddTask from '@components/AddTask';
@@ -24,7 +24,7 @@ import { TaskDialogType } from '@enums/task-dialog-type.enum';
 
 interface Props {
   date: Moment;
-  tasks: TaskInterface[];
+  tasks: TaskModel[];
 }
 
 const Column = ({ date, tasks }: Props): ReactElement => {
@@ -60,9 +60,9 @@ const Column = ({ date, tasks }: Props): ReactElement => {
     const cardsArray: ReactElement[] = [];
     let minutes = 0;
 
-    tasks.forEach((task) => {
+    tasks.forEach((task, index) => {
       cardsArray.push(
-        <TaskCard onClick={ handleTaskCardClick } task={ task } key={ task.id } />
+        <TaskCard onClick={ handleTaskCardClick } task={ {...task, numericId: index } } key={ task.id } />
       );
       minutes += task.duration;
     });
@@ -97,6 +97,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
             { ...provided.droppableProps }
           >
             { cards }
+            { provided.placeholder }
             <AddTask onAdd={ handleAddTask } />
           </ColumnBody>
         ) }
