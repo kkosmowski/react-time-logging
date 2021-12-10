@@ -2,7 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { Category } from '@interfaces/category.interface';
 import { EntityUid } from '@mytypes/entity-uid.type';
-import { UpdatePayload } from '@payloads/task-update.payload';
+import { UpdatePayload } from '@payloads/update.payload';
 
 const categoryActions = {
   add: createAction<void>('ADD_CATEGORY'),

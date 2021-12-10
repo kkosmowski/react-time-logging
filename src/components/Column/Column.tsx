@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { Row } from 'antd';
+import { Dropdown, Menu, Row } from 'antd';
 import moment, { Moment } from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
 
 import {
@@ -21,6 +21,9 @@ import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import TaskCard from '@components/TaskCard';
 import TimeIndicator from './TimeIndicator';
 import { TaskDialogType } from '@enums/task-dialog-type.enum';
+import { ClipboardAction } from '@enums/clipboard-action.enum';
+import uiSelectors from '@store/selectors/ui.selectors';
+import taskActionCreators from '@store/actionCreators/task-action.creators';
 
 interface Props {
   date: Moment;
@@ -28,6 +31,7 @@ interface Props {
 }
 
 const Column = ({ date, tasks }: Props): ReactElement => {
+  const clipboard = useSelector(uiSelectors.clipboard);
   const [totalMinutes, setTotalMinutes] = useState(ZERO);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isToday, setIsToday] = useState(false);
@@ -52,6 +56,25 @@ const Column = ({ date, tasks }: Props): ReactElement => {
     }));
   };
 
+  const setClipboard = (action: ClipboardAction, task: TaskInterface): void => {
+    const { numericId, ...taskModel } = task;
+    dispatch(uiActionCreators.setClipboard({ action, task: taskModel }));
+  };
+
+  const handleTaskCut = (task: TaskInterface): void => {
+    setClipboard(ClipboardAction.Cut, task);
+  };
+
+  const handleTaskCopy = (task: TaskInterface): void => {
+    setClipboard(ClipboardAction.Copy, task);
+  };
+
+  const handlePaste = (): void => {
+    if (clipboard) {
+      taskActionCreators.paste(clipboard, date)(dispatch);
+    }
+  };
+
   useEffect(() => {
     checkIfIsToday();
   }, [date]);
@@ -62,15 +85,26 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
     tasks.forEach((task, index) => {
       cardsArray.push(
-        <TaskCard onClick={ handleTaskCardClick } task={ {...task, numericId: index } } key={ task.id } />
+        <TaskCard
+          onClick={ handleTaskCardClick }
+          onCut={ handleTaskCut }
+          onCopy={ handleTaskCopy }
+          task={ {...task, numericId: index } }
+          key={ task.id }
+        />
       );
       minutes += task.duration;
     });
 
     setCards(cardsArray);
     setTotalMinutes(minutes);
-
   }, [tasks]);
+
+  const menu = (
+    <Menu>
+      <Menu.Item onClick={ handlePaste } disabled={ !clipboard } key="paste">Paste</Menu.Item>
+    </Menu>
+  )
 
   return (
     <ColumnWrapper className={ isToday ? '--today' : '' }>
@@ -91,15 +125,17 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
       <Droppable droppableId={ date.toISOString() }>
         { (provided, snapshot) => (
-          <ColumnBody
-            ref={ provided.innerRef }
-            draggedOver={ snapshot.isDraggingOver }
-            { ...provided.droppableProps }
-          >
-            { cards }
-            { provided.placeholder }
-            <AddTask onAdd={ handleAddTask } />
-          </ColumnBody>
+          <Dropdown overlay={ menu } trigger={ ['contextMenu'] }>
+            <ColumnBody
+              ref={ provided.innerRef }
+              draggedOver={ snapshot.isDraggingOver }
+              { ...provided.droppableProps }
+            >
+              { cards }
+              { provided.placeholder }
+              <AddTask onAdd={ handleAddTask } />
+            </ColumnBody>
+          </Dropdown>
         ) }
       </Droppable>
     </ColumnWrapper>

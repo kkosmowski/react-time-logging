@@ -2,6 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 
 import { UiState } from '../interfaces/ui-state.interface';
 import uiActions from '../actions/ui.actions';
+import { ClipboardAction } from '@enums/clipboard-action.enum';
 
 export const initialUiState: UiState = {
   taskDialog: {
@@ -14,6 +15,7 @@ export const initialUiState: UiState = {
     result: null,
   },
   settingsDialogOpened: false,
+  clipboard: null,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -52,6 +54,15 @@ const uiReducer = createReducer(initialUiState, (builder) => {
     })
     .addCase(uiActions.closeSettingsDialog, (state) => {
       state.settingsDialogOpened = false;
+    })
+
+    .addCase(uiActions.setClipboard, (state, { payload }) => {
+      state.clipboard = payload;
+    })
+    .addCase(uiActions.modifyClipboardAfterPastedCut, (state ) => {
+      if (state.clipboard) {
+        state.clipboard.action = ClipboardAction.Copy;
+      }
     })
 });
 

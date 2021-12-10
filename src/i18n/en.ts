@@ -9,6 +9,7 @@ const en = {
     SETTINGS: 'Settings',
     NONE: 'None',
     DUPLICATE: 'Duplicate',
+    COPY_OF_TASK: 'Copy of {{ title }}',
   },
   CONFIRMATION_DIALOG: {
     CONFIRM: 'Confirm',

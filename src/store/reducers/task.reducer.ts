@@ -57,10 +57,17 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.reorder, (state) => {
       state.tasksLoading = true;
     })
-
     .addCase(taskActions.reorderSuccess, (state, { payload }) => {
       state.tasksLoading = false;
       state.tasks = payload;
+    })
+
+    .addCase(taskActions.paste, (state) => {
+      state.tasksLoading = true;
+    })
+    .addCase(taskActions.pasteCutTaskSuccess, (state, { payload }) => {
+      state.tasksLoading = false;
+      state.tasks = state.tasks.map(task => task.id === payload.id ? payload : task);
     })
 });
 

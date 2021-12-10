@@ -1,5 +1,7 @@
 import { Dispatch } from 'redux';
 import { v4 } from 'uuid';
+import { Moment } from 'moment';
+import i18next from 'i18next';
 
 import taskActions from '../actions/task.actions';
 import { TaskModel } from '@interfaces/task.interface';
@@ -11,6 +13,8 @@ import store from '@store/store';
 import { RootState } from '@store/interfaces/root-state.interface';
 import { reorder } from '@utils/reorder.util';
 import { ZERO } from '@consts/numbers.consts';
+import { ClipboardAction } from '@enums/clipboard-action.enum';
+import { ClipboardPayload } from '@payloads/clipboard.payload';
 
 const taskActionCreators = {
   add(task: TaskModel): (d: Dispatch) => Promise<void> {
@@ -48,34 +52,56 @@ const taskActionCreators = {
   duplicate(task: TaskModel): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.duplicate());
-      dispatch(uiActionCreators.closeTaskDialog());
+      const taskDialogOpened = (store.getState() as RootState).ui.taskDialog.opened;
 
-      const duplicatedTask = { ...task, id: v4() };
+      if (taskDialogOpened) {
+        dispatch(uiActionCreators.closeTaskDialog());
+      }
+
+      const copyOfTask = i18next.t('COMMON:COPY_OF_TASK', { title: task.title });
+
+      const duplicatedTask = {
+        ...task,
+        title: copyOfTask,
+        id: v4(),
+      };
       await StorageService.add<TaskModel>('tasks', duplicatedTask);
 
       dispatch(taskActions.duplicateSuccess(duplicatedTask));
-      dispatch(uiActionCreators.openTaskDialog({
-        type: TaskDialogType.ExistingTask,
-        task: duplicatedTask,
-      }));
+
+      if (taskDialogOpened) {
+        dispatch(uiActionCreators.openTaskDialog({
+          type: TaskDialogType.ExistingTask,
+          task: duplicatedTask,
+        }));
+      }
     }
   },
 
-  reorder(startId: EntityUid, endId: EntityUid, modifier = ZERO, withUpdate?: boolean): (d: Dispatch) => Promise<void> {
-    const actionSuccess = withUpdate ? 'reorderWithUpdateAfterItSuccess' : 'reorderSuccess';
-
+  reorder(startId: EntityUid, endId: EntityUid, modifier = ZERO): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.reorder());
       const tasks: TaskModel[] = (store.getState() as RootState).task.tasks;
       const taskIds: EntityUid[] = tasks.map(task => task.id);
       const reorderedTasks = reorder(tasks, taskIds.indexOf(startId), taskIds.indexOf(endId) + modifier);
       await StorageService.set<TaskModel[]>('tasks', null, reorderedTasks);
-      dispatch(taskActions[actionSuccess](reorderedTasks));
+      dispatch(taskActions.reorderSuccess(reorderedTasks));
     }
   },
 
-  reorderWithUpdateAfterIt(startId: EntityUid, endId: EntityUid, modifier = ZERO): (d: Dispatch) => Promise<void> {
-    return this.reorder(startId, endId, modifier, true);
+  paste(clipboard: ClipboardPayload, columnDate: Moment): (d: Dispatch) => Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(taskActions.paste());
+
+      const update: Partial<TaskModel> = { date: columnDate.toISOString() };
+
+      if (clipboard.action === ClipboardAction.Cut) {
+        dispatch(uiActionCreators.modifyClipboardAfterPastedCut());
+        await taskActionCreators.update(clipboard.task.id, update)(dispatch);
+      } else {
+        await taskActionCreators.duplicate({ ...clipboard.task, ...update})(dispatch);
+      }
+    }
   },
 }
 
