@@ -7,6 +7,10 @@ import { EntityUid } from '@mytypes/entity-uid.type';
 import { v4 } from 'uuid';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { TaskDialogType } from '@enums/task-dialog-type.enum';
+import store from '@store/store';
+import { RootState } from '@store/interfaces/root-state.interface';
+import { reorder } from '@utils/reorder.util';
+import { ZERO } from '@consts/numbers.consts';
 
 const taskActionCreators = {
   add(task: TaskModel): (d: Dispatch) => Promise<void> {
@@ -47,7 +51,7 @@ const taskActionCreators = {
       dispatch(uiActionCreators.closeTaskDialog());
 
       const duplicatedTask = { ...task, id: v4() };
-      await StorageService.add('tasks', duplicatedTask);
+      await StorageService.add<TaskModel>('tasks', duplicatedTask);
 
       dispatch(taskActions.duplicateSuccess(duplicatedTask));
       dispatch(uiActionCreators.openTaskDialog({
@@ -55,6 +59,23 @@ const taskActionCreators = {
         task: duplicatedTask,
       }));
     }
+  },
+
+  reorder(startId: EntityUid, endId: EntityUid, modifier = ZERO, withUpdate?: boolean): (d: Dispatch) => Promise<void> {
+    const actionSuccess = withUpdate ? 'reorderWithUpdateAfterItSuccess' : 'reorderSuccess';
+
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(taskActions.reorder());
+      const tasks: TaskModel[] = (store.getState() as RootState).task.tasks;
+      const taskIds: EntityUid[] = tasks.map(task => task.id);
+      const reorderedTasks = reorder(tasks, taskIds.indexOf(startId), taskIds.indexOf(endId) + modifier);
+      await StorageService.set<TaskModel[]>('tasks', null, reorderedTasks);
+      dispatch(taskActions[actionSuccess](reorderedTasks));
+    }
+  },
+
+  reorderWithUpdateAfterIt(startId: EntityUid, endId: EntityUid, modifier = ZERO): (d: Dispatch) => Promise<void> {
+    return this.reorder(startId, endId, modifier, true);
   },
 }
 

@@ -19,6 +19,10 @@ const taskActions = {
 
   duplicate: createAction<void>('DUPLICATE_TASK'),
   duplicateSuccess: createAction<TaskModel>('DUPLICATE_TASK_SUCCESS'),
+
+  reorder: createAction<void>('TASKS_REORDER'),
+  reorderSuccess: createAction<TaskModel[]>('TASKS_REORDER_SUCCESS'),
+  reorderWithUpdateAfterItSuccess: createAction<TaskModel[]>('TASKS_REORDER_WITH_UPDATE_SUCCESS'),
 };
 
 export default taskActions;

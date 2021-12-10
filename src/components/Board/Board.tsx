@@ -5,18 +5,21 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 
 import Column from '@components/Column';
 import { BoardSection } from './Board.styled';
-import { TaskInterface, TaskModel } from '@interfaces/task.interface';
+import { TaskModel } from '@interfaces/task.interface';
 import boardSelectors from '@store/selectors/board.selectors';
 import { Week } from '@interfaces/week.interface';
-import { DATE_FORMAT, DAYS_IN_WEEK } from '@consts/date.consts';
+import { DAYS_IN_WEEK } from '@consts/date.consts';
 import taskSelectors from '@store/selectors/task.selectors';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
 import { EntityUid } from '@mytypes/entity-uid.type';
+import { ONE } from '@consts/numbers.consts';
+import BoardOverlay from './BoardOverlay';
 
 const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
   const tasks: TaskModel[] = useSelector(taskSelectors.tasks);
-  const [filteredTasks, setFilteredTasks] = useState<Record<string, TaskInterface[]>>({});
+  const tasksLoading = useSelector(taskSelectors.tasksLoading);
+  const [filteredTasks, setFilteredTasks] = useState<Record<string, TaskModel[]>>({});
   const [columns, setColumns] = useState<ReactElement[]>([]);
   const dispatch = useDispatch();
 
@@ -25,16 +28,17 @@ const Board = (): ReactElement => {
   }, []);
 
   useEffect(() => {
-    const filtered: Record<string, TaskInterface[]> = {};
+    console.log(tasks.map(t => t.title));
+    const filtered: Record<string, TaskModel[]> = {};
 
-    tasks.forEach((task, index) => {
-      const taskFormattedDate = moment(task.date).format(DATE_FORMAT);
+    tasks.forEach((task) => {
+      const taskFormattedDate = moment(task.date).toISOString();
 
       if (!Array.isArray(filtered[taskFormattedDate])) {
-        filtered[taskFormattedDate] = []
+        filtered[taskFormattedDate] = [];
       }
 
-      filtered[taskFormattedDate].push({ ...task, numericId: index });
+      filtered[taskFormattedDate].push({ ...task });
     });
 
     setFilteredTasks(filtered);
@@ -49,7 +53,7 @@ const Board = (): ReactElement => {
         items.push(
           <Column
             date={ date }
-            tasks={ filteredTasks[date.format(DATE_FORMAT)] || [] }
+            tasks={ filteredTasks[date.toISOString()] || [] }
             key={ i }
           />
         )
@@ -59,13 +63,36 @@ const Board = (): ReactElement => {
     }
   }, [week, filteredTasks]);
 
-  const handleDragEnd = (result: DropResult): void => {
-    console.log(result)
-    const draggedTaskId: EntityUid = result.draggableId;
-    const newDate = result.destination?.droppableId;
+  const handleDragEnd = async (result: DropResult): Promise<void> => {
+    if (!result.destination) return;
+
+    const oldDate = result.source.droppableId;
+    const newDate = result.destination.droppableId;
+    const oldColumn = filteredTasks[oldDate];
+    const newColumn = filteredTasks[newDate];
 
     if (newDate) {
-      taskActionCreators.update(draggedTaskId, { date: newDate })(dispatch);
+      const startId: EntityUid = oldColumn[result.source.index].id;
+      let endId: EntityUid;
+      let modifier = 0;
+
+      if (newDate === oldDate) {
+        endId = oldColumn[result.destination.index].id;
+        await taskActionCreators.reorder(startId, endId)(dispatch);
+      } else {
+        await taskActionCreators.update(result.draggableId, { date: newDate })(dispatch);
+
+        if (newColumn?.length) {
+          if (result.destination.index >= newColumn.length) {
+            // there is no next element, so take id of previous el, but later compensate the position with modifier
+            endId = newColumn[result.destination.index - ONE].id;
+            modifier = ONE;
+          } else {
+            endId = newColumn[result.destination.index].id;
+          }
+          await taskActionCreators.reorder(startId, endId, modifier)(dispatch);
+        }
+      }
     }
   };
 
@@ -73,6 +100,7 @@ const Board = (): ReactElement => {
     <DragDropContext onDragEnd={ handleDragEnd }>
       <BoardSection>
         { columns }
+        { tasksLoading && <BoardOverlay /> }
       </BoardSection>
     </DragDropContext>
   );
