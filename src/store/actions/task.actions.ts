@@ -1,7 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 
 import { TaskModel } from '@interfaces/task.interface';
-import { UpdatePayload } from '@payloads/task-update.payload';
+import { UpdatePayload } from '@payloads/update.payload';
 import { EntityUid } from '@mytypes/entity-uid.type';
 
 const taskActions = {
@@ -22,7 +22,9 @@ const taskActions = {
 
   reorder: createAction<void>('TASKS_REORDER'),
   reorderSuccess: createAction<TaskModel[]>('TASKS_REORDER_SUCCESS'),
-  reorderWithUpdateAfterItSuccess: createAction<TaskModel[]>('TASKS_REORDER_WITH_UPDATE_SUCCESS'),
+
+  paste: createAction<void>('PASTE_TASK'),
+  pasteCutTaskSuccess: createAction<TaskModel>('PASTE_CUT_TASK_SUCCESS'),
 };
 
 export default taskActions;

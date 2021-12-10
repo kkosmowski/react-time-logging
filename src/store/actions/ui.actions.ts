@@ -2,6 +2,7 @@ import { createAction } from '@reduxjs/toolkit';
 
 import { TaskDialogPayload } from '@payloads/task-dialog.payload';
 import { ConfirmationDialogPayload } from '@components/ConfirmationDialog/domain/confirmation-dialog.payload';
+import { ClipboardPayload } from '@payloads/clipboard.payload';
 
 const uiActions = {
   openTaskDialog: createAction<TaskDialogPayload>('OPEN_TASK_DIALOG'),
@@ -12,6 +13,9 @@ const uiActions = {
 
   openSettingsDialog: createAction<void>('OPEN_SETTINGS_DIALOG'),
   closeSettingsDialog: createAction<void>('CLOSE_SETTINGS_DIALOG'),
+
+  setClipboard: createAction<ClipboardPayload>('SET_CLIPBOARD'),
+  modifyClipboardAfterPastedCut: createAction<void>('MODIFY_CLIPBOARD_AFTER_PASTED_CUT'),
 };
 
 export default uiActions;
