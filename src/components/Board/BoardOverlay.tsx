@@ -18,8 +18,6 @@ const StyledDiv = styled.div`
   justify-content: center;
   align-items: center;
   background-color: var(--background47);
-`
-
-
+`;
 
 export default memo(BoardOverlay);

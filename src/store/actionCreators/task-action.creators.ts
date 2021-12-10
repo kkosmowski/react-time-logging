@@ -1,10 +1,10 @@
 import { Dispatch } from 'redux';
+import { v4 } from 'uuid';
 
 import taskActions from '../actions/task.actions';
 import { TaskModel } from '@interfaces/task.interface';
 import { StorageService } from '@services/storage.service';
 import { EntityUid } from '@mytypes/entity-uid.type';
-import { v4 } from 'uuid';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { TaskDialogType } from '@enums/task-dialog-type.enum';
 import store from '@store/store';
