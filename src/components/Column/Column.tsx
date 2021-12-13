@@ -14,6 +14,7 @@ import {
 } from './Column.styled';
 import { TaskInterface, TaskModel } from '@interfaces/task.interface';
 import { COLUMN_DATE_FORMAT, DATE_FORMAT, DAY_NAME_FORMAT } from '@consts/date.consts';
+import { ZERO } from '@consts/numbers.consts';
 import AddTask from '@components/AddTask';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
@@ -31,7 +32,7 @@ interface Props {
 
 const Column = ({ date, tasks }: Props): ReactElement => {
   const clipboard = useSelector(uiSelectors.clipboard);
-  const [totalMinutes, setTotalMinutes] = useState(0);
+  const [totalMinutes, setTotalMinutes] = useState(ZERO);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isToday, setIsToday] = useState(false);
   const dispatch = useDispatch();

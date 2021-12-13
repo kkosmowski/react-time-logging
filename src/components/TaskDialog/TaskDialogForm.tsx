@@ -1,4 +1,4 @@
-import { ChangeEvent, ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { FormikProps } from 'formik';
 import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
 import { DatePicker, Input, Select, Tag } from 'antd';
@@ -10,7 +10,6 @@ import { DATE_FORMAT } from '@consts/date.consts';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
 import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
-import { improveDurationString, minutesToHoursAndMinutes } from '@utils/task.utils';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
@@ -34,12 +33,6 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
     setFieldValue('categories', values.categories.filter(category => category.id !== option));
   };
 
-  const handleDurationBlur = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = improveDurationString(e.target.value);
-    setFieldValue('duration', value);
-  }
-
-
   const mapSelectOptionToCategoryTag = (category: Category): ReactElement | null => {
     if (!categories.map(c => c.id).includes(category.id)) return null;
     return <Tag color="var(--ant-primary-6)" key={ category.id }>{ category.name }</Tag>;
@@ -48,7 +41,7 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
   const categoryTags = values.categories
     .map(mapSelectOptionToCategoryTag)
     .filter(tag => tag !== null);
-  const noneText = <Italic>{ t('N1') }</Italic>;
+  const noneText = <Italic>{ t('NONE') }</Italic>;
 
   useEffect(() => {
     setCategoryOptions(categories.map(category => ({
@@ -107,7 +100,7 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
           name="duration"
           placeholder={ '"1h", "30m", "2h 15m" etc.' }
           onChange={ handleChange }
-          onBlur={ handleDurationBlur }
+          onBlur={ handleBlur }
           value={ values.duration }
         />
         <ErrorText>{ touched.duration ? errors.duration : '' }</ErrorText>
