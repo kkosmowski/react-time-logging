@@ -14,6 +14,8 @@ const uiSelectors = {
   settingsDialogOpened: createSelector(uiSelector, ui => ui.settingsDialogOpened),
 
   clipboard: createSelector(uiSelector, ui => ui.clipboard),
+
+  settings: createSelector(uiSelector, ui => ui.settings),
 }
 
 export default uiSelectors;

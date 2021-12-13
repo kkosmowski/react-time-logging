@@ -11,16 +11,25 @@ import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
 import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
 import { improveDurationString } from '@utils/task.utils';
+import { Moment } from 'moment';
+
+import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
+import { WeekendDisplay } from '@enums/weekend-display.enum';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
   isEditMode: boolean;
   categories: Category[];
+  weekendDisplay: WeekendDisplay;
 }
-const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement => {
+const TaskDialogForm = ({ formik, isEditMode, categories, weekendDisplay }: Props): ReactElement => {
   const { handleChange, handleBlur, setFieldValue, values, touched, errors } = formik;
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
   const { t } = useTranslation('COMMON');
+
+  const disabledDate = (date: Moment): boolean => {
+    return calculateDatesToDisable(date, weekendDisplay);
+  }
 
   const handleCategorySelect = (option: string): void => {
     const category = categories.find(category => category.id === option);
@@ -97,6 +106,7 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
           format={ DATE_FORMAT }
           onBlur={ handleBlur }
           value={ values.date }
+          disabledDate={ disabledDate }
           allowClear={ false }
         />
 
