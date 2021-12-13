@@ -5,7 +5,6 @@ import { Category } from '@interfaces/category.interface';
 import { ListWrapper } from './CategoriesList.styled';
 import { EntityUid } from '@mytypes/entity-uid.type';
 import CategoriesListItem from './CategoriesListItem';
-import { ZERO } from '@consts/numbers.consts';
 
 interface Props {
   categories: Category[];
@@ -32,7 +31,7 @@ const CategoriesList = ({ categories, onUpdate, onDelete, scrollDown }: Props): 
       if (initialRender.current) {
         initialRender.current = false;
       } else {
-        wrapperRef.current.scrollTo(ZERO, wrapperRef.current?.scrollHeight || ZERO);
+        wrapperRef.current.scrollTo(0, wrapperRef.current?.scrollHeight || 0);
       }
     }
   }, [scrollDown]);

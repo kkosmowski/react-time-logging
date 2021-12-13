@@ -12,7 +12,6 @@ import { TaskDialogType } from '@enums/task-dialog-type.enum';
 import store from '@store/store';
 import { RootState } from '@store/interfaces/root-state.interface';
 import { reorder } from '@utils/reorder.util';
-import { ZERO } from '@consts/numbers.consts';
 import { ClipboardAction } from '@enums/clipboard-action.enum';
 import { ClipboardPayload } from '@payloads/clipboard.payload';
 
@@ -78,7 +77,7 @@ const taskActionCreators = {
     }
   },
 
-  reorder(startId: EntityUid, endId: EntityUid, modifier = ZERO): (d: Dispatch) => Promise<void> {
+  reorder(startId: EntityUid, endId: EntityUid, modifier = 0): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.reorder());
       const tasks: TaskModel[] = (store.getState() as RootState).task.tasks;
