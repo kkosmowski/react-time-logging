@@ -1,14 +1,25 @@
 import { MINUTES_IN_HOUR } from '@consts/date.consts';
 
 export const calculateDurationFromString = (string: string): number => {
-  //@todo for now I assume it is either "%h" or "%m", "%h%m" or "%h %m", % = any number
-  const initialValue = 0;
-  return string
-    .split('h')
-    .reduce((prev, curr) => curr && curr.includes('m')
-      ? (prev + parseInt(curr))
-      : (prev + (MINUTES_IN_HOUR * +curr))
-      , initialValue);
+  const types = string.split('').filter(char => ['h', 'm'].includes(char)) as ('h' | 'm')[];
+  const numbers = string.split(/[m|h]/);
+  let totalMinutes = 0;
+
+  for (let i = 0; i < numbers.length -1; i++) {
+    if (!numbers[i]) {
+      continue;
+    }
+
+    let value = parseFloat(numbers[i].replace(',', '.'));
+
+    if (types[i] === 'h') {
+      value *= MINUTES_IN_HOUR;
+    }
+
+    totalMinutes += value;
+  }
+
+  return Math.round(totalMinutes);
 };
 
 export const minutesToHoursAndMinutes = (minutes: number): string => {
@@ -28,3 +39,6 @@ export const minutesToHoursAndMinutes = (minutes: number): string => {
 
   return `${ hoursString } ${ minutesString }`;
 };
+
+export const improveDurationString = (string: string): string =>
+  minutesToHoursAndMinutes(calculateDurationFromString(string));
