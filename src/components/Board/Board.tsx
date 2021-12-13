@@ -8,23 +8,31 @@ import { BoardSection } from './Board.styled';
 import { TaskModel } from '@interfaces/task.interface';
 import boardSelectors from '@store/selectors/board.selectors';
 import { Week } from '@interfaces/week.interface';
-import { DAYS_IN_WEEK } from '@consts/date.consts';
 import taskSelectors from '@store/selectors/task.selectors';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
 import { EntityUid } from '@mytypes/entity-uid.type';
 import BoardOverlay from './BoardOverlay';
+import uiSelectors from '@store/selectors/ui.selectors';
+import { calculateDaysToRender } from '@utils/calculate-days-to-render.util';
+import { DAYS_IN_WEEK } from '@consts/date.consts';
 
 const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
   const tasks: TaskModel[] = useSelector(taskSelectors.tasks);
+  const { weekendDisplay } = useSelector(uiSelectors.settings);
   const tasksLoading = useSelector(taskSelectors.tasksLoading);
   const [filteredTasks, setFilteredTasks] = useState<Record<string, TaskModel[]>>({});
   const [columns, setColumns] = useState<ReactElement[]>([]);
+  const [daysToRender, setDaysToRender] = useState(DAYS_IN_WEEK);
   const dispatch = useDispatch();
 
   useEffect(() => {
     taskActionCreators.getAll()(dispatch);
   }, []);
+
+  useEffect(() => {
+    setDaysToRender(calculateDaysToRender(weekendDisplay));
+  }, [setDaysToRender, weekendDisplay]);
 
   useEffect(() => {
     const filtered: Record<string, TaskModel[]> = {};
@@ -46,7 +54,7 @@ const Board = (): ReactElement => {
     if (week) {
       const items: ReactElement[] = [];
 
-      for (let i = 0; i < DAYS_IN_WEEK; i++) {
+      for (let i = 0; i < daysToRender; i++) {
         const date = moment(week.start).add(i, 'days');
         items.push(
           <Column
@@ -59,7 +67,7 @@ const Board = (): ReactElement => {
 
       setColumns(items);
     }
-  }, [week, filteredTasks]);
+  }, [week, filteredTasks, daysToRender]);
 
   const handleDragEnd = async (result: DropResult): Promise<void> => {
     if (!result.destination) return;

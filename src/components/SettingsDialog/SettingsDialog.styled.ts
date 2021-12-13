@@ -1,8 +1,5 @@
 import styled from 'styled-components/macro';
-
-export const SettingsHeading = styled.h2`
-  font-size: 18px;
-`;
+import { Row } from 'antd';
 
 export const SettingsSection = styled.section`
   display: flex;
@@ -21,4 +18,13 @@ export const SettingsSection = styled.section`
 export const AddCategoryRow = styled.div`
   display: flex;
   column-gap: 8px;
+`;
+
+export const SettingsRow = styled(Row)`
+  justify-content: space-between;
+  align-items: center;
+  
+  .ant-select {
+    min-width: 200px;
+  }
 `;

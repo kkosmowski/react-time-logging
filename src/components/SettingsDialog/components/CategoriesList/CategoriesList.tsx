@@ -4,7 +4,7 @@ import { List } from 'antd';
 import { Category } from '@interfaces/category.interface';
 import { ListWrapper } from './CategoriesList.styled';
 import { EntityUid } from '@mytypes/entity-uid.type';
-import CategoriesListItem from './CategoriesListItem';
+import CategoriesListItem from '../CategoriesListItem';
 
 interface Props {
   categories: Category[];

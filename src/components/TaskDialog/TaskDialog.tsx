@@ -24,6 +24,7 @@ import { TaskDialogType } from '@enums/task-dialog-type.enum';
 const TaskDialog = (): ReactElement => {
   const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
   const isNewTask = state.data?.type === TaskDialogType.NewTask;
+  const { weekendDisplay } = useSelector(uiSelectors.settings);
   const categories: Category[] = useSelector(categorySelectors.categories);
   const [isEditMode, setIsEditMode] = useState(isNewTask);
   const titleTranslationKey = isNewTask
@@ -139,7 +140,12 @@ const TaskDialog = (): ReactElement => {
       ] }
       okButtonProps={ { disabled: !isValid } }
     >
-      <TaskDialogForm formik={ formik } isEditMode={ isEditMode } categories={ categories } />
+      <TaskDialogForm
+        formik={ formik }
+        isEditMode={ isEditMode }
+        categories={ categories }
+        weekendDisplay={ weekendDisplay }
+      />
     </Modal>
   )
 };

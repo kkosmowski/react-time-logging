@@ -22,6 +22,11 @@ const en = {
     MANAGE_CATEGORIES: 'Manage categories',
     NEW_CATEGORY: 'New category',
     ADD_CATEGORY: 'Add category',
+    BOARD_SETTINGS: 'Board settings',
+    WEEKEND_DISPLAY: 'Weekend display',
+    NO_WEEKEND: 'No weekend',
+    SATURDAY_ONLY: 'Saturday only',
+    FULL_WEEKEND: 'Full weekend',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Add task',

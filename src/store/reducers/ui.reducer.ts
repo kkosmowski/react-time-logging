@@ -3,6 +3,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { UiState } from '../interfaces/ui-state.interface';
 import uiActions from '../actions/ui.actions';
 import { ClipboardAction } from '@enums/clipboard-action.enum';
+import { WeekendDisplay } from '@enums/weekend-display.enum';
 
 export const initialUiState: UiState = {
   taskDialog: {
@@ -16,6 +17,11 @@ export const initialUiState: UiState = {
   },
   settingsDialogOpened: false,
   clipboard: null,
+  settingsLoading: false,
+  settingsUpdateInProgress: false,
+  settings: {
+    weekendDisplay: WeekendDisplay.Full,
+  }
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
@@ -63,6 +69,25 @@ const uiReducer = createReducer(initialUiState, (builder) => {
       if (state.clipboard) {
         state.clipboard.action = ClipboardAction.Copy;
       }
+    })
+
+    .addCase(uiActions.fetchSettings, (state) => {
+      state.settingsLoading = true;
+    })
+    .addCase(uiActions.fetchSettingsSuccess, (state, { payload } ) => {
+      state.settingsLoading = false;
+      state.settings = payload;
+    })
+
+    .addCase(uiActions.updateSetting, (state) => {
+      state.settingsUpdateInProgress = true;
+    })
+    .addCase(uiActions.updateSettingSuccess, (state, { payload } ) => {
+      state.settingsUpdateInProgress = false;
+      state.settings = {
+        ...state.settings,
+        [payload.settingName]: payload.value as WeekendDisplay,
+      };
     })
 });
 
