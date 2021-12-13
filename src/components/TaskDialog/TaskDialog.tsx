@@ -80,11 +80,11 @@ const TaskDialog = (): ReactElement => {
   };
 
   const handleCancel = (): void => {
-    if (isEditMode) {
+    if (dirty) {
+      dispatch(uiActionCreators.openConfirmationDialog(ConfirmationAction.LeaveProgress));
+    } else if (isEditMode && !isNewTask) {
       resetForm();
       setIsEditMode(false);
-    } else if (dirty) {
-      dispatch(uiActionCreators.openConfirmationDialog(ConfirmationAction.LeaveProgress));
     } else {
       close();
     }
