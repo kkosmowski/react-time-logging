@@ -19,7 +19,7 @@ import { DAYS_IN_WEEK } from '@consts/date.consts';
 const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
   const tasks: TaskModel[] = useSelector(taskSelectors.tasks);
-  const { weekendDisplay } = useSelector(uiSelectors.settings);
+  const { weekendDisplay, weekStart } = useSelector(uiSelectors.settings);
   const tasksLoading = useSelector(taskSelectors.tasksLoading);
   const [filteredTasks, setFilteredTasks] = useState<Record<string, TaskModel[]>>({});
   const [columns, setColumns] = useState<ReactElement[]>([]);
@@ -55,7 +55,9 @@ const Board = (): ReactElement => {
       const items: ReactElement[] = [];
 
       for (let i = 0; i < daysToRender; i++) {
-        const date = moment(week.start).add(i, 'days');
+        const daysToAdd = (i + weekStart - 1) % daysToRender;
+        const date = moment(week.start).add(daysToAdd, 'days');
+
         items.push(
           <Column
             date={ date }
@@ -67,7 +69,7 @@ const Board = (): ReactElement => {
 
       setColumns(items);
     }
-  }, [week, filteredTasks, daysToRender]);
+  }, [week, filteredTasks, daysToRender, weekStart]);
 
   const handleDragEnd = async (result: DropResult): Promise<void> => {
     if (!result.destination) return;

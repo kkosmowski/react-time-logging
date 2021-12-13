@@ -4,6 +4,7 @@ import { UiState } from '../interfaces/ui-state.interface';
 import uiActions from '../actions/ui.actions';
 import { ClipboardAction } from '@enums/clipboard-action.enum';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
+import { DayNumber } from '@enums/day-number.enum';
 
 export const initialUiState: UiState = {
   taskDialog: {
@@ -21,6 +22,7 @@ export const initialUiState: UiState = {
   settingsUpdateInProgress: false,
   settings: {
     weekendDisplay: WeekendDisplay.Full,
+    weekStart: DayNumber.Monday,
   }
 };
 

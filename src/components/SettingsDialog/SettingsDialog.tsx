@@ -14,10 +14,14 @@ import { EntityUid } from '@mytypes/entity-uid.type';
 import { WEEKEND_DISPLAY_OPTIONS } from '@consts/weekend-display-options.const';
 import uiSelectors from '@store/selectors/ui.selectors';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
+import { translateOptionLabel } from '@utils/translate-option-label.util';
+import { DAYS_OPTIONS } from '@consts/date.consts';
+import { DayNumber } from '@enums/day-number.enum';
+import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
 
 const SettingsDialog = (): ReactElement => {
   const categories = useSelector(categorySelectors.categories);
-  const settings = useSelector(uiSelectors.settings);
+  const { weekendDisplay, weekStart } = useSelector(uiSelectors.settings);
   const [isAddCategoryMode, setIsAddCategoryMode] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const [scrollDown, setScrollDown] = useState<void[]>([]);
@@ -25,10 +29,8 @@ const SettingsDialog = (): ReactElement => {
   const scrollDownDelay = 100;
   const dispatch = useDispatch();
   const { t } = useTranslation('SETTINGS_DIALOG');
-  const weekendDisplayOptions = WEEKEND_DISPLAY_OPTIONS.map(option => ({
-    ...option,
-    label: t(option.label),
-  }));
+  const weekendDisplayOptions = WEEKEND_DISPLAY_OPTIONS.map(o => translateOptionLabel(o, t));
+  const daysOptions = DAYS_OPTIONS.map(o => translateOptionLabel(o, t));
 
   const handleCancel = (): void => {
     dispatch(uiActionCreators.closeSettingsDialog());
@@ -62,6 +64,19 @@ const SettingsDialog = (): ReactElement => {
 
   const handleWeekendDisplayChange = (option: WeekendDisplay): void => {
     uiActionCreators.updateSetting<WeekendDisplay>('weekendDisplay', option)(dispatch);
+
+    const noWeekendOrOnlySaturdayAndWeekStartIsSunday =
+      weekStart === DayNumber.Sunday && option !== WeekendDisplay.Full;
+    const noWeekendAndWeekStartIsSaturday =
+      weekStart === DayNumber.Saturday && option === WeekendDisplay.None;
+
+    if (noWeekendOrOnlySaturdayAndWeekStartIsSunday || noWeekendAndWeekStartIsSaturday) {
+      handleFirstWeekDayChange(DayNumber.Monday);
+    }
+  };
+
+  const handleFirstWeekDayChange = (option: DayNumber): void => {
+    uiActionCreators.updateSetting<DayNumber>('weekStart', option)(dispatch);
   };
 
   useEffect(() => {
@@ -119,8 +134,27 @@ const SettingsDialog = (): ReactElement => {
           <Select
             onChange={ handleWeekendDisplayChange }
             options={ weekendDisplayOptions }
-            value={ settings.weekendDisplay }
+            value={ weekendDisplay }
           />
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3>{ t('FIRST_DAY_OF_WEEK') }</h3>
+
+          <Select
+            onChange={ handleFirstWeekDayChange }
+            value={ weekStart }
+          >
+            { daysOptions.map(day => (
+              <Select.Option
+                value={ day.value }
+                disabled={ calculateDatesToDisable(+day.value, weekendDisplay) }
+                key={ day.value }
+              >
+                { day.label }
+              </Select.Option>
+            )) }
+          </Select>
         </SettingsRow>
       </SettingsSection>
     </Modal>
