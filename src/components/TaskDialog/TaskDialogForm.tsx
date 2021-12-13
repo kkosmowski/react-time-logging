@@ -35,10 +35,8 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
   };
 
   const handleDurationBlur = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = improveDurationString(e.target.value);
-    setFieldValue('duration', value);
-  }
-
+    setFieldValue('duration', improveDurationString(e.target.value));
+  };
 
   const mapSelectOptionToCategoryTag = (category: Category): ReactElement | null => {
     if (!categories.map(c => c.id).includes(category.id)) return null;
