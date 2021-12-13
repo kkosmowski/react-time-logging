@@ -121,7 +121,7 @@ const TaskDialog = (): ReactElement => {
           </Button>
         ) : null,
         ...(!isNewTask && !isEditMode ? [
-          <Button key="delete" onClick={ handleDuplicate }>
+          <Button key="duplicate" onClick={ handleDuplicate }>
             { t('COMMON:DUPLICATE') }
           </Button>,
           <Button key="submit" type="primary" onClick={ handleEdit }>
