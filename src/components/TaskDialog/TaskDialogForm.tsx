@@ -46,7 +46,7 @@ const TaskDialogForm = ({ formik, isEditMode, categories }: Props): ReactElement
   const categoryTags = values.categories
     .map(mapSelectOptionToCategoryTag)
     .filter(tag => tag !== null);
-  const noneText = <Italic>{ t('N1') }</Italic>;
+  const noneText = <Italic>{ t('NONE') }</Italic>;
 
   useEffect(() => {
     setCategoryOptions(categories.map(category => ({
