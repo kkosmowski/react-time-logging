@@ -10,7 +10,7 @@ import { DATE_FORMAT } from '@consts/date.consts';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
 import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
-import { improveDurationString, minutesToHoursAndMinutes } from '@utils/task.utils';
+import { improveDurationString } from '@utils/task.utils';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
