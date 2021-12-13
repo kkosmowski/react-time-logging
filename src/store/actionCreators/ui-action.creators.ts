@@ -49,18 +49,18 @@ const uiActionCreators = {
         settings = await createInitialSettings();
       }
 
-      const transformedSettings: SettingsInterface = settings
+      const transformedSettings = settings
         .map((setting) => {
           const { id, ...value } = setting;
           return value;
         })
-        .reduce((object, value) => ({ ...object, ...value }), {} as SettingsInterface);
+        .reduce((object, value) => ({ ...object, ...value }), {});
 
-      dispatch(uiActions.fetchSettingsSuccess(transformedSettings));
+      dispatch(uiActions.fetchSettingsSuccess(transformedSettings as SettingsInterface));
     }
   },
 
-  updateSetting<T extends string>(settingName: keyof SettingsInterface, value: T): (d: Dispatch) => Promise<void> {
+  updateSetting<T extends string | number>(settingName: keyof SettingsInterface, value: T): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(uiActions.updateSetting());
 

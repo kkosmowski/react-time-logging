@@ -3,6 +3,7 @@ import { FormikProps } from 'formik';
 import { TaskFormInterface } from '@components/TaskDialog/domain/task-form.interface';
 import { DatePicker, Input, Select, Tag } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { Moment } from 'moment';
 
 import ErrorText from '@components/ErrorText';
 import { Italic, StyledForm, StyledTextArea, TaskDialogGroup, TaskDialogHeading } from './TaskDialogForm.styled';
@@ -11,7 +12,6 @@ import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
 import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
 import { improveDurationString } from '@utils/task.utils';
-import { Moment } from 'moment';
 
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
