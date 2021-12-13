@@ -44,16 +44,17 @@ const TaskCard = ({ task, onClick, onCut, onCopy }: Props): ReactElement => {
           { ...provided.dragHandleProps }
         >
           <Dropdown overlay={ menu } trigger={ ['contextMenu'] }>
-            <StyledCard
-              onClick={ handleClick }
-              title={ task.title }
-              size="small"
-              hoverable
-            >
-              <Description>{ task.description }</Description>
-              <span>{ task.numericId }</span>
-              <Duration>{ minutesToHoursAndMinutes(task.duration) }</Duration>
-            </StyledCard>
+            <div>
+              <StyledCard
+                onClick={ handleClick }
+                title={ task.title }
+                size="small"
+                hoverable
+              >
+                <Description>{ task.description }</Description>
+                <Duration>{ minutesToHoursAndMinutes(task.duration) }</Duration>
+              </StyledCard>
+            </div>
           </Dropdown>
         </div>
       )}

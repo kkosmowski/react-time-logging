@@ -12,7 +12,6 @@ import { DAYS_IN_WEEK } from '@consts/date.consts';
 import taskSelectors from '@store/selectors/task.selectors';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
 import { EntityUid } from '@mytypes/entity-uid.type';
-import { ONE } from '@consts/numbers.consts';
 import BoardOverlay from './BoardOverlay';
 
 const Board = (): ReactElement => {
@@ -86,8 +85,8 @@ const Board = (): ReactElement => {
         if (newColumn?.length) {
           if (result.destination.index >= newColumn.length) {
             // there is no next element, so take id of previous el, but later compensate the position with modifier
-            endId = newColumn[result.destination.index - ONE].id;
-            modifier = ONE;
+            endId = newColumn[result.destination.index - 1].id;
+            modifier = 1;
           } else {
             endId = newColumn[result.destination.index].id;
           }
