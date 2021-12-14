@@ -8,6 +8,10 @@ const taskSelectors = {
   tasks: createSelector(taskSelector, task => task.tasks),
   tasksLoading: createSelector(taskSelector, task => task.tasksLoading),
   addInProgress: createSelector(taskSelector, task => task.addInProgress),
+  totalMinutesOnDate: (date: string) => createSelector(taskSelector, task => task.tasks
+    .filter(t => t.date === date)
+    .reduce((total, task) => total + task.duration, 0)
+  ),
 }
 
 export default taskSelectors;

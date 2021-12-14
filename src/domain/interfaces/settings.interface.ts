@@ -10,9 +10,19 @@ export type SettingsModel = [
     id: 'weekStart',
     weekStart: DayNumber,
   },
+  {
+    id: 'dayTarget',
+    dayTarget: number,
+  },
+  {
+    id: 'dayLimit',
+    dayLimit: number,
+  },
 ];
 
 export type SettingsInterface = {
   weekendDisplay: WeekendDisplay;
   weekStart: DayNumber;
+  dayTarget: number;
+  dayLimit: number;
 }

@@ -7,12 +7,11 @@ import { Moment } from 'moment';
 
 import ErrorText from '@components/ErrorText';
 import { Italic, StyledForm, StyledTextArea, TaskDialogGroup, TaskDialogHeading } from './TaskDialogForm.styled';
-import { DATE_FORMAT } from '@consts/date.consts';
+import { DATE_FORMAT, MINUTES_IN_HOUR } from '@consts/date.consts';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
 import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
-import { improveDurationString } from '@utils/task.utils';
-
+import { calculateDurationFromString, minutesToHoursAndMinutes } from '@utils/task.utils';
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
 
@@ -21,15 +20,35 @@ interface Props {
   isEditMode: boolean;
   categories: Category[];
   weekendDisplay: WeekendDisplay;
+  dayLimit: number;
+  totalMinutes: number;
 }
-const TaskDialogForm = ({ formik, isEditMode, categories, weekendDisplay }: Props): ReactElement => {
-  const { handleChange, handleBlur, setFieldValue, values, touched, errors } = formik;
+
+const TaskDialogForm = ({
+  formik,
+  isEditMode,
+  categories,
+  weekendDisplay,
+  dayLimit,
+  totalMinutes,
+}: Props): ReactElement => {
+  const {
+    handleChange,
+    handleBlur,
+    setFieldValue,
+    values,
+    touched,
+    errors,
+    setFieldError,
+    setFieldTouched
+  } = formik;
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
+  const [overTime, setOverTime] = useState<string | null>(null);
   const { t } = useTranslation('COMMON');
 
   const disabledDate = (date: Moment): boolean => {
     return calculateDatesToDisable(date, weekendDisplay);
-  }
+  };
 
   const handleCategorySelect = (option: string): void => {
     const category = categories.find(category => category.id === option);
@@ -44,7 +63,20 @@ const TaskDialogForm = ({ formik, isEditMode, categories, weekendDisplay }: Prop
   };
 
   const handleDurationBlur = (e: ChangeEvent<HTMLInputElement>): void => {
-    setFieldValue('duration', improveDurationString(e.target.value));
+    setFieldTouched('duration', true, false);
+    const minutes = calculateDurationFromString(e.target.value);
+    const allowedTime = dayLimit * MINUTES_IN_HOUR - totalMinutes;
+
+    if (minutes <= allowedTime) {
+      setFieldValue('duration', minutesToHoursAndMinutes(minutes), false);
+      setOverTime(null);
+    } else {
+      setOverTime(minutesToHoursAndMinutes(totalMinutes + minutes));
+    }
+  };
+
+  const handleDurationChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setFieldValue('duration', e.target.value, false);
   };
 
   const mapSelectOptionToCategoryTag = (category: Category): ReactElement | null => {
@@ -56,6 +88,10 @@ const TaskDialogForm = ({ formik, isEditMode, categories, weekendDisplay }: Prop
     .map(mapSelectOptionToCategoryTag)
     .filter(tag => tag !== null);
   const noneText = <Italic>{ t('NONE') }</Italic>;
+
+  useEffect(() => {
+    setFieldError('duration', overTime ? 'ERROR:DAY_LIMIT_EXCEEDED' : undefined);
+  }, [overTime, errors]);
 
   useEffect(() => {
     setCategoryOptions(categories.map(category => ({
@@ -114,11 +150,16 @@ const TaskDialogForm = ({ formik, isEditMode, categories, weekendDisplay }: Prop
           id="duration"
           name="duration"
           placeholder={ '"1h", "30m", "2h 15m" etc.' }
-          onChange={ handleChange }
+          onChange={ handleDurationChange }
           onBlur={ handleDurationBlur }
           value={ values.duration }
         />
-        <ErrorText>{ touched.duration ? errors.duration : '' }</ErrorText>
+        <ErrorText>
+          { touched.duration && errors.duration
+              ? t(errors.duration, { limit: dayLimit, current: overTime })
+              : ''
+          }
+        </ErrorText>
       </StyledForm>
     )
     : (

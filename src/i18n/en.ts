@@ -35,12 +35,18 @@ const en = {
     FRIDAY: 'Friday',
     SATURDAY: 'Saturday',
     SUNDAY: 'Sunday',
+    DAY_TARGET: 'Target hours per day',
+    DAY_LIMIT: 'Limit of hours per day',
+    HOURS_SUFFIX: 'hours',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Add task',
     VIEW_TASK: 'View task',
     EDIT_TASK: 'Edit task',
   },
+  ERROR: {
+    DAY_LIMIT_EXCEEDED: 'Cannot log more than {{ limit }} hours in a day (current: {{ current }}).',
+  }
 };
 
 export default en;
