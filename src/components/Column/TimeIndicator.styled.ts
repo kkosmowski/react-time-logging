@@ -10,16 +10,18 @@ export const IndicatorBackground = styled.div`
   }
 `;
 
-export const IndicatorForeground = styled.div<{ overtime: boolean }>`
+export const IndicatorForeground = styled.div<{ exceeded: boolean, overtime: boolean }>`
   position: absolute;
   left: 0;
   top: 0;
   transform-origin: left;
   width: 100%;
   height: 100%;
-  background-color: ${ ({ overtime }) => overtime 
-    ? css`var(--ant-warning-color)`
-    : css`var(--ant-primary-5)` 
+  background-color: ${ ({ exceeded, overtime }) => exceeded
+    ? css`var(--ant-error-color)`
+    : overtime 
+      ? css`var(--ant-warning-color)`
+      : css`var(--ant-primary-5)` 
   };
   transition: transform 0.25s ease-in-out;
   will-change: transform;

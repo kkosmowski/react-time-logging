@@ -20,11 +20,12 @@ import categorySelectors from '@store/selectors/category.selectors';
 import { Category } from '@interfaces/category.interface';
 import categoryActionCreators from '@store/actionCreators/category-action.creators';
 import { TaskDialogType } from '@enums/task-dialog-type.enum';
+import taskSelectors from '@store/selectors/task.selectors';
 
 const TaskDialog = (): ReactElement => {
   const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
   const isNewTask = state.data?.type === TaskDialogType.NewTask;
-  const { weekendDisplay } = useSelector(uiSelectors.settings);
+  const { weekendDisplay, dayLimit } = useSelector(uiSelectors.settings);
   const categories: Category[] = useSelector(categorySelectors.categories);
   const [isEditMode, setIsEditMode] = useState(isNewTask);
   const titleTranslationKey = isNewTask
@@ -42,7 +43,8 @@ const TaskDialog = (): ReactElement => {
       }
     },
   });
-  const { submitForm, dirty, isValid, resetForm } = formik;
+  const { submitForm, dirty, isValid, resetForm, values } = formik;
+  const totalMinutesOnDate = useSelector(taskSelectors.totalMinutesOnDate(values.date.toISOString()));
   const { t } = useTranslation('TASK_DIALOG');
 
   const handleAddTask = (values: TaskFormInterface): void => {
@@ -145,6 +147,8 @@ const TaskDialog = (): ReactElement => {
         isEditMode={ isEditMode }
         categories={ categories }
         weekendDisplay={ weekendDisplay }
+        dayLimit={ dayLimit }
+        totalMinutes={ totalMinutesOnDate }
       />
     </Modal>
   )

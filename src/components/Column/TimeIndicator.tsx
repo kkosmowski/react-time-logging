@@ -6,17 +6,20 @@ import { IndicatorBackground, IndicatorForeground } from './TimeIndicator.styled
 
 interface Props {
   value: number;
+  dayTarget: number;
+  dayLimit: number;
 }
 
-const TimeIndicator = ({ value }: Props): ReactElement => {
-  const targetHours = 8;
-  const targetMinutes = MINUTES_IN_HOUR * targetHours;
+const TimeIndicator = ({ value, dayTarget, dayLimit }: Props): ReactElement => {
+  const targetMinutes = MINUTES_IN_HOUR * dayTarget;
+  const limitMinutes = MINUTES_IN_HOUR * dayLimit;
   const maxFraction = 1;
   const fractionValue = Math.min(maxFraction, value / targetMinutes).toPrecision(PRECISION_CONST);
 
   return (
     <IndicatorBackground>
       <IndicatorForeground
+        exceeded={ value > limitMinutes }
         overtime={ value > targetMinutes }
         style={ { transform: `scaleX(${ fractionValue })` } }
       />

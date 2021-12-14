@@ -25,6 +25,19 @@ export const SettingsRow = styled(Row)`
   align-items: center;
   
   .ant-select {
+    width: auto;
     min-width: 200px;
+  }
+  
+  .ant-input-affix-wrapper {
+    width: auto;
+    
+    .ant-input-suffix {
+      color: var(--foreground-300);
+    }
+  }
+  
+  input[type="number"] {
+    width: 5ch;
   }
 `;

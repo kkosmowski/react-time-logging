@@ -1,4 +1,11 @@
-import { ReactElement, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import {
+  ChangeEvent,
+  ReactElement,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react';
 import { Button, Input, Modal, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +28,12 @@ import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util
 
 const SettingsDialog = (): ReactElement => {
   const categories = useSelector(categorySelectors.categories);
-  const { weekendDisplay, weekStart } = useSelector(uiSelectors.settings);
+  const {
+    dayTarget,
+    dayLimit,
+    weekendDisplay,
+    weekStart
+  } = useSelector(uiSelectors.settings);
   const [isAddCategoryMode, setIsAddCategoryMode] = useState(false);
   const [categoryName, setCategoryName] = useState('');
   const [scrollDown, setScrollDown] = useState<void[]>([]);
@@ -79,6 +91,11 @@ const SettingsDialog = (): ReactElement => {
     uiActionCreators.updateSetting<DayNumber>('weekStart', option)(dispatch);
   };
 
+  const handleDayTargetOrLimitChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const settingName = e.target.id as 'dayTarget' | 'dayLimit';
+    uiActionCreators.updateSetting<number>(settingName, +e.target.value)(dispatch);
+  };
+
   useEffect(() => {
     categoryActionCreators.getAll()(dispatch);
   }, []);
@@ -129,21 +146,23 @@ const SettingsDialog = (): ReactElement => {
         <h2>{ t('BOARD_SETTINGS') }</h2>
 
         <SettingsRow>
-          <h3>{ t('WEEKEND_DISPLAY') }</h3>
+          <h3 id="weekendDisplay">{ t('WEEKEND_DISPLAY') }</h3>
 
           <Select
             onChange={ handleWeekendDisplayChange }
             options={ weekendDisplayOptions }
             value={ weekendDisplay }
+            aria-labelledby="weekendDisplay"
           />
         </SettingsRow>
 
         <SettingsRow>
-          <h3>{ t('FIRST_DAY_OF_WEEK') }</h3>
+          <h3 id="firstDayOfWeekTitle">{ t('FIRST_DAY_OF_WEEK') }</h3>
 
           <Select
             onChange={ handleFirstWeekDayChange }
             value={ weekStart }
+            aria-labelledby="firstDayOfWeekTitle"
           >
             { daysOptions.map(day => (
               <Select.Option
@@ -155,6 +174,32 @@ const SettingsDialog = (): ReactElement => {
               </Select.Option>
             )) }
           </Select>
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3 id="dayTargetTitle">{ t('DAY_TARGET') }</h3>
+
+          <Input
+            id="dayTarget"
+            type="number"
+            onChange={ handleDayTargetOrLimitChange }
+            value={ dayTarget }
+            suffix={ t('HOURS_SUFFIX') }
+            aria-labelledby="dayTargetTitle"
+          />
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3 id="dayLimitTitle">{ t('DAY_LIMIT') }</h3>
+
+          <Input
+            id="dayLimit"
+            type="number"
+            onChange={ handleDayTargetOrLimitChange }
+            value={ dayLimit }
+            suffix={ t('HOURS_SUFFIX') }
+            aria-labelledby="dayLimitTitle"
+          />
         </SettingsRow>
       </SettingsSection>
     </Modal>

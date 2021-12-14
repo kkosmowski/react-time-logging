@@ -7,7 +7,7 @@ import { TaskModel } from '@interfaces/task.interface';
 import { ClipboardPayload } from '@payloads/clipboard.payload';
 import { SettingsInterface, SettingsModel } from '@interfaces/settings.interface';
 import { StorageService } from '@services/storage.service';
-import { INITIAL_SETTINGS_MODEL } from '@consts/initial-settings-model.const';
+import { DEFAULT_SETTINGS_MODEL } from '@consts/settings.consts';
 
 const uiActionCreators = {
   openTaskDialog(payload: TaskDialogPayload): Action<string> {
@@ -76,7 +76,7 @@ const uiActionCreators = {
 }
 
 const createInitialSettings = async (): Promise<SettingsModel> => {
-  return StorageService.set('settings', null, INITIAL_SETTINGS_MODEL);
+  return StorageService.set('settings', null, DEFAULT_SETTINGS_MODEL);
 };
 
 export default uiActionCreators;

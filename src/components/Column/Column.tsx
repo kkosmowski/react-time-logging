@@ -31,6 +31,7 @@ interface Props {
 
 const Column = ({ date, tasks }: Props): ReactElement => {
   const clipboard = useSelector(uiSelectors.clipboard);
+  const { dayTarget, dayLimit } = useSelector(uiSelectors.settings);
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isToday, setIsToday] = useState(false);
@@ -120,7 +121,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
         </Row>
       </ColumnHeader>
 
-      <TimeIndicator value={ totalMinutes } />
+      <TimeIndicator value={ totalMinutes } dayTarget={ dayTarget } dayLimit={ dayLimit } />
 
       <Droppable droppableId={ date.toISOString() }>
         { (provided, snapshot) => (

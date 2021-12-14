@@ -4,7 +4,7 @@ import { UiState } from '../interfaces/ui-state.interface';
 import uiActions from '../actions/ui.actions';
 import { ClipboardAction } from '@enums/clipboard-action.enum';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
-import { DayNumber } from '@enums/day-number.enum';
+import { DEFAULT_SETTINGS_INTERFACE } from '@consts/settings.consts';
 
 export const initialUiState: UiState = {
   taskDialog: {
@@ -20,10 +20,7 @@ export const initialUiState: UiState = {
   clipboard: null,
   settingsLoading: false,
   settingsUpdateInProgress: false,
-  settings: {
-    weekendDisplay: WeekendDisplay.Full,
-    weekStart: DayNumber.Monday,
-  }
+  settings: DEFAULT_SETTINGS_INTERFACE,
 };
 
 const uiReducer = createReducer(initialUiState, (builder) => {
