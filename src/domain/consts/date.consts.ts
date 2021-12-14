@@ -11,11 +11,13 @@ export const DAYS_IN_WEEK = 7;
 export const DAYS_IN_WEEKEND = 2;
 
 export const DAYS_OPTIONS: SelectOption[] = [
-  { label: 'MONDAY', value: DayNumber.Monday },
-  { label: 'TUESDAY', value: DayNumber.Tuesday },
-  { label: 'WEDNESDAY', value: DayNumber.Wednesday },
-  { label: 'THURSDAY', value: DayNumber.Thursday },
-  { label: 'FRIDAY', value: DayNumber.Friday },
-  { label: 'SATURDAY', value: DayNumber.Saturday },
-  { label: 'SUNDAY', value: DayNumber.Sunday },
+  { label: 'COMMON:MONDAY', value: DayNumber.Monday },
+  { label: 'COMMON:TUESDAY', value: DayNumber.Tuesday },
+  { label: 'COMMON:WEDNESDAY', value: DayNumber.Wednesday },
+  { label: 'COMMON:THURSDAY', value: DayNumber.Thursday },
+  { label: 'COMMON:FRIDAY', value: DayNumber.Friday },
+  { label: 'COMMON:SATURDAY', value: DayNumber.Saturday },
+  { label: 'COMMON:SUNDAY', value: DayNumber.Sunday },
 ];
+
+export const SHORT_DAYS: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];

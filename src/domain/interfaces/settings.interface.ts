@@ -1,5 +1,6 @@
 import { WeekendDisplay } from '@enums/weekend-display.enum';
 import { DayNumber } from '@enums/day-number.enum';
+import { Language } from '@enums/language.enum';
 
 export type SettingsModel = [
   {
@@ -18,6 +19,10 @@ export type SettingsModel = [
     id: 'dayLimit',
     dayLimit: number,
   },
+  {
+    id: 'language',
+    language: Language,
+  },
 ];
 
 export type SettingsInterface = {
@@ -25,4 +30,5 @@ export type SettingsInterface = {
   weekStart: DayNumber;
   dayTarget: number;
   dayLimit: number;
+  language: Language;
 }

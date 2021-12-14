@@ -44,7 +44,7 @@ const TaskDialogForm = ({
   } = formik;
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
   const [overTime, setOverTime] = useState<string | null>(null);
-  const { t } = useTranslation('COMMON');
+  const { t } = useTranslation('TASK_DIALOG');
 
   const disabledDate = (date: Moment): boolean => {
     return calculateDatesToDisable(date, weekendDisplay);
@@ -87,7 +87,7 @@ const TaskDialogForm = ({
   const categoryTags = values.categories
     .map(mapSelectOptionToCategoryTag)
     .filter(tag => tag !== null);
-  const noneText = <Italic>{ t('NONE') }</Italic>;
+  const noneText = <Italic>{ t('COMMON:NONE') }</Italic>;
 
   useEffect(() => {
     setFieldError('duration', overTime ? 'ERROR:DAY_LIMIT_EXCEEDED' : undefined);
@@ -106,7 +106,7 @@ const TaskDialogForm = ({
         <Input
           id="title"
           name="title"
-          placeholder="Task name"
+          placeholder={ t('TASK_NAME_PLACEHOLDER') }
           onChange={ handleChange }
           onBlur={ handleBlur }
           value={ values.title }
@@ -116,7 +116,7 @@ const TaskDialogForm = ({
         <StyledTextArea
           id="description"
           name="description"
-          placeholder="Description"
+          placeholder={ t('TASK_DESCRIPTION_PLACEHOLDER') }
           maxLength={ TASK_DESCRIPTION_MAX_LENGTH }
           onChange={ handleChange }
           onBlur={ handleBlur }
@@ -126,7 +126,7 @@ const TaskDialogForm = ({
 
         <Select
           id="categories"
-          placeholder="Categories"
+          placeholder={ t('TASK_CATEGORIES_PLACEHOLDER') }
           onSelect={ handleCategorySelect }
           onDeselect={ handleCategoryDeselect }
           options={ categoryOptions }
@@ -137,7 +137,7 @@ const TaskDialogForm = ({
         <DatePicker
           id="date"
           name="date"
-          placeholder="When?"
+          placeholder={ t('TASK_DATE_PLACEHOLDER') }
           onChange={ date => setFieldValue('date', date) }
           format={ DATE_FORMAT }
           onBlur={ handleBlur }
@@ -149,7 +149,7 @@ const TaskDialogForm = ({
         <Input
           id="duration"
           name="duration"
-          placeholder={ '"1h", "30m", "2h 15m" etc.' }
+          placeholder={ t('TASK_DURATION_PLACEHOLDER') }
           onChange={ handleDurationChange }
           onBlur={ handleDurationBlur }
           value={ values.duration }
@@ -165,27 +165,27 @@ const TaskDialogForm = ({
     : (
       <>
         <TaskDialogGroup>
-          <TaskDialogHeading>Title</TaskDialogHeading>
+          <TaskDialogHeading>{ t('TASK_NAME_TITLE') }</TaskDialogHeading>
           <p>{ values.title }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
-          <TaskDialogHeading>Description</TaskDialogHeading>
+          <TaskDialogHeading>{ t('TASK_DESCRIPTION_TITLE') }</TaskDialogHeading>
           <p>{ values.description }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
-          <TaskDialogHeading>Categories</TaskDialogHeading>
+          <TaskDialogHeading>{ t('TASK_CATEGORIES_TITLE') }</TaskDialogHeading>
           <p>{ categoryTags.length ? categoryTags : noneText }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
-          <TaskDialogHeading>Date</TaskDialogHeading>
+          <TaskDialogHeading>{ t('TASK_DATE_TITLE') }</TaskDialogHeading>
           <p>{ values.date.format(DATE_FORMAT) }</p>
         </TaskDialogGroup>
 
         <TaskDialogGroup>
-          <TaskDialogHeading>Duration</TaskDialogHeading>
+          <TaskDialogHeading>{ t('TASK_DURATION_TITLE') }</TaskDialogHeading>
           <p>{ values.duration }</p>
         </TaskDialogGroup>
       </>
