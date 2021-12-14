@@ -13,10 +13,6 @@ interface Props {
   withMargin?: boolean;
 }
 
-moment.locale('en-us', {
-  week: { dow: 1 }
-});
-
 const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
   const [date, setDate] = useState<Moment>(value || moment());
 

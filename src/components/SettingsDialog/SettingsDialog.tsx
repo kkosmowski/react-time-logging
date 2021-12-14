@@ -25,6 +25,8 @@ import { translateOptionLabel } from '@utils/translate-option-label.util';
 import { DAYS_OPTIONS } from '@consts/date.consts';
 import { DayNumber } from '@enums/day-number.enum';
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
+import { LANGUAGE_OPTIONS } from '@consts/settings.consts';
+import { Language } from '@enums/language.enum';
 
 const SettingsDialog = (): ReactElement => {
   const categories = useSelector(categorySelectors.categories);
@@ -32,7 +34,8 @@ const SettingsDialog = (): ReactElement => {
     dayTarget,
     dayLimit,
     weekendDisplay,
-    weekStart
+    weekStart,
+    language,
   } = useSelector(uiSelectors.settings);
   const [isAddCategoryMode, setIsAddCategoryMode] = useState(false);
   const [categoryName, setCategoryName] = useState('');
@@ -96,6 +99,10 @@ const SettingsDialog = (): ReactElement => {
     uiActionCreators.updateSetting<number>(settingName, +e.target.value)(dispatch);
   };
 
+  const handleLanguageChange = (language: Language): void => {
+    uiActionCreators.updateSetting<Language>('language', language)(dispatch);
+  };
+
   useEffect(() => {
     categoryActionCreators.getAll()(dispatch);
   }, []);
@@ -115,12 +122,14 @@ const SettingsDialog = (): ReactElement => {
     >
       <SettingsSection>
         <h2>{ t('MANAGE_CATEGORIES') }</h2>
+
         <CategoriesList
           categories={ categories }
           onUpdate={ handleCategoryUpdate }
           onDelete={ handleCategoryDelete }
           scrollDown={ scrollDown }
         />
+
         <AddCategoryRow>
           { isAddCategoryMode && (
             <Input
@@ -199,6 +208,17 @@ const SettingsDialog = (): ReactElement => {
             value={ dayLimit }
             suffix={ t('HOURS_SUFFIX') }
             aria-labelledby="dayLimitTitle"
+          />
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3 id="languageTitle">{ t('LANGUAGE') }</h3>
+
+          <Select
+            onChange={ handleLanguageChange }
+            options={ LANGUAGE_OPTIONS }
+            value={ language }
+            aria-labelledby="languageTitle"
           />
         </SettingsRow>
       </SettingsSection>
