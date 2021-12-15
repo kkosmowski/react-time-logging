@@ -46,6 +46,7 @@ const en = {
     DAY_LIMIT: 'Limit of hours per day',
     HOURS_SUFFIX: 'hours',
     LANGUAGE: 'Language',
+    THEME: 'Motyw',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Add task',
@@ -64,6 +65,12 @@ const en = {
   },
   ERROR: {
     DAY_LIMIT_EXCEEDED: 'Cannot log more than {{ limit }} hours in a day (current: {{ current }}).',
+  },
+  THEME: {
+    LIGHT_BLUE: 'Light (blue)',
+    LIGHT_PURPLE: 'Light (purple)',
+    DARK_GREEN: 'Dark (green)',
+    DARK_YELLOW: 'Dark (yellow)',
   },
 };
 

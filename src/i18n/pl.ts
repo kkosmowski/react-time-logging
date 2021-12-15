@@ -48,6 +48,7 @@ const pl: typeof en = {
     DAY_LIMIT: 'Limit godzin w ciągu dnia',
     HOURS_SUFFIX: 'godzin',
     LANGUAGE: 'Język',
+    THEME: 'Motyw',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Dodawanie zadanie',
@@ -66,6 +67,12 @@ const pl: typeof en = {
   },
   ERROR: {
     DAY_LIMIT_EXCEEDED: 'Nie można zalogować więcej niż {{ limit }} godzin w ciągu dnia (obecnie: {{ current }}).',
+  },
+  THEME: {
+    LIGHT_BLUE: 'Jasny (błękitny)',
+    LIGHT_PURPLE: 'Jasny (fioletowy)',
+    DARK_GREEN: 'Ciemny (zielony)',
+    DARK_YELLOW: 'Ciemny (żółty)',
   },
 };
 
