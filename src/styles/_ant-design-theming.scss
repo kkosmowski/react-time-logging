@@ -9,7 +9,7 @@
   background-color: var(--background-10);
 }
 
-.ant-btn,
+.ant-btn:not(.ant-btn-primary),
 .ant-select:not(.ant-select-customize-input) .ant-select-selector,
 .ant-input-affix-wrapper,
 .ant-input,
@@ -19,18 +19,19 @@
   background-color: var(--background-50);
 }
 
-.ant-btn:hover,
+.ant-btn:not(.ant-btn-primary):hover,
 .ant-picker-week-panel-row:hover td,
 .ant-select-item:hover,
 {
   background-color: var(--background-100);
 }
 
-.ant-btn:focus,
-.ant-btn:active,
+.ant-btn:not(.ant-btn-primary):focus,
+.ant-btn:not(.ant-btn-primary):active,
 .ant-select-item-option-active:not(.ant-select-item-option-disabled),
 .ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
 .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end) .ant-picker-cell-inner,
+.ant-select-multiple .ant-select-selection-item,
 {
   background-color: var(--background-200);
 }
@@ -89,11 +90,12 @@ h1, h2, h3, h4, h5, h6,
   border-top-color: var(--background-200);
 }
 
-.ant-btn,
+.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary),
 .ant-picker,
 .ant-select:not(.ant-select-customize-input) .ant-select-selector,
 .ant-input-affix-wrapper,
 .ant-input,
+.ant-select-multiple .ant-select-selection-item,
 {
   border-color: var(--background-400);
 }
@@ -104,18 +106,34 @@ h1, h2, h3, h4, h5, h6,
   background-color: var(--selected-row-bg);
 }
 
-.ant-modal-close-x,
-.ant-select-arrow,
-.ant-picker-suffix,
 .ant-input-textarea-show-count:after,
-.ant-picker-header > button,
 {
   color: var(--foreground37);
 }
 
-.ant-btn-primary,
+.ant-modal-close-x,
+.ant-select-arrow,
+.ant-picker-suffix,
+.ant-picker-header > button,
+.ant-select-multiple .ant-select-selection-item-remove,
+{
+  color: var(--foreground37);
+
+  &:hover {
+    color: var(--foreground);
+  }
+}
+
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
 .ant-picker-header > button:hover,
 {
  color: var(--ant-primary-6);
+}
+
+.ant-btn-primary,
+.ant-btn-primary:hover,
+.ant-btn-primary:focus,
+.ant-btn-primary:active,
+{
+  color: var(--background);
 }
