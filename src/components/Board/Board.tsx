@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
@@ -50,26 +50,36 @@ const Board = (): ReactElement => {
     setFilteredTasks(filtered);
   }, [tasks]);
 
-  useEffect(() => {
+  const renderColumns = useCallback(() => {
     if (week) {
       const items: ReactElement[] = [];
+      const newWeek = moment(week.start.toISOString());
+      {
+        for (let i = 0; i < daysToRender; i++) {
+          const daysToAdd = (i + weekStart - 1) % daysToRender;
+          const date = moment(newWeek).add(daysToAdd, 'days');
 
-      for (let i = 0; i < daysToRender; i++) {
-        const daysToAdd = (i + weekStart - 1) % daysToRender;
-        const date = moment(week.start.toISOString()).add(daysToAdd, 'days');
+          items.push(
+            <Column
+              date={ date }
+              tasks={ filteredTasks[date.toISOString()] || [] }
+              key={ i }
+            />
+          )
+        }
 
-        items.push(
-          <Column
-            date={ date }
-            tasks={ filteredTasks[date.toISOString()] || [] }
-            key={ i }
-          />
-        )
+        setColumns(items);
       }
-
-      setColumns(items);
     }
-  }, [week, filteredTasks, daysToRender, weekStart, language]);
+  }, [week, daysToRender, filteredTasks]);
+
+  useEffect(() => {
+    setTimeout(() => { renderColumns(); });
+  }, [language]);
+
+  useEffect(() => {
+    renderColumns();
+  }, [renderColumns]);
 
   const handleDragEnd = async (result: DropResult): Promise<void> => {
     if (!result.destination) return;

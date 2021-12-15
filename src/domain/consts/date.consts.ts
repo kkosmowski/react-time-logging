@@ -20,4 +20,12 @@ export const DAYS_OPTIONS: SelectOption[] = [
   { label: 'COMMON:SUNDAY', value: DayNumber.Sunday },
 ];
 
-export const SHORT_DAYS: string[] = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+export const SHORT_DAYS: string[] = [
+  'COMMON:SUN',
+  'COMMON:MON',
+  'COMMON:TUE',
+  'COMMON:WED',
+  'COMMON:THU',
+  'COMMON:FRI',
+  'COMMON:SAT'
+];
