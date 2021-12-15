@@ -24,6 +24,7 @@ const en = {
     FRI: 'Fri',
     SAT: 'Sat',
     SUN: 'Sun',
+    TODAY: 'Today',
   },
   CONFIRMATION_DIALOG: {
     CONFIRM: 'Confirm',
