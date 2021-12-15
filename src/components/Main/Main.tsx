@@ -31,6 +31,7 @@ const Main = (): ReactElement => {
   const { t } = useTranslation('COMMON');
 
   useEffect(() => {
+    document.body.className = 'darkgreen';
     uiActionCreators.fetchSettings()(dispatch);
   }, []);
 

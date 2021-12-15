@@ -34,7 +34,7 @@ export const TaskDialogGroup = styled.article`
 export const TaskDialogHeading = styled.h2`
   font-size: 15px;
   text-transform: uppercase;
-  color: var(--foreground-500);
+  color: var(--foreground-700);
 `;
 
 export const Italic = styled.span`

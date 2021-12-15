@@ -1,0 +1,29 @@
+body[class^="dark"] {
+  --foreground: #f0f0f0;
+  --foreground37: #f0f0f05f;
+  --foreground-200: #ebebeb;
+  --foreground-300: #e8e8e8;
+  --foreground-400: #dfdfdf;
+  --foreground-500: #d8d8d8;
+  --foreground-600: #ccc;
+  --foreground-700: #aaa;
+  --foreground-800: #888;
+  --foreground-900: #777;
+
+  --background: #111;
+  --background47: #1117;
+  --background-50: #181818;
+  --background-100: #1f1f1f;
+  --background-200: #262626;
+  --background-300: #2f2f2f;
+  --background-400: #353535;
+
+  --ant-error-color: #a2191b;
+  --ant-warning-color: #a07215;
+
+  --dragged-over-hover: rgba(255, 255, 255, 0.015);
+
+  ::selection {
+    background-color: var(--ant-primary-3);
+  }
+}

@@ -1,0 +1,110 @@
+.ant-card,
+.ant-picker-panel-container,
+.ant-modal-content,
+.ant-modal-header,
+{
+  background-color: var(--background);
+}
+
+.ant-btn,
+.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+.ant-input-affix-wrapper,
+.ant-input,
+.ant-select-dropdown,
+.ant-picker,
+{
+  background-color: var(--background-50);
+}
+
+.ant-btn:hover,
+.ant-picker-week-panel-row:hover td,
+.ant-select-item:hover,
+{
+  background-color: var(--background-100);
+}
+
+.ant-btn:focus,
+.ant-btn:active,
+.ant-select-item-option-active:not(.ant-select-item-option-disabled),
+{
+  background-color: var(--background-200);
+}
+
+.ant-card,
+.ant-card-head,
+.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary),
+.ant-picker,
+.ant-picker-input > input,
+.ant-picker-dropdown,
+.ant-picker-header,
+.ant-picker-content .ant-picker-cell-in-view,
+.ant-modal,
+.ant-modal-header,
+.ant-modal-title,
+.ant-list,
+.ant-list-item,
+.ant-select,
+.ant-input,
+.ant-select-dropdown,
+.ant-select-item,
+h1, h2, h3, h4, h5, h6,
+{
+  color: var(--foreground);
+}
+
+.ant-picker-content th,
+.ant-picker-content td,
+{
+  color: var(--foreground-700);
+}
+
+.ant-input::placeholder,
+.ant-select-selection-placeholder,
+{
+  color: var(--foreground-900);
+}
+
+.ant-card,
+.ant-card-head,
+.ant-picker-header,
+.ant-picker-panel,
+.ant-modal-header,
+.ant-list-split .ant-list-item,
+.ant-modal-footer,
+{
+  border-color: var(--background-200);
+}
+
+.ant-picker-panel .ant-picker-footer {
+  border-top-color: var(--background-200);
+}
+
+.ant-btn,
+.ant-picker,
+.ant-select:not(.ant-select-customize-input) .ant-select-selector,
+.ant-input-affix-wrapper,
+.ant-input,
+{
+  border-color: var(--background-400);
+}
+
+.ant-picker-week-panel-row-selected:hover td,
+.ant-picker-week-panel-row-selected td,
+{
+  background-color: var(--selected-row-bg);
+}
+
+.ant-modal-close-x,
+.ant-select-arrow,
+.ant-picker-suffix,
+.ant-input-textarea-show-count:after,
+.ant-picker-header > button,
+{
+  color: var(--foreground37);
+}
+
+.ant-btn-primary,
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+{
+ color: var(--ant-primary-6);
+}
