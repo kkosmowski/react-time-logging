@@ -1,4 +1,4 @@
-body {
+body.lightblue {
   --ant-primary-1: #f5faff;
   --ant-primary-2: #d4e6ff;
   --ant-primary-3: #b7d2f5;
@@ -7,6 +7,8 @@ body {
   --ant-primary-6: #2271d8;
   --ant-primary-7: #4577b0;
   --primary-800: #283d57;
+  --selected-row-bg: var(--ant-primary-6);
+  --tag-background: var(--ant-primary-6);
 
   --ant-primary-color: var(--ant-primary-6);
   --ant-primary-color-hover: var(--ant-primary-5);

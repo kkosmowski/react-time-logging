@@ -81,7 +81,7 @@ const TaskDialogForm = ({
 
   const mapSelectOptionToCategoryTag = (category: Category): ReactElement | null => {
     if (!categories.map(c => c.id).includes(category.id)) return null;
-    return <Tag color="var(--ant-primary-6)" key={ category.id }>{ category.name }</Tag>;
+    return <Tag color="var(--tag-background)" key={ category.id }>{ category.name }</Tag>;
   };
 
   const categoryTags = values.categories

@@ -67,10 +67,9 @@ export const ColumnBody = styled.div<{ draggedOver: boolean }>`
   display: flex;
   flex-direction: column;
   ${ columnPadding }; 
-  ${ ({ draggedOver }) => draggedOver
-    ? css`background-color: var(--foreground-200)`
-    : css`background-color: inherit`
-  };
+  ${ ({ draggedOver }) => draggedOver ? css`
+    background-color: var(--dragged-over-hover)
+  ` : '' };
   
   .add-task {
     align-self: center;
