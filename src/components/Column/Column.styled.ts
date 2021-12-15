@@ -11,7 +11,7 @@ export const ColumnWrapper = styled.section`
   height: 100%;
   display: flex;
   flex-direction: column;
-  background-color: var(--background);
+  background-color: var(--background-10);
   border: 1px solid var(--background-200);
   
   &:not(:last-child) {

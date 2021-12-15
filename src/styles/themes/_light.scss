@@ -11,8 +11,9 @@ body[class^="light"] {
   --foreground-900: #ccc;
 
   --background: #fff;
-  --background47: #ffffff77;
-  --background-50: var(--background);
+  --background-10: #fff;
+  --background-10-47: #fff7;
+  --background-50: var(--background-10);
   --background-100: #fbfbfb;
   --background-200: #f0f0f0;
   --background-300: #e1e1e1;
@@ -20,4 +21,10 @@ body[class^="light"] {
 
   --ant-error-color: #ff4d4f;
   --ant-warning-color: #faad14;
+
+  --dragged-over-hover: var(--ant-primary-6-03);
+
+  ::selection {
+    background-color: var(--ant-primary-5);
+  }
 }

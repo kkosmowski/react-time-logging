@@ -7,3 +7,10 @@
 @use 'themes/darkgreen';
 
 @use 'ant-design-theming';
+
+body {
+  --ant-primary-color: var(--ant-primary-6);
+  --ant-primary-color-hover: var(--ant-primary-5);
+  --ant-primary-color-active: var(--ant-primary-7);
+  --ant-primary-color-outline: var(--ant-primary-6-20);
+}

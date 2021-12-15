@@ -1,9 +1,12 @@
-.ant-card,
+.ant-card {
+  background-color: var(--background);
+}
+
 .ant-picker-panel-container,
 .ant-modal-content,
 .ant-modal-header,
 {
-  background-color: var(--background);
+  background-color: var(--background-10);
 }
 
 .ant-btn,
@@ -26,6 +29,8 @@
 .ant-btn:focus,
 .ant-btn:active,
 .ant-select-item-option-active:not(.ant-select-item-option-disabled),
+.ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
+.ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end) .ant-picker-cell-inner,
 {
   background-color: var(--background-200);
 }
@@ -75,6 +80,11 @@ h1, h2, h3, h4, h5, h6,
   border-color: var(--background-200);
 }
 
+.ant-card-hoverable:hover,
+{
+  border-color: var(--background-100);
+}
+
 .ant-picker-panel .ant-picker-footer {
   border-top-color: var(--background-200);
 }
@@ -105,6 +115,7 @@ h1, h2, h3, h4, h5, h6,
 
 .ant-btn-primary,
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled),
+.ant-picker-header > button:hover,
 {
  color: var(--ant-primary-6);
 }
