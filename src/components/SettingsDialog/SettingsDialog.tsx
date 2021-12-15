@@ -21,12 +21,13 @@ import { EntityUid } from '@mytypes/entity-uid.type';
 import { WEEKEND_DISPLAY_OPTIONS } from '@consts/weekend-display-options.const';
 import uiSelectors from '@store/selectors/ui.selectors';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
-import { translateOptionLabel } from '@utils/translate-option-label.util';
+import { translateOptions } from '@utils/translate-options.util';
 import { DAYS_OPTIONS } from '@consts/date.consts';
 import { DayNumber } from '@enums/day-number.enum';
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
-import { LANGUAGE_OPTIONS } from '@consts/settings.consts';
+import { LANGUAGE_OPTIONS, THEME_OPTIONS } from '@consts/settings.consts';
 import { Language } from '@enums/language.enum';
+import { Theme } from '@enums/theme.enum';
 
 const SettingsDialog = (): ReactElement => {
   const categories = useSelector(categorySelectors.categories);
@@ -36,6 +37,7 @@ const SettingsDialog = (): ReactElement => {
     weekendDisplay,
     weekStart,
     language,
+    theme,
   } = useSelector(uiSelectors.settings);
   const [isAddCategoryMode, setIsAddCategoryMode] = useState(false);
   const [categoryName, setCategoryName] = useState('');
@@ -44,8 +46,6 @@ const SettingsDialog = (): ReactElement => {
   const scrollDownDelay = 100;
   const dispatch = useDispatch();
   const { t } = useTranslation('SETTINGS_DIALOG');
-  const weekendDisplayOptions = WEEKEND_DISPLAY_OPTIONS.map(o => translateOptionLabel(o, t));
-  const daysOptions = DAYS_OPTIONS.map(o => translateOptionLabel(o, t));
 
   const handleCancel = (): void => {
     dispatch(uiActionCreators.closeSettingsDialog());
@@ -101,6 +101,10 @@ const SettingsDialog = (): ReactElement => {
 
   const handleLanguageChange = (language: Language): void => {
     uiActionCreators.updateSetting<Language>('language', language)(dispatch);
+  };
+
+  const handleThemeChange = (theme: Theme): void => {
+    uiActionCreators.updateSetting<Theme>('theme', theme)(dispatch);
   };
 
   useEffect(() => {
@@ -159,7 +163,7 @@ const SettingsDialog = (): ReactElement => {
 
           <Select
             onChange={ handleWeekendDisplayChange }
-            options={ weekendDisplayOptions }
+            options={ translateOptions(WEEKEND_DISPLAY_OPTIONS, t) }
             value={ weekendDisplay }
             aria-labelledby="weekendDisplay"
           />
@@ -173,13 +177,13 @@ const SettingsDialog = (): ReactElement => {
             value={ weekStart }
             aria-labelledby="firstDayOfWeekTitle"
           >
-            { daysOptions.map(day => (
+            { DAYS_OPTIONS.map(day => (
               <Select.Option
                 value={ day.value }
                 disabled={ calculateDatesToDisable(+day.value, weekendDisplay) }
                 key={ day.value }
               >
-                { day.label }
+                { t(day.label) }
               </Select.Option>
             )) }
           </Select>
@@ -219,6 +223,17 @@ const SettingsDialog = (): ReactElement => {
             options={ LANGUAGE_OPTIONS }
             value={ language }
             aria-labelledby="languageTitle"
+          />
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3 id="themeTitle">{ t('THEME') }</h3>
+
+          <Select
+            onChange={ handleThemeChange }
+            options={ translateOptions(THEME_OPTIONS, t) }
+            value={ theme }
+            aria-labelledby="themeTitle"
           />
         </SettingsRow>
       </SettingsSection>

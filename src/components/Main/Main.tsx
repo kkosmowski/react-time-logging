@@ -23,7 +23,7 @@ moment.locale('en-US');
 
 const Main = (): ReactElement => {
   const [locale, setLocale] = useState(enUS);
-  const { language } = useSelector(uiSelectors.settings);
+  const { language, theme } = useSelector(uiSelectors.settings);
   const taskDialogOpened = useSelector(uiSelectors.taskDialogOpened);
   const confirmationDialogOpened = useSelector(uiSelectors.confirmationDialogOpened);
   const settingsDialogOpened = useSelector(uiSelectors.settingsDialogOpened);
@@ -31,7 +31,6 @@ const Main = (): ReactElement => {
   const { t } = useTranslation('COMMON');
 
   useEffect(() => {
-    document.body.className = 'darkgreen';
     uiActionCreators.fetchSettings()(dispatch);
   }, []);
 
@@ -45,6 +44,10 @@ const Main = (): ReactElement => {
       setLocale(plPL);
     }
   }, [language]);
+
+  useEffect(() => {
+    document.body.className = theme;
+  }, [theme]);
 
   return (
     <ConfigProvider locale={ locale }>
