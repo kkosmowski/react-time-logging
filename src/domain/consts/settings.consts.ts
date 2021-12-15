@@ -72,8 +72,12 @@ export const THEME_OPTIONS: SelectOption[] = [
     label: 'THEME:DARK_GREEN',
     value: Theme.DarkGreen,
   },
-  // {
-  //   label: 'THEME:DARK_YELLOW',
-  //   value: Theme.DarkYellow,
-  // },
+  {
+    label: 'THEME:DARK_YELLOW',
+    value: Theme.DarkYellow,
+  },
+  {
+    label: 'THEME:DARK_TEAL',
+    value: Theme.DarkTeal,
+  },
 ]

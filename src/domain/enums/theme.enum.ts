@@ -3,4 +3,5 @@ export enum Theme {
   LightPurple = 'lightpurple',
   DarkGreen = 'darkgreen',
   DarkYellow = 'darkyellow',
+  DarkTeal = 'darkteal',
 }

@@ -73,6 +73,7 @@ const pl: typeof en = {
     LIGHT_PURPLE: 'Jasny (fioletowy)',
     DARK_GREEN: 'Ciemny (zielony)',
     DARK_YELLOW: 'Ciemny (żółty)',
+    DARK_TEAL: 'Ciemny (morski)',
   },
 };
 
