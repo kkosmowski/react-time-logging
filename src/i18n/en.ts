@@ -71,6 +71,7 @@ const en = {
     LIGHT_PURPLE: 'Light (purple)',
     DARK_GREEN: 'Dark (green)',
     DARK_YELLOW: 'Dark (yellow)',
+    DARK_TEAL: 'Dark (teal)',
   },
 };
 
