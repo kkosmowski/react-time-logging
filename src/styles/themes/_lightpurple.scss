@@ -5,10 +5,10 @@ body.lightpurple {
   --ant-primary-4: #b679ec;
   --ant-primary-5: #9c38f5;
   --ant-primary-6: #9732ef;
+  --ant-primary-6-03: #9732ef06; // only in light themes
+  --ant-primary-6-20: #9732ef33;
   --ant-primary-7: #8245b0;
   --primary-800: #412857;
-
-  --ant-primary-color: var(--ant-primary-6);
-  --ant-primary-color-hover: var(--ant-primary-5);
-  --ant-primary-color-active: var(--ant-primary-7);
+  --selected-row-bg: var(--ant-primary-6);
+  --tag-background: #8731d1;
 }

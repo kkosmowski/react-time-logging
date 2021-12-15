@@ -17,7 +17,7 @@ const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--background47);
+  background-color: var(--background-10-47);
 `;
 
 export default memo(BoardOverlay);
