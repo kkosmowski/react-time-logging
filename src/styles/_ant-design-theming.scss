@@ -52,7 +52,7 @@
 .ant-select,
 .ant-input,
 .ant-select-dropdown,
-.ant-select-item,
+.ant-select-item:not(.ant-select-item-option-disabled),
 h1, h2, h3, h4, h5, h6,
 {
   color: var(--foreground);
@@ -107,6 +107,7 @@ h1, h2, h3, h4, h5, h6,
 }
 
 .ant-input-textarea-show-count:after,
+.ant-select-item-option-disabled,
 {
   color: var(--foreground37);
 }

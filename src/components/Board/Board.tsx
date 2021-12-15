@@ -71,7 +71,7 @@ const Board = (): ReactElement => {
         setColumns(items);
       }
     }
-  }, [week, daysToRender, filteredTasks]);
+  }, [week, daysToRender, weekStart, filteredTasks]);
 
   useEffect(() => {
     setTimeout(() => { renderColumns(); });
