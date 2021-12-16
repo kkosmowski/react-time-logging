@@ -21,10 +21,10 @@ export const ColumnWrapper = styled.section`
   &.--today {
     position: relative;
     background-color: var(--ant-primary-1);
-    border-color: var(--ant-primary-4);
+    border-color: var(--ant-primary-3);
     
     + * {
-      border-left-color: var(--ant-primary-4);
+      border-left-color: var(--ant-primary-3);
     }
   }
 `;
@@ -72,24 +72,24 @@ export const ColumnBody = styled.div<{ draggedOver: boolean }>`
   ` : '' };
   overflow: auto;
   
-  .add-task {
-    align-self: center;
-    flex-shrink: 0;
-    opacity: 0;
-    pointer-events: none;
-    transition: 0.2s ease-in-out opacity;
-    will-change: opacity;
-    margin-bottom: 60px;
-    
-    &:first-child {
-      margin-top: 16px;
-    }
-  }
-  
   &:hover {
-    .add-task {
+    .controls {
       opacity: 1;
       pointer-events: all;
     }
   }
 `;
+
+export const Controls = styled.div`
+  align-self: center;
+  flex-shrink: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease-in-out opacity;
+  will-change: opacity;
+  margin-bottom: 60px;
+
+  &:first-child {
+    margin-top: 16px;
+  }
+`

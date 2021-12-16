@@ -3,11 +3,11 @@ import { Action, Dispatch } from 'redux';
 import uiActions from '../actions/ui.actions';
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import { TaskDialogPayload } from '@payloads/task-dialog.payload';
-import { TaskModel } from '@interfaces/task.interface';
 import { ClipboardPayload } from '@payloads/clipboard.payload';
 import { SettingsInterface, SettingsModel } from '@interfaces/settings.interface';
 import { StorageService } from '@services/storage.service';
 import { DEFAULT_SETTINGS_MODEL } from '@consts/settings.consts';
+import { ConfirmationDialogData } from '@components/ConfirmationDialog/domain/confirmation-dialog.payload';
 
 const uiActionCreators = {
   openTaskDialog(payload: TaskDialogPayload): Action<string> {
@@ -17,7 +17,7 @@ const uiActionCreators = {
     return uiActions.closeTaskDialog();
   },
 
-  openConfirmationDialog(action: ConfirmationAction, data?: TaskModel): Action<string> {
+  openConfirmationDialog(action: ConfirmationAction, data?: ConfirmationDialogData): Action<string> {
     return uiActions.openConfirmationDialog({ action, data });
   },
   closeConfirmationDialog(result: boolean): Action<string> {

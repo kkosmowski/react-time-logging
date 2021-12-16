@@ -24,9 +24,23 @@ export const StyledCard = styled(Card)`
   }
   
   .--today & {
-    &, * {
-      border-color: var(--ant-primary-3);
+    border-color: var(--ant-primary-2);
+
+    &.--selectable {
+      border-color: var(--ant-primary-4);
     }
+  }
+  
+  &.--selectable {
+    border-color: var(--foreground-900);
+  }
+  
+  &.--selected {
+    border-color: var(--ant-primary-6);
+  }
+  
+  * {
+    border-color: inherit;
   }
 `;
 

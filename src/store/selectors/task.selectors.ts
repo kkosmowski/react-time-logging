@@ -12,6 +12,8 @@ const taskSelectors = {
     .filter(t => t.date === date)
     .reduce((total, task) => total + task.duration, 0)
   ),
+  selectionMode: (date: string) => createSelector(taskSelector, task => task.selectionMode[date]),
+  selected: (date: string) => createSelector(taskSelector, task => task.selected[date]),
 }
 
 export default taskSelectors;

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -9,9 +9,12 @@ import uiSelectors from '@store/selectors/ui.selectors';
 import { ConfirmationDialogState } from './domain/confirmation-dialog-state.interface';
 import { handleConfirmedAction } from './handle-confirmed-action.util';
 import { ConfirmationDialogText } from './domain/ConfirmationDialog.styled';
+import { TaskModel } from '@interfaces/task.interface';
+import { DeleteTasksPayload } from '@payloads/delete-tasks.payload';
 
 const ConfirmationDialog = (): ReactElement => {
   const state: ConfirmationDialogState = useSelector(uiSelectors.confirmationDialog);
+  const [translationDetails, setTranslationDetails] = useState<{ name?: string; count?: number; }>({});
   const dispatch = useDispatch();
   const { t } = useTranslation('CONFIRMATION_DIALOG');
 
@@ -28,6 +31,16 @@ const ConfirmationDialog = (): ReactElement => {
     }
   };
 
+  useEffect(() => {
+    if (state.data) {
+      if ((state.data as TaskModel)?.title) {
+        setTranslationDetails({ name: (state.data as TaskModel).title });
+      } else {
+        setTranslationDetails({ count: (state.data as DeleteTasksPayload).taskIds.length });
+      }
+    }
+  }, [state]);
+
   return state.action
     ? (
       <Modal
@@ -39,7 +52,7 @@ const ConfirmationDialog = (): ReactElement => {
         okText={ t('CONFIRM') }
       >
         <ConfirmationDialogText>
-          { t(state.action, { name: state.data?.title || '' }) }
+          { t(state.action, { ...translationDetails }) }
         </ConfirmationDialogText>
       </Modal>
     )

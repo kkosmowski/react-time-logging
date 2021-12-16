@@ -32,6 +32,8 @@ const en = {
     LEAVE_PROGRESS: 'Please confirm that you want to abandon your progress.\n\nOtherwise cancel.',
     TITLE_DELETE_TASK: 'Delete task',
     DELETE_TASK: 'Please confirm that you want to delete task\n"{{ name }}".\n\nThis operation cannot be reverted.',
+    TITLE_DELETE_MULTIPLE_TASKS: 'Delete multiple tasks',
+    DELETE_MULTIPLE_TASKS: 'Please confirm that you want to delete {{ count }} tasks.\n\nThis operation cannot be reverted.',
   },
   SETTINGS_DIALOG: {
     MANAGE_CATEGORIES: 'Manage categories',

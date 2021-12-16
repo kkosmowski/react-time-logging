@@ -12,9 +12,11 @@ interface Props {
   onCut: (task: TaskInterface) => void;
   onCopy: (task: TaskInterface) => void;
   task: TaskInterface;
+  selected: boolean;
+  selectable: boolean;
 }
 
-const TaskCard = ({ task, onClick, onCut, onCopy }: Props): ReactElement => {
+const TaskCard = ({ task, selected, selectable, onClick, onCut, onCopy }: Props): ReactElement => {
   const handleClick = (): void => {
     onClick(task);
   };
@@ -48,6 +50,7 @@ const TaskCard = ({ task, onClick, onCut, onCopy }: Props): ReactElement => {
               <StyledCard
                 onClick={ handleClick }
                 title={ task.title }
+                className={ selected ? '--selected' : selectable ? '--selectable' : '' }
                 size="small"
                 hoverable
               >

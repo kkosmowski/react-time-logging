@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux';
+import { Action, Dispatch } from 'redux';
 import { v4 } from 'uuid';
 import { Moment } from 'moment';
 import i18next from 'i18next';
@@ -14,6 +14,8 @@ import { RootState } from '@store/interfaces/root-state.interface';
 import { reorder } from '@utils/reorder.util';
 import { ClipboardAction } from '@enums/clipboard-action.enum';
 import { ClipboardPayload } from '@payloads/clipboard.payload';
+import { SelectionModePayload } from '@payloads/selection-mode.payload';
+import { SelectTaskPayload } from '@payloads/select-task.payload';
 
 const taskActionCreators = {
   add(task: TaskModel): (d: Dispatch) => Promise<void> {
@@ -45,6 +47,17 @@ const taskActionCreators = {
       dispatch(taskActions.delete());
       await StorageService.delete('tasks', taskId);
       dispatch(taskActions.deleteSuccess(taskId));
+    }
+  },
+  deleteMultiple(taskIds: EntityUid[]): (d: Dispatch) => Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(taskActions.deleteMultiple());
+
+      taskIds.forEach(async (id) => {
+        await StorageService.delete('tasks', id).catch();
+      });
+
+      dispatch(taskActions.deleteMultipleSuccess(taskIds));
     }
   },
 
@@ -101,6 +114,16 @@ const taskActionCreators = {
         await taskActionCreators.duplicate({ ...clipboard.task, ...update})(dispatch);
       }
     }
+  },
+
+  toggleSelectionMode(payload: SelectionModePayload): Action {
+    return taskActions.toggleSelectionMode(payload);
+  },
+  select(payload: SelectTaskPayload): Action {
+    return taskActions.select(payload);
+  },
+  deselect(payload: SelectTaskPayload): Action {
+    return taskActions.deselect(payload);
   },
 }
 

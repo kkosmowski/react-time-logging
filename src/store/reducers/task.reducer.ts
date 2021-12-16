@@ -7,6 +7,8 @@ export const initialTaskState: TaskState = {
   tasks: [],
   addInProgress: false,
   tasksLoading: false,
+  selectionMode: {},
+  selected: {},
 };
 
 const taskReducer = createReducer(initialTaskState, (builder) => {
@@ -46,6 +48,14 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
       state.tasks = state.tasks.filter(task => task.id !== payload);
     })
 
+    .addCase(taskActions.deleteMultiple, (state) => {
+      state.tasksLoading = true;
+    })
+    .addCase(taskActions.deleteMultipleSuccess, (state, { payload }) => {
+      state.tasksLoading = false;
+      state.tasks = state.tasks.filter(task => !payload.includes(task.id));
+    })
+
     .addCase(taskActions.duplicate, (state) => {
       state.tasksLoading = true;
     })
@@ -68,6 +78,29 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.pasteCutTaskSuccess, (state, { payload }) => {
       state.tasksLoading = false;
       state.tasks = state.tasks.map(task => task.id === payload.id ? payload : task);
+    })
+
+    .addCase(taskActions.toggleSelectionMode, (state, { payload }) => {
+      const { column, value } = payload;
+
+      state.selectionMode[column] = value;
+
+      if (!payload.value) {
+        state.selected[column] = [];
+      }
+    })
+    .addCase(taskActions.select, (state, { payload }) => {
+      const { column, taskId } = payload;
+
+      if (!Array.isArray(state.selected[column])) {
+        state.selected[column] = [];
+      }
+
+      state.selected[column].push(taskId);
+    })
+    .addCase(taskActions.deselect, (state, { payload }) => {
+      const { column, taskId } = payload;
+      state.selected[column] = state.selected[column].filter(id => id !== taskId);
     })
 });
 

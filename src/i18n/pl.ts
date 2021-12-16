@@ -34,6 +34,8 @@ const pl: typeof en = {
     LEAVE_PROGRESS: 'Porzucenie zmian wymaga potwierdzenia..\n\nJeżeli nie chcesz stracić postępu, kliknij Anuluj.',
     TITLE_DELETE_TASK: 'Usuń zadanie',
     DELETE_TASK: 'Usunięcie zadania o nazwie\n{{ name }}\nwymaga potwierdzenia.\n\nTej operacji nie da się cofnąć.',
+    TITLE_DELETE_MULTIPLE_TASKS: 'Usuń wiele zadań',
+    DELETE_MULTIPLE_TASKS: 'Usunięcie {{ count }} zadań wymaga potwierdzenia.\n\nTej operacji nie da się cofnąć.',
   },
   SETTINGS_DIALOG: {
     MANAGE_CATEGORIES: 'Zarządzanie kategoriami',
