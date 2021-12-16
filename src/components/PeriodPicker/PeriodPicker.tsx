@@ -16,10 +16,12 @@ interface Props {
 
 const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
   const [date, setDate] = useState<Moment>(value || moment());
+  const [open, setOpen] = useState(false);
   const { t } = useTranslation('COMMON');
 
   const handleChange = (newDate: Moment | null): void => {
     newDate && setDate(newDate);
+    setOpen(false);
   };
 
   const setPreviousWeek = (): void => {
@@ -32,8 +34,7 @@ const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
 
   const onTodayClick = (): void => {
     handleChange(moment());
-    // @todo make the dropdown controlled? :/
-    // open={ isOpen }
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -49,7 +50,9 @@ const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
       />
 
       <DatePicker
+        onClick={ () => setOpen(true) }
         onChange={ handleChange }
+        open={ open }
         value={ date }
         format={ formatWeekStartAndEnd }
         picker="week"
@@ -57,7 +60,7 @@ const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
         style={ withMargin ? { margin: '0 16px' } : {} }
         renderExtraFooter={ (mode) => (
           <div className="ant-picker-footer">
-            <Button type="link"  onClick={ () => onTodayClick(mode) }>{ t('COMMON:TODAY') }</Button>
+            <Button type="link"  onClick={ onTodayClick }>{ t('COMMON:TODAY') }</Button>
           </div>
         )}
       />
