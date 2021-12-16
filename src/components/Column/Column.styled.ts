@@ -70,13 +70,16 @@ export const ColumnBody = styled.div<{ draggedOver: boolean }>`
   ${ ({ draggedOver }) => draggedOver ? css`
     background-color: var(--dragged-over-hover)
   ` : '' };
+  overflow: auto;
   
   .add-task {
     align-self: center;
+    flex-shrink: 0;
     opacity: 0;
     pointer-events: none;
     transition: 0.2s ease-in-out opacity;
     will-change: opacity;
+    margin-bottom: 60px;
     
     &:first-child {
       margin-top: 16px;
