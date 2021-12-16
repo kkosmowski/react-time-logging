@@ -9,7 +9,7 @@
   background-color: var(--background-10);
 }
 
-.ant-btn:not(.ant-btn-primary),
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-link):not(.ant-btn-text),
 .ant-select:not(.ant-select-customize-input) .ant-select-selector,
 .ant-input-affix-wrapper,
 .ant-input,
@@ -19,15 +19,15 @@
   background-color: var(--background-50);
 }
 
-.ant-btn:not(.ant-btn-primary):hover,
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-link):not(.ant-btn-text):hover,
 .ant-picker-week-panel-row:hover td,
 .ant-select-item:hover,
 {
   background-color: var(--background-100);
 }
 
-.ant-btn:not(.ant-btn-primary):focus,
-.ant-btn:not(.ant-btn-primary):active,
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-link):not(.ant-btn-text):focus,
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-link):not(.ant-btn-text):active,
 .ant-select-item-option-active:not(.ant-select-item-option-disabled),
 .ant-picker-cell:hover:not(.ant-picker-cell-in-view) .ant-picker-cell-inner,
 .ant-picker-cell:hover:not(.ant-picker-cell-selected):not(.ant-picker-cell-range-start):not(.ant-picker-cell-range-end):not(.ant-picker-cell-range-hover-start):not(.ant-picker-cell-range-hover-end) .ant-picker-cell-inner,
@@ -38,7 +38,7 @@
 
 .ant-card,
 .ant-card-head,
-.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary),
+.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary):not(.ant-btn-link),
 .ant-picker,
 .ant-picker-input > input,
 .ant-picker-dropdown,
@@ -90,7 +90,7 @@ h1, h2, h3, h4, h5, h6,
   border-top-color: var(--background-200);
 }
 
-.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary),
+.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary):not(.ant-btn-link):not(.ant-btn-text),
 .ant-picker,
 .ant-select:not(.ant-select-customize-input) .ant-select-selector,
 .ant-input-affix-wrapper,
@@ -131,10 +131,10 @@ h1, h2, h3, h4, h5, h6,
  color: var(--ant-primary-6);
 }
 
-.ant-btn-primary,
-.ant-btn-primary:hover,
-.ant-btn-primary:focus,
-.ant-btn-primary:active,
+.ant-btn-primary:not(.ant-btn-link):not(.ant-btn-text),
+.ant-btn-primary:not(.ant-btn-link):not(.ant-btn-text):hover,
+.ant-btn-primary:not(.ant-btn-link):not(.ant-btn-text):focus,
+.ant-btn-primary:not(.ant-btn-link):not(.ant-btn-text):active,
 {
   color: var(--background);
 }

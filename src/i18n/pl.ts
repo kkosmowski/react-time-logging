@@ -26,6 +26,7 @@ const pl: typeof en = {
     FRI: 'Pt',
     SAT: 'So',
     SUN: 'Nd',
+    TODAY: 'Dzisiaj',
   },
   CONFIRMATION_DIALOG: {
     CONFIRM: 'Potwierdź',
