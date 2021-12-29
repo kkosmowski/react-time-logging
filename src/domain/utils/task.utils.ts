@@ -35,9 +35,8 @@ export const minutesToHoursAndMinutes = (minutes: number): string => {
 
   const hours = Math.floor(minutes / MINUTES_IN_HOUR);
   const hoursString = hours ? `${ hours }h` : '';
-  const minutesString = minutesLeft ? `${ minutesLeft }m` : '';
 
-  return `${ hoursString } ${ minutesString }`;
+  return minutesLeft ? `${ hoursString } ${ minutesLeft }m` : hoursString;
 };
 
 export const improveDurationString = (string: string): string =>

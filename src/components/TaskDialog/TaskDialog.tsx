@@ -148,6 +148,7 @@ const TaskDialog = (): ReactElement => {
         categories={ categories }
         weekendDisplay={ weekendDisplay }
         dayLimit={ dayLimit }
+        originalDuration={ !isNewTask && state.data && state.data.task ? state.data.task.duration : 0 }
         totalMinutes={ totalMinutesOnDate }
       />
     </Modal>

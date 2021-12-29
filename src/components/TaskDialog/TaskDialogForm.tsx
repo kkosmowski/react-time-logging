@@ -21,6 +21,7 @@ interface Props {
   categories: Category[];
   weekendDisplay: WeekendDisplay;
   dayLimit: number;
+  originalDuration: number;
   totalMinutes: number;
 }
 
@@ -30,6 +31,7 @@ const TaskDialogForm = ({
   categories,
   weekendDisplay,
   dayLimit,
+  originalDuration,
   totalMinutes,
 }: Props): ReactElement => {
   const {
@@ -67,11 +69,11 @@ const TaskDialogForm = ({
     const minutes = calculateDurationFromString(e.target.value);
     const allowedTime = dayLimit * MINUTES_IN_HOUR - totalMinutes;
 
-    if (minutes <= allowedTime) {
+    if (minutes - originalDuration <= allowedTime) {
       setFieldValue('duration', minutesToHoursAndMinutes(minutes), false);
       setOverTime(null);
     } else {
-      setOverTime(minutesToHoursAndMinutes(totalMinutes + minutes));
+      setOverTime(minutesToHoursAndMinutes(totalMinutes + minutes - originalDuration));
     }
   };
 
