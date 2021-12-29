@@ -69,7 +69,7 @@ const pl: typeof en = {
     TASK_DURATION_TITLE: 'Czas trwania',
   },
   ERROR: {
-    DAY_LIMIT_EXCEEDED: 'Nie można zalogować więcej niż {{ limit }} godzin w ciągu dnia (obecnie: {{ current }}).',
+    DAY_LIMIT_EXCEEDED: 'Nie można zalogować więcej niż {{ limit }} godzin w ciągu dnia.\nObecnie: {{ current }}.',
   },
   THEME: {
     LIGHT_BLUE: 'Jasny (błękitny)',

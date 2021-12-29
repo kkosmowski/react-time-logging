@@ -36,6 +36,8 @@ const TaskDialog = (): ReactElement => {
     initialValues: initialAddTaskFormValues(state.data),
     validationSchema: addTaskValidationSchema,
     onSubmit: (values) => {
+      if (!isValid) return;
+
       if (isNewTask) {
         handleAddTask(values);
       } else {
@@ -135,7 +137,7 @@ const TaskDialog = (): ReactElement => {
           { t(isEditMode ? 'COMMON:CANCEL' : 'COMMON:CLOSE' ) }
         </Button>,
         isEditMode ? (
-          <Button key="submit" type="primary" onClick={ submitForm }>
+          <Button key="submit" type="primary" onClick={ submitForm } disabled={ !isValid }>
           { t(isNewTask ? 'COMMON:ADD' : 'COMMON:SAVE') }
         </Button>
           ) : null,
