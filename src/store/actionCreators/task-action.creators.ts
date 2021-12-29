@@ -61,7 +61,7 @@ const taskActionCreators = {
     }
   },
 
-  duplicate(task: TaskModel): (d: Dispatch) => Promise<void> {
+  duplicate(taskId: EntityUid, update?: Partial<TaskModel>): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.duplicate());
       const taskDialogOpened = (store.getState() as RootState).ui.taskDialog.opened;
@@ -70,10 +70,15 @@ const taskActionCreators = {
         dispatch(uiActionCreators.closeTaskDialog());
       }
 
-      const copyOfTask = i18next.t('COMMON:COPY_OF_TASK', { title: task.title });
+      const task: TaskModel | undefined = (store.getState() as RootState).task.tasks
+        .find((task) => task.id === taskId);
 
+      if (!task) return;
+
+      const copyOfTask = i18next.t('COMMON:COPY_OF_TASK', { title: task.title });
       const duplicatedTask = {
         ...task,
+        ...update,
         title: copyOfTask,
         id: v4(),
       };
@@ -111,7 +116,7 @@ const taskActionCreators = {
         dispatch(uiActionCreators.modifyClipboardAfterPastedCut());
         await taskActionCreators.update(clipboard.task.id, update)(dispatch);
       } else {
-        await taskActionCreators.duplicate({ ...clipboard.task, ...update})(dispatch);
+        await taskActionCreators.duplicate(clipboard.task.id, update)(dispatch);
       }
     }
   },

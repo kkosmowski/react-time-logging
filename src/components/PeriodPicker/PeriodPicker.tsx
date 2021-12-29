@@ -58,11 +58,11 @@ const PeriodPicker = ({ onChange, value, withMargin }: Props): ReactElement => {
         picker="week"
         allowClear={ false }
         style={ withMargin ? { margin: '0 16px' } : {} }
-        renderExtraFooter={ (mode) => (
+        renderExtraFooter={ () => (
           <div className="ant-picker-footer">
             <Button type="link"  onClick={ onTodayClick }>{ t('COMMON:TODAY') }</Button>
           </div>
-        )}
+        ) }
       />
 
       <Button

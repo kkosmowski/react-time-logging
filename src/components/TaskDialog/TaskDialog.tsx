@@ -105,7 +105,7 @@ const TaskDialog = (): ReactElement => {
 
   const handleDuplicate = (): void => {
     if (state.data?.task) {
-      taskActionCreators.duplicate(state.data.task)(dispatch);
+      taskActionCreators.duplicate(state.data.task.id)(dispatch);
     }
   };
 
