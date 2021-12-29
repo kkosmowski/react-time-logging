@@ -198,6 +198,7 @@ const Column = ({ date, tasks }: Props): ReactElement => {
                 <Button
                   onClick={ handleSelectTasks }
                   shape="circle"
+                  disabled={ !cards.length }
                   icon={ selectionMode ? <CloseCircleOutlined /> : <CheckCircleOutlined /> }
                 />
 

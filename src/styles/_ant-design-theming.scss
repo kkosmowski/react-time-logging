@@ -38,7 +38,7 @@
 
 .ant-card,
 .ant-card-head,
-.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary):not(.ant-btn-link),
+.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary):not(.ant-btn-link):not(:disabled),
 .ant-picker,
 .ant-picker-input > input,
 .ant-picker-dropdown,
@@ -62,6 +62,11 @@ h1, h2, h3, h4, h5, h6,
 .ant-picker-content td,
 {
   color: var(--foreground-700);
+}
+
+.ant-btn:not(.ant-btn-dangerous):not(.ant-btn-primary):not(.ant-btn-link):disabled,
+{
+  color: var(--foreground-800);
 }
 
 .ant-input::placeholder,
