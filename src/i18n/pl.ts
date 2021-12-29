@@ -78,6 +78,9 @@ const pl: typeof en = {
     DARK_YELLOW: 'Ciemny (żółty)',
     DARK_TEAL: 'Ciemny (morski)',
   },
+  COLUMN: {
+    CANNOT_DROP_BECAUSE_OF_LIMIT: 'Nie można dodać zadania do tej kolumny, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
+  },
 };
 
 export default pl;

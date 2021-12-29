@@ -20,7 +20,12 @@ import {
   HoursDetails,
 } from './Column.styled';
 import { TaskInterface, TaskModel } from '@interfaces/task.interface';
-import { COLUMN_DATE_FORMAT, DATE_FORMAT, DAY_NAME_FORMAT } from '@consts/date.consts';
+import {
+  COLUMN_DATE_FORMAT,
+  DATE_FORMAT,
+  DAY_NAME_FORMAT,
+  MINUTES_IN_HOUR
+} from '@consts/date.consts';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import TaskCard from '@components/TaskCard';
@@ -32,13 +37,16 @@ import taskActionCreators from '@store/actionCreators/task-action.creators';
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import taskSelectors from '@store/selectors/task.selectors';
 import { SelectTaskPayload } from '@payloads/select-task.payload';
+import { useTranslation } from 'react-i18next';
+import { DragData } from '@interfaces/drag-data.interface';
 
 interface Props {
   date: Moment;
   tasks: TaskModel[];
+  dragData: DragData;
 }
 
-const Column = ({ date, tasks }: Props): ReactElement => {
+const Column = ({ date, tasks, dragData }: Props): ReactElement => {
   const dateString = date.toISOString();
   const clipboard = useSelector(uiSelectors.clipboard);
   const { dayTarget, dayLimit } = useSelector(uiSelectors.settings);
@@ -46,7 +54,9 @@ const Column = ({ date, tasks }: Props): ReactElement => {
   const selectedTasks = useSelector(taskSelectors.selected(dateString));
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [cards, setCards] = useState<ReactElement[]>([]);
+  const [isDropDisabled, setIsDropDisabled] = useState(false);
   const [isToday, setIsToday] = useState(false);
+  const { t } = useTranslation('COLUMN');
   const dispatch = useDispatch();
 
   const checkIfIsToday = (): void => {
@@ -132,6 +142,18 @@ const Column = ({ date, tasks }: Props): ReactElement => {
   };
 
   useEffect(() => {
+    if (!dragData.task || dragData.sourceColumn === dateString) {
+      setIsDropDisabled(false);
+      return;
+    }
+
+    const dayLimitInMinutes = dayLimit * MINUTES_IN_HOUR;
+    const maxAllowedMinutes = dayLimitInMinutes - totalMinutes;
+
+    setIsDropDisabled(dragData.task.duration > maxAllowedMinutes);
+  }, [dragData]);
+
+  useEffect(() => {
     checkIfIsToday();
   }, [date]);
 
@@ -181,12 +203,13 @@ const Column = ({ date, tasks }: Props): ReactElement => {
 
       <TimeIndicator value={ totalMinutes } dayTarget={ dayTarget } dayLimit={ dayLimit } />
 
-      <Droppable droppableId={ dateString }>
+      <Droppable droppableId={ dateString } isDropDisabled={ isDropDisabled }>
         { (provided, snapshot) => (
           <Dropdown overlay={ menu } trigger={ ['contextMenu'] }>
             <ColumnBody
               ref={ provided.innerRef }
               draggedOver={ snapshot.isDraggingOver }
+              isDropDisabled={ isDropDisabled }
               { ...provided.droppableProps }
             >
               { cards }
@@ -210,6 +233,12 @@ const Column = ({ date, tasks }: Props): ReactElement => {
                   />
                 }
               </Controls>
+
+              { isDropDisabled && (
+                <div className="drop-limit-warning">
+                  { t('CANNOT_DROP_BECAUSE_OF_LIMIT', { limit: dayLimit }) }
+                </div>
+              ) }
             </ColumnBody>
           </Dropdown>
         ) }

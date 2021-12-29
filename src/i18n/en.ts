@@ -76,6 +76,9 @@ const en = {
     DARK_YELLOW: 'Dark (yellow)',
     DARK_TEAL: 'Dark (teal)',
   },
+  COLUMN: {
+    CANNOT_DROP_BECAUSE_OF_LIMIT: 'Cannot drop the task to this column because it would exceed the {{ limit }}h limit.',
+  },
 };
 
 export default en;
