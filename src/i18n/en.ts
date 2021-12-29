@@ -67,7 +67,7 @@ const en = {
     TASK_DURATION_TITLE: 'Duration',
   },
   ERROR: {
-    DAY_LIMIT_EXCEEDED: 'Cannot log more than {{ limit }} hours in a day (current: {{ current }}).',
+    DAY_LIMIT_EXCEEDED: 'Cannot log more than {{ limit }} hours in a day.\nCurrent: {{ current }}.',
   },
   THEME: {
     LIGHT_BLUE: 'Light (blue)',

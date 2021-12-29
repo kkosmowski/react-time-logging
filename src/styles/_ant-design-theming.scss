@@ -107,6 +107,7 @@ h1, h2, h3, h4, h5, h6,
 
 .ant-picker-week-panel-row-selected:hover td,
 .ant-picker-week-panel-row-selected td,
+.ant-picker-cell-in-view.ant-picker-cell-selected .ant-picker-cell-inner,
 {
   background-color: var(--selected-row-bg);
 }
@@ -142,4 +143,10 @@ h1, h2, h3, h4, h5, h6,
 .ant-btn-primary:not(.ant-btn-link):not(.ant-btn-text):active,
 {
   color: var(--background);
+}
+
+.ant-btn-primary:not(.ant-btn-link):not(.ant-btn-text):disabled {
+  background-color: var(--ant-primary-3);
+  color: var(--foreground-800);
+  border-color: var(--ant-primary-3);
 }
