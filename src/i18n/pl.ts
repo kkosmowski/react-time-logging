@@ -67,6 +67,7 @@ const pl: typeof en = {
     TASK_CATEGORIES_TITLE: 'Kategorie',
     TASK_DATE_TITLE: 'Data',
     TASK_DURATION_TITLE: 'Czas trwania',
+    CANNOT_DUPLICATE_BECAUSE_OF_LIMIT: 'Nie można zduplikowac zadania, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
   },
   ERROR: {
     DAY_LIMIT_EXCEEDED: 'Nie można zalogować więcej niż {{ limit }} godzin w ciągu dnia.\nObecnie: {{ current }}.',

@@ -65,6 +65,7 @@ const en = {
     TASK_CATEGORIES_TITLE: 'Categories',
     TASK_DATE_TITLE: 'Date',
     TASK_DURATION_TITLE: 'Duration',
+    CANNOT_DUPLICATE_BECAUSE_OF_LIMIT: 'Cannot duplicate the task because it would exceed the {{ limit }}h limit.',
   },
   ERROR: {
     DAY_LIMIT_EXCEEDED: 'Cannot log more than {{ limit }} hours in a day.\nCurrent: {{ current }}.',

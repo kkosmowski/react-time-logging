@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Tooltip } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import { v4 } from 'uuid';
@@ -21,6 +21,7 @@ import { Category } from '@interfaces/category.interface';
 import categoryActionCreators from '@store/actionCreators/category-action.creators';
 import { TaskDialogType } from '@enums/task-dialog-type.enum';
 import taskSelectors from '@store/selectors/task.selectors';
+import { MINUTES_IN_HOUR } from '@consts/date.consts';
 
 const TaskDialog = (): ReactElement => {
   const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
@@ -47,6 +48,7 @@ const TaskDialog = (): ReactElement => {
   });
   const { submitForm, dirty, isValid, resetForm, values } = formik;
   const totalMinutesOnDate = useSelector(taskSelectors.totalMinutesOnDate(values.date.toISOString()));
+  const [isDuplicateDisabled, setIsDuplicateDisabled] = useState(false);
   const { t } = useTranslation('TASK_DIALOG');
 
   const handleAddTask = (values: TaskFormInterface): void => {
@@ -113,6 +115,16 @@ const TaskDialog = (): ReactElement => {
     categoryActionCreators.getAll()(dispatch);
   }, []);
 
+  useEffect(() => {
+    if (state.data?.task && typeof state.data?.totalColumnMinutes === 'number') {
+      const totalMinutes = state.data.totalColumnMinutes;
+      const taskMinutes = state.data.task.duration;
+      const dayLimitInMinutes = dayLimit * MINUTES_IN_HOUR;
+
+      setIsDuplicateDisabled(totalMinutes + taskMinutes > dayLimitInMinutes);
+    }
+  }, [state]);
+
   return (
     <Modal
       visible
@@ -126,9 +138,14 @@ const TaskDialog = (): ReactElement => {
           </Button>
         ) : null,
         ...(!isNewTask && !isEditMode ? [
-          <Button key="duplicate" onClick={ handleDuplicate }>
-            { t('COMMON:DUPLICATE') }
-          </Button>,
+          <Tooltip
+            title={ isDuplicateDisabled ? t('CANNOT_DUPLICATE_BECAUSE_OF_LIMIT', { limit: dayLimit } ) : '' }
+            key="cannot-duplicate"
+          >
+            <Button key="duplicate" onClick={ handleDuplicate } disabled={ isDuplicateDisabled }>
+              { t('COMMON:DUPLICATE') }
+            </Button>
+          </Tooltip>,
           <Button key="submit" type="primary" onClick={ handleEdit }>
             { t('COMMON:EDIT') }
           </Button>,
