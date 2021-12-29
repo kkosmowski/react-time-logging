@@ -1,7 +1,7 @@
 import { ReactElement, useCallback, useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { DragDropContext, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, DragStart, DropResult } from 'react-beautiful-dnd';
 
 import Column from '@components/Column';
 import { BoardSection } from './Board.styled';
@@ -15,6 +15,7 @@ import BoardOverlay from './BoardOverlay';
 import uiSelectors from '@store/selectors/ui.selectors';
 import { calculateDaysToRender } from '@utils/calculate-days-to-render.util';
 import { DAYS_IN_WEEK } from '@consts/date.consts';
+import { DragData } from '@interfaces/drag-data.interface';
 
 const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
@@ -23,6 +24,7 @@ const Board = (): ReactElement => {
   const tasksLoading = useSelector(taskSelectors.tasksLoading);
   const [filteredTasks, setFilteredTasks] = useState<Record<string, TaskModel[]>>({});
   const [columns, setColumns] = useState<ReactElement[]>([]);
+  const [dragData, setDragData] = useState<DragData>({});
   const [daysToRender, setDaysToRender] = useState(DAYS_IN_WEEK);
   const dispatch = useDispatch();
 
@@ -63,6 +65,7 @@ const Board = (): ReactElement => {
             <Column
               date={ date }
               tasks={ filteredTasks[date.toISOString()] || [] }
+              dragData={ dragData }
               key={ i }
             />
           )
@@ -71,7 +74,7 @@ const Board = (): ReactElement => {
         setColumns(items);
       }
     }
-  }, [week, daysToRender, weekStart, filteredTasks]);
+  }, [week, daysToRender, weekStart, filteredTasks, dragData]);
 
   useEffect(() => {
     setTimeout(() => { renderColumns(); });
@@ -81,7 +84,19 @@ const Board = (): ReactElement => {
     renderColumns();
   }, [renderColumns]);
 
+  const handleDragStart = (initial: DragStart): void => {
+    const taskId = initial.draggableId;
+    const column = initial.source.droppableId;
+
+    setDragData({
+      task: tasks.find((task) => task.id === taskId),
+      sourceColumn: column,
+    });
+  };
+
   const handleDragEnd = async (result: DropResult): Promise<void> => {
+    setDragData({});
+
     if (!result.destination) return;
 
     const oldDate = result.source.droppableId;
@@ -117,7 +132,7 @@ const Board = (): ReactElement => {
   };
 
   return (
-    <DragDropContext onDragEnd={ handleDragEnd }>
+    <DragDropContext onDragEnd={ handleDragEnd } onDragStart={ handleDragStart }>
       <BoardSection>
         { columns }
         { tasksLoading && <BoardOverlay /> }

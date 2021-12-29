@@ -59,17 +59,31 @@ export const HoursDetails = styled.p`
   .--today & {
     color: var(--ant-primary-7);
   }
-  
 `;
 
-export const ColumnBody = styled.div<{ draggedOver: boolean }>`
+export const ColumnBody = styled.div<{ draggedOver: boolean; isDropDisabled: boolean; }>`
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;
-  ${ columnPadding }; 
-  ${ ({ draggedOver }) => draggedOver ? css`
-    background-color: var(--dragged-over-hover)
-  ` : '' };
+  ${ columnPadding };
+  
+  ${ ({ draggedOver }) => draggedOver 
+    ? css`background-color: var(--dragged-over-hover)` 
+    : css`background-color: inherit;` 
+  };
+  
+  ${ ({ isDropDisabled }) => isDropDisabled 
+    ? css`
+      & {
+        cursor: not-allowed;
+
+        &:hover .drop-limit-warning {
+          display: flex;
+        }
+      }` 
+    : ''
+  };
   overflow: auto;
   
   &:hover {
@@ -77,6 +91,20 @@ export const ColumnBody = styled.div<{ draggedOver: boolean }>`
       opacity: 1;
       pointer-events: all;
     }
+  }
+  
+  .drop-limit-warning {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+    text-align: center;
+    ${ columnPadding };
   }
 `;
 
@@ -92,4 +120,4 @@ export const Controls = styled.div`
   &:first-child {
     margin-top: 16px;
   }
-`
+`;
