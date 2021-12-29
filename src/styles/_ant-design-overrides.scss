@@ -1,0 +1,9 @@
+.ant-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  column-gap: 8px;
+
+  .ant-btn + .ant-btn:not(.ant-dropdown-trigger) {
+    margin-left: 0;
+  }
+}

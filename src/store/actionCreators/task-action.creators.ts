@@ -16,6 +16,7 @@ import { ClipboardAction } from '@enums/clipboard-action.enum';
 import { ClipboardPayload } from '@payloads/clipboard.payload';
 import { SelectionModePayload } from '@payloads/selection-mode.payload';
 import { SelectTaskPayload } from '@payloads/select-task.payload';
+import { TaskDialogPayload } from '@payloads/task-dialog.payload';
 
 const taskActionCreators = {
   add(task: TaskModel): (d: Dispatch) => Promise<void> {
@@ -64,7 +65,9 @@ const taskActionCreators = {
   duplicate(taskId: EntityUid, update?: Partial<TaskModel>): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(taskActions.duplicate());
-      const taskDialogOpened = (store.getState() as RootState).ui.taskDialog.opened;
+      const uiReducer = (store.getState() as RootState).ui;
+      const taskDialogOpened = uiReducer.taskDialog.opened;
+      const taskDialogPayload: TaskDialogPayload | null = uiReducer.taskDialog.data;
 
       if (taskDialogOpened) {
         dispatch(uiActionCreators.closeTaskDialog());
@@ -86,10 +89,11 @@ const taskActionCreators = {
 
       dispatch(taskActions.duplicateSuccess(duplicatedTask));
 
-      if (taskDialogOpened) {
+      if (taskDialogOpened && taskDialogPayload) {
         dispatch(uiActionCreators.openTaskDialog({
-          type: TaskDialogType.ExistingTask,
+          ...taskDialogPayload,
           task: duplicatedTask,
+          totalColumnMinutes: (taskDialogPayload.totalColumnMinutes || 0) + duplicatedTask.duration,
         }));
       }
     }

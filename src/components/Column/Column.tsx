@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useRef, useState } from 'react';
 import { Button, Dropdown, Menu, Row } from 'antd';
 import moment, { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,7 +52,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
   const { dayTarget, dayLimit } = useSelector(uiSelectors.settings);
   const selectionMode = useSelector(taskSelectors.selectionMode(dateString));
   const selectedTasks = useSelector(taskSelectors.selected(dateString));
-  const [totalMinutes, setTotalMinutes] = useState(0);
+  const totalMinutes = useRef(0);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isDropDisabled, setIsDropDisabled] = useState(false);
   const [isToday, setIsToday] = useState(false);
@@ -118,6 +118,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
       dispatch(uiActionCreators.openTaskDialog({
         type: TaskDialogType.ExistingTask,
         task: taskModel,
+        totalColumnMinutes: totalMinutes.current,
       }));
     }
   };
@@ -148,7 +149,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
     }
 
     const dayLimitInMinutes = dayLimit * MINUTES_IN_HOUR;
-    const maxAllowedMinutes = dayLimitInMinutes - totalMinutes;
+    const maxAllowedMinutes = dayLimitInMinutes - totalMinutes.current;
 
     setIsDropDisabled(dragData.task.duration > maxAllowedMinutes);
   }, [dragData]);
@@ -177,7 +178,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
     });
 
     setCards(cardsArray);
-    setTotalMinutes(minutes);
+    totalMinutes.current = minutes;
   }, [tasks, selectedTasks, selectionMode]);
 
   const menu = (
@@ -196,12 +197,12 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
           </p>
 
           <HoursDetails>
-            { minutesToHoursAndMinutes(totalMinutes) }
+            { minutesToHoursAndMinutes(totalMinutes.current) }
           </HoursDetails>
         </Row>
       </ColumnHeader>
 
-      <TimeIndicator value={ totalMinutes } dayTarget={ dayTarget } dayLimit={ dayLimit } />
+      <TimeIndicator value={ totalMinutes.current } dayTarget={ dayTarget } dayLimit={ dayLimit } />
 
       <Droppable droppableId={ dateString } isDropDisabled={ isDropDisabled }>
         { (provided, snapshot) => (
