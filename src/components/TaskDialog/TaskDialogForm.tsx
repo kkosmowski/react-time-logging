@@ -91,6 +91,12 @@ const TaskDialogForm = ({
     .filter(tag => tag !== null);
   const noneText = <Italic>{ t('COMMON:NONE') }</Italic>;
 
+  const handleDateChange = (date: Moment | null): void => {
+    if (date) {
+      setFieldValue('date', date.startOf('day'));
+    }
+  };
+
   useEffect(() => {
     setFieldError('duration', overTime ? 'ERROR:DAY_LIMIT_EXCEEDED' : undefined);
   }, [overTime, errors]);
@@ -140,7 +146,7 @@ const TaskDialogForm = ({
           id="date"
           name="date"
           placeholder={ t('TASK_DATE_PLACEHOLDER') }
-          onChange={ date => setFieldValue('date', date) }
+          onChange={ handleDateChange }
           format={ DATE_FORMAT }
           onBlur={ handleBlur }
           value={ values.date }
