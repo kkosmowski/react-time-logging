@@ -8,6 +8,7 @@ import { SelectOption } from '@interfaces/select-option.interface';
 import { FiltersInterface } from '@interfaces/filters.interface';
 import { FilterOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
+import { INITIAL_FILTERS } from '@consts/task.consts';
 
 interface Props {
   categories: Category[];
@@ -17,10 +18,7 @@ interface Props {
 const Filters = ({ categories, onChange }: Props): ReactElement => {
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
   const formik = useFormik<FiltersInterface>({
-    initialValues: {
-      categories: [],
-      allCategoriesRequired: false,
-    },
+    initialValues: INITIAL_FILTERS,
     onSubmit: () => {/**/},
   });
   const { setFieldValue, values, resetForm } = formik;

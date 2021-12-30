@@ -95,6 +95,9 @@ const pl: typeof en = {
     ANY_OR_EVERY_TOOLTIP: 'Wybierz czy zadanie musi zawierać wszystkie wybrane kategorie czy jakąkolwiek.',
     ANY: 'Jakakolwiek',
     EVERY: 'Wszystkie',
+    CURRENT_FILTERS: 'Obecnie wyswietlane są zadania z kategoriami',
+    AND: 'oraz',
+    OR: 'lub',
   },
 };
 

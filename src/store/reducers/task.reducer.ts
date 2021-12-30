@@ -4,6 +4,7 @@ import { TaskState } from '../interfaces/task-state.interface';
 import taskActions from '../actions/task.actions';
 import { TaskModel } from '@interfaces/task.interface';
 import { EntityUid } from '@mytypes/entity-uid.type';
+import { INITIAL_FILTERS } from '@consts/task.consts';
 
 export const initialTaskState: TaskState = {
   tasks: [],
@@ -12,10 +13,7 @@ export const initialTaskState: TaskState = {
   tasksLoading: false,
   selectionMode: {},
   selected: {},
-  filters: {
-    categories: [],
-    allCategoriesRequired: false,
-  },
+  filters: INITIAL_FILTERS,
 };
 
 const filterTasksHelper = (state: Draft<TaskState>): void => {
