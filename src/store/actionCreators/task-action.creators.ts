@@ -8,7 +8,6 @@ import { TaskModel } from '@interfaces/task.interface';
 import { StorageService } from '@services/storage.service';
 import { EntityUid } from '@mytypes/entity-uid.type';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
-import { TaskDialogType } from '@enums/task-dialog-type.enum';
 import store from '@store/store';
 import { RootState } from '@store/interfaces/root-state.interface';
 import { reorder } from '@utils/reorder.util';
@@ -17,6 +16,7 @@ import { ClipboardPayload } from '@payloads/clipboard.payload';
 import { SelectionModePayload } from '@payloads/selection-mode.payload';
 import { SelectTaskPayload } from '@payloads/select-task.payload';
 import { TaskDialogPayload } from '@payloads/task-dialog.payload';
+import { FiltersInterface } from '@interfaces/filters.interface';
 
 const taskActionCreators = {
   add(task: TaskModel): (d: Dispatch) => Promise<void> {
@@ -134,6 +134,10 @@ const taskActionCreators = {
   deselect(payload: SelectTaskPayload): Action {
     return taskActions.deselect(payload);
   },
+
+  updateFilters(filters: FiltersInterface): Action {
+    return taskActions.updateFilters(filters);
+  }
 }
 
 export default taskActionCreators;

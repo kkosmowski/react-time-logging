@@ -107,10 +107,6 @@ const SettingsDialog = (): ReactElement => {
     uiActionCreators.updateSetting<Theme>('theme', theme)(dispatch);
   };
 
-  useEffect(() => {
-    categoryActionCreators.getAll()(dispatch);
-  }, []);
-
   useLayoutEffect(() => {
     isAddCategoryMode && inputRef.current?.focus();
   }, [isAddCategoryMode]);

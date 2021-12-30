@@ -43,16 +43,16 @@ import { DragData } from '@interfaces/drag-data.interface';
 interface Props {
   date: Moment;
   tasks: TaskModel[];
+  totalMinutes: number;
   dragData: DragData;
 }
 
-const Column = ({ date, tasks, dragData }: Props): ReactElement => {
+const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement => {
   const dateString = date.toISOString();
   const clipboard = useSelector(uiSelectors.clipboard);
   const { dayTarget, dayLimit } = useSelector(uiSelectors.settings);
   const selectionMode = useSelector(taskSelectors.selectionMode(dateString));
   const selectedTasks = useSelector(taskSelectors.selected(dateString));
-  const totalMinutes = useRef(0);
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isDropDisabled, setIsDropDisabled] = useState(false);
   const [isToday, setIsToday] = useState(false);
@@ -120,7 +120,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
       dispatch(uiActionCreators.openTaskDialog({
         type: TaskDialogType.ExistingTask,
         task: taskModel,
-        totalColumnMinutes: totalMinutes.current,
+        totalColumnMinutes: totalMinutes,
       }));
     }
   };
@@ -150,7 +150,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
       return;
     }
 
-    const maxAllowedMinutes = dayLimitInMinutes - totalMinutes.current;
+    const maxAllowedMinutes = dayLimitInMinutes - totalMinutes;
     setIsDropDisabled(dragData.task.duration > maxAllowedMinutes);
   }, [dragData]);
 
@@ -180,13 +180,13 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
       minutes += task.duration;
     });
 
-    totalMinutes.current = minutes;
+    totalMinutes = minutes;
     setCards(cardsArray);
   }, [tasks, selectedTasks, selectionMode, clipboard]);
 
   useEffect(() => {
     setIsPasteDisabled(clipboard?.task
-      ? clipboard.task.duration + totalMinutes.current > dayLimitInMinutes
+      ? clipboard.task.duration + totalMinutes > dayLimitInMinutes
       : false
     );
   }, [clipboard, cards]);
@@ -218,12 +218,12 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
           </p>
 
           <HoursDetails>
-            { minutesToHoursAndMinutes(totalMinutes.current) }
+            { minutesToHoursAndMinutes(totalMinutes) }
           </HoursDetails>
         </Row>
       </ColumnHeader>
 
-      <TimeIndicator value={ totalMinutes.current } dayTarget={ dayTarget } dayLimit={ dayLimit } />
+      <TimeIndicator value={ totalMinutes } dayTarget={ dayTarget } dayLimit={ dayLimit } />
 
       <Droppable droppableId={ dateString } isDropDisabled={ isDropDisabled }>
         { (provided, snapshot) => (

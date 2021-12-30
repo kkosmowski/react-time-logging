@@ -112,10 +112,6 @@ const TaskDialog = (): ReactElement => {
   };
 
   useEffect(() => {
-    categoryActionCreators.getAll()(dispatch);
-  }, []);
-
-  useEffect(() => {
     if (state.data?.task && typeof state.data?.totalColumnMinutes === 'number') {
       const totalMinutes = state.data.totalColumnMinutes;
       const taskMinutes = state.data.task.duration;

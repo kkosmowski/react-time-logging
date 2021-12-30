@@ -6,6 +6,7 @@ const taskSelector = (state: RootState) => state.task;
 
 const taskSelectors = {
   tasks: createSelector(taskSelector, task => task.tasks),
+  filtered: createSelector(taskSelector, task => task.filteredTasks),
   tasksLoading: createSelector(taskSelector, task => task.tasksLoading),
   addInProgress: createSelector(taskSelector, task => task.addInProgress),
   totalMinutesOnDate: (date: string) => createSelector(taskSelector, task => task.tasks
