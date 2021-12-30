@@ -1,14 +1,37 @@
-import { createReducer } from '@reduxjs/toolkit';
+import { createReducer, Draft } from '@reduxjs/toolkit';
 
 import { TaskState } from '../interfaces/task-state.interface';
 import taskActions from '../actions/task.actions';
+import { TaskModel } from '@interfaces/task.interface';
+import { EntityUid } from '@mytypes/entity-uid.type';
 
 export const initialTaskState: TaskState = {
   tasks: [],
+  filteredTasks: [],
   addInProgress: false,
   tasksLoading: false,
   selectionMode: {},
   selected: {},
+  filters: {
+    categories: [],
+    allCategoriesRequired: false,
+  },
+};
+
+const filterTasksHelper = (state: Draft<TaskState>): void => {
+  state.filteredTasks = state.tasks.filter((task) => {
+    if (state.filters.categories.length === 0) {
+      return true;
+    }
+
+    const taskCategories: EntityUid[] = task.categories.map(category => category.id);
+
+    if (state.filters.allCategoriesRequired) {
+      return state.filters.categories.every((category) => taskCategories.includes(category.id));
+    } else {
+      return state.filters.categories.some((category) => taskCategories.includes(category.id));
+    }
+  });
 };
 
 const taskReducer = createReducer(initialTaskState, (builder) => {
@@ -27,33 +50,41 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.getAllSuccess, (state, { payload }) => {
       state.tasksLoading = false;
       state.tasks = payload;
+      filterTasksHelper(state);
     })
 
     .addCase(taskActions.update, (state) => {
       state.tasksLoading = true;
     })
     .addCase(taskActions.updateSuccess, (state, { payload }) => {
-      state.tasksLoading = false;
-      state.tasks = state.tasks.map(task => task.id === payload.id
+      const mapFn = (task: TaskModel) => task.id === payload.id
         ? { ...task, ...payload.update }
-        : task
-      );
+        : task;
+
+      state.tasksLoading = false;
+      state.tasks = state.tasks.map(mapFn);
+      state.filteredTasks = state.filteredTasks.map(mapFn);
     })
 
     .addCase(taskActions.delete, (state) => {
       state.tasksLoading = true;
     })
     .addCase(taskActions.deleteSuccess, (state, { payload }) => {
+      const filterFn = (task: TaskModel) => task.id !== payload;
       state.tasksLoading = false;
-      state.tasks = state.tasks.filter(task => task.id !== payload);
+      state.tasks = state.tasks.filter(filterFn);
+      state.filteredTasks = state.filteredTasks.filter(filterFn);
     })
 
     .addCase(taskActions.deleteMultiple, (state) => {
       state.tasksLoading = true;
     })
     .addCase(taskActions.deleteMultipleSuccess, (state, { payload }) => {
+      const filterFn = (task: TaskModel) => !payload.includes(task.id);
+
       state.tasksLoading = false;
-      state.tasks = state.tasks.filter(task => !payload.includes(task.id));
+      state.tasks = state.tasks.filter(filterFn);
+      state.filteredTasks = state.filteredTasks.filter(filterFn);
     })
 
     .addCase(taskActions.duplicate, (state) => {
@@ -62,6 +93,7 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.duplicateSuccess, (state, { payload }) => {
       state.tasksLoading = false;
       state.tasks = [...state.tasks, payload];
+      filterTasksHelper(state);
     })
 
     .addCase(taskActions.reorder, (state) => {
@@ -70,6 +102,7 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.reorderSuccess, (state, { payload }) => {
       state.tasksLoading = false;
       state.tasks = payload;
+      filterTasksHelper(state);
     })
 
     .addCase(taskActions.paste, (state) => {
@@ -78,6 +111,7 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.pasteCutTaskSuccess, (state, { payload }) => {
       state.tasksLoading = false;
       state.tasks = state.tasks.map(task => task.id === payload.id ? payload : task);
+      filterTasksHelper(state);
     })
 
     .addCase(taskActions.toggleSelectionMode, (state, { payload }) => {
@@ -101,6 +135,11 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.deselect, (state, { payload }) => {
       const { column, taskId } = payload;
       state.selected[column] = state.selected[column].filter(id => id !== taskId);
+    })
+
+    .addCase(taskActions.updateFilters, (state, { payload }) => {
+      state.filters = payload;
+      filterTasksHelper(state);
     })
 });
 

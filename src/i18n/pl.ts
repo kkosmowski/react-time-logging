@@ -87,6 +87,15 @@ const pl: typeof en = {
     CANNOT_PASTE_BECAUSE_OF_LIMIT: 'Nie można wkleić zadania, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
     NOTHING_TO_PASTE: 'Żadne zadanie nie jest obecnie wycięte bądź skopiowane.',
   },
+  FILTERS: {
+    CLEAR: 'Wyczyść',
+    FILTER_CATEGORIES: 'Filtruj po kategorii',
+    SELECT_CATEGORIES_PLACEHOLDER: 'Wybierz kategorie...',
+    ANY_OR_EVERY: 'Jakakolwiek czy wszystkie',
+    ANY_OR_EVERY_TOOLTIP: 'Wybierz czy zadanie musi zawierać wszystkie wybrane kategorie czy jakąkolwiek.',
+    ANY: 'Jakakolwiek',
+    EVERY: 'Wszystkie',
+  },
 };
 
 export default pl;

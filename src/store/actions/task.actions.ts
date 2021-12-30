@@ -5,6 +5,7 @@ import { UpdatePayload } from '@payloads/update.payload';
 import { EntityUid } from '@mytypes/entity-uid.type';
 import { SelectionModePayload } from '@payloads/selection-mode.payload';
 import { SelectTaskPayload } from '@payloads/select-task.payload';
+import { FiltersInterface } from '@interfaces/filters.interface';
 
 const taskActions = {
   add: createAction<void>('ADD_TASK'),
@@ -34,6 +35,8 @@ const taskActions = {
   toggleSelectionMode: createAction<SelectionModePayload>('TOGGLE_SELECTION_MODE'),
   select: createAction<SelectTaskPayload>('SELECT_TASK'),
   deselect: createAction<SelectTaskPayload>('DESELECT_TASK'),
+
+  updateFilters: createAction<FiltersInterface>('UPDATE_FILTERS'),
 };
 
 export default taskActions;

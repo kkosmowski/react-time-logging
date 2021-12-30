@@ -85,6 +85,15 @@ const en = {
     CANNOT_PASTE_BECAUSE_OF_LIMIT: 'Cannot paste the task because it would exceed the {{ limit }}h limit.',
     NOTHING_TO_PASTE: 'There is no task in the clipboard.',
   },
+  FILTERS: {
+    CLEAR: 'Clear',
+    FILTER_CATEGORIES: 'Filter categories',
+    SELECT_CATEGORIES_PLACEHOLDER: 'Select categories...',
+    ANY_OR_EVERY: 'Any or every',
+    ANY_OR_EVERY_TOOLTIP: 'Should tasks contain any or every selected category?',
+    ANY: 'Any',
+    EVERY: 'Every',
+  },
 };
 
 export default en;

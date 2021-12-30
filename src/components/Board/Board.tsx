@@ -20,9 +20,10 @@ import { DragData } from '@interfaces/drag-data.interface';
 const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
   const tasks: TaskModel[] = useSelector(taskSelectors.tasks);
+  const filteredTasks: TaskModel[] = useSelector(taskSelectors.filtered);
   const { weekendDisplay, weekStart, language } = useSelector(uiSelectors.settings);
   const tasksLoading = useSelector(taskSelectors.tasksLoading);
-  const [filteredTasks, setFilteredTasks] = useState<Record<string, TaskModel[]>>({});
+  const [organizedTasks, setOrganizedTasks] = useState<Record<string, TaskModel[]>>({});
   const [columns, setColumns] = useState<ReactElement[]>([]);
   const [dragData, setDragData] = useState<DragData>({});
   const [daysToRender, setDaysToRender] = useState(DAYS_IN_WEEK);
@@ -37,20 +38,20 @@ const Board = (): ReactElement => {
   }, [setDaysToRender, weekendDisplay]);
 
   useEffect(() => {
-    const filtered: Record<string, TaskModel[]> = {};
+    const organized: Record<string, TaskModel[]> = {};
 
-    tasks.forEach((task) => {
+    filteredTasks.forEach((task) => {
       const taskFormattedDate = moment(task.date).toISOString();
 
-      if (!Array.isArray(filtered[taskFormattedDate])) {
-        filtered[taskFormattedDate] = [];
+      if (!Array.isArray(organized[taskFormattedDate])) {
+        organized[taskFormattedDate] = [];
       }
 
-      filtered[taskFormattedDate].push(task);
+      organized[taskFormattedDate].push(task);
     });
 
-    setFilteredTasks(filtered);
-  }, [tasks]);
+    setOrganizedTasks(organized);
+  }, [filteredTasks]);
 
   const renderColumns = useCallback(() => {
     if (week) {
@@ -60,11 +61,16 @@ const Board = (): ReactElement => {
         for (let i = 0; i < daysToRender; i++) {
           const daysToAdd = (i + weekStart - 1) % daysToRender;
           const date = moment(newWeek).add(daysToAdd, 'days');
+          const dateString = date.toISOString();
+          const totalMinutes = tasks
+            .filter(task => task.date === dateString)
+            .reduce((sum, task) => sum + task.duration, 0);
 
           items.push(
             <Column
               date={ date }
-              tasks={ filteredTasks[date.toISOString()] || [] }
+              tasks={ organizedTasks[dateString] || [] }
+              totalMinutes={ totalMinutes }
               dragData={ dragData }
               key={ i }
             />
@@ -74,7 +80,7 @@ const Board = (): ReactElement => {
         setColumns(items);
       }
     }
-  }, [week, daysToRender, weekStart, filteredTasks, dragData]);
+  }, [week, daysToRender, weekStart, organizedTasks, dragData]);
 
   useEffect(() => {
     setTimeout(() => { renderColumns(); });
@@ -101,8 +107,8 @@ const Board = (): ReactElement => {
 
     const oldDate = result.source.droppableId;
     const newDate = result.destination.droppableId;
-    const oldColumn = filteredTasks[oldDate];
-    const newColumn = filteredTasks[newDate];
+    const oldColumn = organizedTasks[oldDate];
+    const newColumn = organizedTasks[newDate];
 
     if (newDate) {
       const startId: EntityUid = oldColumn[result.source.index].id;
