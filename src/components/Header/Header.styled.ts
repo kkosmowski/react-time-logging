@@ -1,11 +1,11 @@
-import styled from 'styled-components/macro';
+import styled, { css } from 'styled-components/macro';
 import { Button } from 'antd';
 
 export const StyledHeader = styled.header`
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
   margin: 0 16px;
   height: 128px;
 `;
@@ -13,4 +13,21 @@ export const StyledHeader = styled.header`
 export const SettingsButton = styled(Button)`
   position: absolute;
   right: 0;
+`;
+
+export const HeaderRow = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CurrentFiltersRow = styled.p`
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  color: var(--foreground-700);
+  
+  strong {
+    color: var(--foreground);
+  }
 `;

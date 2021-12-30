@@ -93,6 +93,9 @@ const en = {
     ANY_OR_EVERY_TOOLTIP: 'Should tasks contain any or every selected category?',
     ANY: 'Any',
     EVERY: 'Every',
+    CURRENT_FILTERS: 'Currently showing tasks with categories',
+    AND: 'and',
+    OR: 'or',
   },
 };
 

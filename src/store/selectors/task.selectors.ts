@@ -15,6 +15,7 @@ const taskSelectors = {
   ),
   selectionMode: (date: string) => createSelector(taskSelector, task => task.selectionMode[date]),
   selected: (date: string) => createSelector(taskSelector, task => task.selected[date]),
+  filters: createSelector(taskSelector, task => task.filters),
 }
 
 export default taskSelectors;
