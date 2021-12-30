@@ -27,6 +27,9 @@ const pl: typeof en = {
     SAT: 'So',
     SUN: 'Nd',
     TODAY: 'Dzisiaj',
+    CUT: 'Wytnij',
+    COPY: 'Kopiuj',
+    PASTE: 'Wklej',
   },
   CONFIRMATION_DIALOG: {
     CONFIRM: 'Potwierdź',
@@ -67,7 +70,7 @@ const pl: typeof en = {
     TASK_CATEGORIES_TITLE: 'Kategorie',
     TASK_DATE_TITLE: 'Data',
     TASK_DURATION_TITLE: 'Czas trwania',
-    CANNOT_DUPLICATE_BECAUSE_OF_LIMIT: 'Nie można zduplikowac zadania, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
+    CANNOT_DUPLICATE_BECAUSE_OF_LIMIT: 'Nie można zduplikować zadania, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
   },
   ERROR: {
     DAY_LIMIT_EXCEEDED: 'Nie można zalogować więcej niż {{ limit }} godzin w ciągu dnia.\nObecnie: {{ current }}.',
@@ -81,6 +84,8 @@ const pl: typeof en = {
   },
   COLUMN: {
     CANNOT_DROP_BECAUSE_OF_LIMIT: 'Nie można dodać zadania do tej kolumny, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
+    CANNOT_PASTE_BECAUSE_OF_LIMIT: 'Nie można wkleić zadania, gdyż łączny czas przekroczyłby limit {{ limit }} godzin.',
+    NOTHING_TO_PASTE: 'Żadne zadanie nie jest obecnie wycięte bądź skopiowane.',
   },
 };
 
