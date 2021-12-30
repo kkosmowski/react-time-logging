@@ -6,6 +6,7 @@ import { TaskInterface } from '@interfaces/task.interface';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import { Description, Duration, StyledCard } from './TaskCard.styled';
 import { stopPropagation } from '@utils/stop-propagation.util';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: (task: TaskInterface) => void;
@@ -14,9 +15,28 @@ interface Props {
   task: TaskInterface;
   selected: boolean;
   selectable: boolean;
+  cut: boolean;
 }
 
-const TaskCard = ({ task, selected, selectable, onClick, onCut, onCopy }: Props): ReactElement => {
+const TaskCard = ({ task, selected, selectable, cut, onClick, onCut, onCopy }: Props): ReactElement => {
+  const { t } = useTranslation('COMMON');
+
+  const getClassName = (): string => {
+    let result = '';
+
+    if (selected) {
+      result += '--selected ';
+    } else if (selectable) {
+      result += '--selectable ';
+    }
+
+    if (cut) {
+      result += '--cut';
+    }
+
+    return result.trimRight();
+  }
+
   const handleClick = (): void => {
     onClick(task);
   };
@@ -31,8 +51,8 @@ const TaskCard = ({ task, selected, selectable, onClick, onCut, onCopy }: Props)
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={ handleCut } key="cut">Cut</Menu.Item>
-      <Menu.Item onClick={ handleCopy } key="copy">Copy</Menu.Item>
+      <Menu.Item onClick={ handleCut } key="cut">{ t('CUT') }</Menu.Item>
+      <Menu.Item onClick={ handleCopy } key="copy">{ t('COPY') }</Menu.Item>
     </Menu>
   );
 
@@ -50,7 +70,7 @@ const TaskCard = ({ task, selected, selectable, onClick, onCut, onCopy }: Props)
               <StyledCard
                 onClick={ handleClick }
                 title={ task.title }
-                className={ selected ? '--selected' : selectable ? '--selectable' : '' }
+                className={ getClassName() }
                 size="small"
                 hoverable
               >

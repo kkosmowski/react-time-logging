@@ -1,5 +1,5 @@
 import { ReactElement, useEffect, useRef, useState } from 'react';
-import { Button, Dropdown, Menu, Row } from 'antd';
+import { Button, Dropdown, Menu, Row, Tooltip } from 'antd';
 import moment, { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { Droppable } from 'react-beautiful-dnd';
@@ -56,6 +56,8 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
   const [cards, setCards] = useState<ReactElement[]>([]);
   const [isDropDisabled, setIsDropDisabled] = useState(false);
   const [isToday, setIsToday] = useState(false);
+  const [isPasteDisabled, setIsPasteDisabled] = useState(false);
+  const dayLimitInMinutes = dayLimit * MINUTES_IN_HOUR;
   const { t } = useTranslation('COLUMN');
   const dispatch = useDispatch();
 
@@ -148,9 +150,7 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
       return;
     }
 
-    const dayLimitInMinutes = dayLimit * MINUTES_IN_HOUR;
     const maxAllowedMinutes = dayLimitInMinutes - totalMinutes.current;
-
     setIsDropDisabled(dragData.task.duration > maxAllowedMinutes);
   }, [dragData]);
 
@@ -163,6 +163,8 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
     let minutes = 0;
 
     tasks.forEach((task, index) => {
+      const isTaskCut = clipboard?.action === ClipboardAction.Cut && clipboard.task.id === task.id;
+
       cardsArray.push(
         <TaskCard
           onClick={ handleTaskCardClick }
@@ -171,19 +173,38 @@ const Column = ({ date, tasks, dragData }: Props): ReactElement => {
           task={ {...task, numericId: index } }
           selected={ selectedTasks?.includes(task.id) }
           selectable={ selectionMode }
+          cut={ isTaskCut }
           key={ task.id }
         />
       );
       minutes += task.duration;
     });
 
-    setCards(cardsArray);
     totalMinutes.current = minutes;
-  }, [tasks, selectedTasks, selectionMode]);
+    setCards(cardsArray);
+  }, [tasks, selectedTasks, selectionMode, clipboard]);
+
+  useEffect(() => {
+    setIsPasteDisabled(clipboard?.task
+      ? clipboard.task.duration + totalMinutes.current > dayLimitInMinutes
+      : false
+    );
+  }, [clipboard, cards]);
 
   const menu = (
     <Menu>
-      <Menu.Item onClick={ handlePaste } disabled={ !clipboard } key="paste">Paste</Menu.Item>
+        <Menu.Item onClick={ handlePaste } disabled={ !clipboard || isPasteDisabled } key="paste">
+          <Tooltip
+            title={ isPasteDisabled
+              ? t('CANNOT_PASTE_BECAUSE_OF_LIMIT', { limit: dayLimit } )
+              : !clipboard
+                ? t('NOTHING_TO_PASTE')
+                : ''
+            }
+          >
+            { t('COMMON:PASTE') }
+          </Tooltip>
+        </Menu.Item>
     </Menu>
   );
 

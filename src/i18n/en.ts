@@ -25,6 +25,9 @@ const en = {
     SAT: 'Sat',
     SUN: 'Sun',
     TODAY: 'Today',
+    CUT: 'Cut',
+    COPY: 'Copy',
+    PASTE: 'Paste',
   },
   CONFIRMATION_DIALOG: {
     CONFIRM: 'Confirm',
@@ -79,6 +82,8 @@ const en = {
   },
   COLUMN: {
     CANNOT_DROP_BECAUSE_OF_LIMIT: 'Cannot drop the task to this column because it would exceed the {{ limit }}h limit.',
+    CANNOT_PASTE_BECAUSE_OF_LIMIT: 'Cannot paste the task because it would exceed the {{ limit }}h limit.',
+    NOTHING_TO_PASTE: 'There is no task in the clipboard.',
   },
 };
 

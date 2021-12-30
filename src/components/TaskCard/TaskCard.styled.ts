@@ -39,6 +39,11 @@ export const StyledCard = styled(Card)`
     border-color: var(--ant-primary-6);
   }
   
+  &.--cut {
+    border-style: dashed;
+    border-color: var(--background-400);
+  }
+  
   * {
     border-color: inherit;
   }
