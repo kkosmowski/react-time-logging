@@ -22,15 +22,6 @@ export const StyledTextArea = styled(Input.TextArea)`
   }
 `;
 
-export const TaskDialogGroup = styled.article`
-  display: flex;
-  flex-direction: column;
-  
-  &:not(:last-child) {
-    margin-bottom: 24px;
-  }
-`;
-
 export const TaskDialogHeading = styled.h2`
   font-size: 15px;
   text-transform: uppercase;

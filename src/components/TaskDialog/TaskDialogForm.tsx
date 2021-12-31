@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Moment } from 'moment';
 
 import ErrorText from '@components/ErrorText';
-import { Italic, StyledForm, StyledTextArea, TaskDialogGroup, TaskDialogHeading } from './TaskDialogForm.styled';
+import { Italic, StyledForm, StyledTextArea, TaskDialogHeading } from './TaskDialogForm.styled';
 import { DATE_FORMAT, MINUTES_IN_HOUR } from '@consts/date.consts';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
@@ -14,6 +14,7 @@ import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
 import { calculateDurationFromString, minutesToHoursAndMinutes } from '@utils/task.utils';
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
+import Row from '@components/Row';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
@@ -172,30 +173,30 @@ const TaskDialogForm = ({
     )
     : (
       <>
-        <TaskDialogGroup>
+        <Row column gap={ 24 }>
           <TaskDialogHeading>{ t('TASK_NAME_TITLE') }</TaskDialogHeading>
           <p>{ values.title }</p>
-        </TaskDialogGroup>
+        </Row>
 
-        <TaskDialogGroup>
+        <Row column gap={ 24 }>
           <TaskDialogHeading>{ t('TASK_DESCRIPTION_TITLE') }</TaskDialogHeading>
           <p>{ values.description }</p>
-        </TaskDialogGroup>
+        </Row>
 
-        <TaskDialogGroup>
+        <Row column gap={ 24 }>
           <TaskDialogHeading>{ t('TASK_CATEGORIES_TITLE') }</TaskDialogHeading>
           <p>{ categoryTags.length ? categoryTags : noneText }</p>
-        </TaskDialogGroup>
+        </Row>
 
-        <TaskDialogGroup>
+        <Row column gap={ 24 }>
           <TaskDialogHeading>{ t('TASK_DATE_TITLE') }</TaskDialogHeading>
           <p>{ values.date.format(DATE_FORMAT) }</p>
-        </TaskDialogGroup>
+        </Row>
 
-        <TaskDialogGroup>
+        <Row column gap={ 24 }>
           <TaskDialogHeading>{ t('TASK_DURATION_TITLE') }</TaskDialogHeading>
           <p>{ values.duration }</p>
-        </TaskDialogGroup>
+        </Row>
       </>
     );
 };

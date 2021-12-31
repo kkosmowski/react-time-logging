@@ -1,14 +1,15 @@
 import { ReactElement, useEffect, useState } from 'react';
-import { Button, Menu, Row, Select, Switch, Tooltip } from 'antd';
+import { Button, Menu, Select, Switch, Tooltip } from 'antd';
 import { useFormik } from 'formik';
 
-import { Filter, FiltersDropdown, FiltersDropdownBackdrop, FiltersMenuWrapper } from './Filters.styled';
+import { Explanation, Filter, FiltersDropdown, FiltersDropdownBackdrop, FiltersMenuWrapper } from './Filters.styled';
 import { Category } from '@interfaces/category.interface';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { FiltersInterface } from '@interfaces/filters.interface';
 import { FilterOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
 import { INITIAL_FILTERS } from '@consts/task.consts';
+import Row from '@components/Row';
 
 interface Props {
   categories: Category[];
@@ -49,11 +50,22 @@ const Filters = ({ categories, onChange }: Props): ReactElement => {
     setIsDropdownVisible(true);
   };
 
+  const restoreDefault = (): void => {
+    //
+  };
+
   useEffect(() => {
     setCategoryOptions(categories.map(category => ({
       label: category.name,
       value: category.id,
     })));
+
+    const categoriesIds = categories.map(category => category.id);
+    const updatedCategories = values.categories
+      .filter(category => categoriesIds.includes(category.id))
+      .map(category => categories.find(cat => cat.id === category.id));
+
+    setFieldValue('categories', updatedCategories);
   }, [categories]);
 
   useEffect(() => {
@@ -93,7 +105,14 @@ const Filters = ({ categories, onChange }: Props): ReactElement => {
           </Tooltip>
         </Filter>
 
-        <Row style={ { columnGap: '8px' } }>
+        <Filter>
+          <label>{ t('SAVE_FILTERS') }</label>
+          <Button type="primary">{ t('SAVE_AS_DEFAULT') }</Button>
+          <Explanation>{ t('SAVE_FILTERS_EXPLANATION') }</Explanation>
+        </Filter>
+
+        <Row gap={ 8 }>
+          <Button onClick={ restoreDefault }>{ t('RESTORE_DEFAULT') }</Button>
           <Button onClick={ () => resetForm() }>{ t('CLEAR') }</Button>
           <Button onClick={ handleDropdownClose }>{ t('COMMON:CLOSE') }</Button>
         </Row>

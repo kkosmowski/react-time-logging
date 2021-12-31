@@ -12,8 +12,9 @@ export const FiltersMenuWrapper = styled.div`
   align-items: flex-end;
   row-gap: 24px;
   padding: 16px 16px 8px;
-  min-width: 220px;
-  max-width: 280px;
+  min-width: 280px;
+  width: min-content;
+  max-width: 380px;
 `;
 
 export const Filter = styled.div`
@@ -41,4 +42,10 @@ export const FiltersDropdownBackdrop = styled.div<{ visible: boolean }>`
   left: 0;
   top: 0;
   background-color: rgba(0, 0, 0, 0.05);
+`;
+
+export const Explanation = styled.span`
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--foreground-800);
 `;
