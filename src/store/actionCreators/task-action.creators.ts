@@ -165,7 +165,6 @@ const taskActionCreators = {
       } else {
         await StorageService.set<FiltersModel>('filters', null, filtersInterfaceToModel(INITIAL_FILTERS));
         dispatch(taskActions.createDefaultFilters());
-        console.log(filtersInterfaceToModel(INITIAL_FILTERS));
         filters = INITIAL_FILTERS;
       }
 
