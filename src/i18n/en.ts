@@ -52,7 +52,7 @@ const en = {
     DAY_LIMIT: 'Limit of hours per day',
     HOURS_SUFFIX: 'hours',
     LANGUAGE: 'Language',
-    THEME: 'Motyw',
+    THEME: 'Theme',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Add task',
@@ -96,6 +96,10 @@ const en = {
     CURRENT_FILTERS: 'Currently showing tasks with categories',
     AND: 'and',
     OR: 'or',
+    SAVE_FILTERS: 'Save filters',
+    SAVE_FILTERS_EXPLANATION: 'This will save current filters and load them when you come back.',
+    SAVE_AS_DEFAULT: 'Save as default',
+    RESTORE_DEFAULT: 'Restore default',
   },
 };
 

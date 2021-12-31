@@ -2,6 +2,7 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { SettingOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 import PeriodPicker from '@components/PeriodPicker';
 import { CurrentFiltersRow, HeaderRow, SettingsButton, StyledHeader } from './Header.styled';
@@ -14,7 +15,6 @@ import categoryActionCreators from '@store/actionCreators/category-action.creato
 import { FiltersInterface } from '@interfaces/filters.interface';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
 import taskSelectors from '@store/selectors/task.selectors';
-import { useTranslation } from 'react-i18next';
 import uiSelectors from '@store/selectors/ui.selectors';
 
 const Header = (): ReactElement => {
