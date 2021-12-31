@@ -15,6 +15,7 @@ import { calculateDurationFromString, minutesToHoursAndMinutes } from '@utils/ta
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
 import Row from '@components/Row';
+import { EntityUid } from '@mytypes/entity-uid.type';
 
 interface Props {
   formik: FormikProps<TaskFormInterface>;
@@ -54,15 +55,11 @@ const TaskDialogForm = ({
   };
 
   const handleCategorySelect = (option: string): void => {
-    const category = categories.find(category => category.id === option);
-
-    if (category) {
-      setFieldValue('categories', [...values.categories, category]);
-    }
+    setFieldValue('categories', [...values.categories, option]);
   };
 
   const handleCategoryDeselect = (option: string): void => {
-    setFieldValue('categories', values.categories.filter(category => category.id !== option));
+    setFieldValue('categories', values.categories.filter(categoryId => categoryId !== option));
   };
 
   const handleDurationBlur = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -82,9 +79,11 @@ const TaskDialogForm = ({
     setFieldValue('duration', e.target.value, false);
   };
 
-  const mapSelectOptionToCategoryTag = (category: Category): ReactElement | null => {
-    if (!categories.map(c => c.id).includes(category.id)) return null;
-    return <Tag color="var(--tag-background)" key={ category.id }>{ category.name }</Tag>;
+  const mapSelectOptionToCategoryTag = (categoryId: EntityUid): ReactElement | null => {
+    const category = categories.find(category => category.id === categoryId);
+
+    if (!category) return null;
+    return <Tag color="var(--tag-background)" key={ categoryId }>{ category.name }</Tag>;
   };
 
   const categoryTags = values.categories
@@ -139,7 +138,7 @@ const TaskDialogForm = ({
           onSelect={ handleCategorySelect }
           onDeselect={ handleCategoryDeselect }
           options={ categoryOptions }
-          value={ values.categories.map(c => c.id) }
+          value={ values.categories }
           mode="tags"
         />
 

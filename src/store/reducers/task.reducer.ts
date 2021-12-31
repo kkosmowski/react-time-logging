@@ -3,7 +3,6 @@ import { createReducer, Draft } from '@reduxjs/toolkit';
 import { TaskState } from '../interfaces/task-state.interface';
 import taskActions from '../actions/task.actions';
 import { TaskModel } from '@interfaces/task.interface';
-import { EntityUid } from '@mytypes/entity-uid.type';
 import { INITIAL_FILTERS } from '@consts/task.consts';
 
 export const initialTaskState: TaskState = {
@@ -22,12 +21,10 @@ const filterTasksHelper = (state: Draft<TaskState>): void => {
       return true;
     }
 
-    const taskCategories: EntityUid[] = task.categories.map(category => category.id);
-
     if (state.filters.allCategoriesRequired) {
-      return state.filters.categories.every((category) => taskCategories.includes(category.id));
+      return state.filters.categories.every((category) => task.categories.includes(category.id));
     } else {
-      return state.filters.categories.some((category) => taskCategories.includes(category.id));
+      return state.filters.categories.some((category) => task.categories.includes(category.id));
     }
   });
 };
@@ -40,6 +37,7 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.addSuccess, (state, { payload }) => {
       state.addInProgress = false;
       state.tasks = [...state.tasks, payload];
+      filterTasksHelper(state);
     })
 
     .addCase(taskActions.getAll, (state) => {

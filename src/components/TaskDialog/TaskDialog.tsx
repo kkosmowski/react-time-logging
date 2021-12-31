@@ -18,7 +18,6 @@ import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import { TaskDialogState } from '@components/TaskDialog/domain/task-dialog-state.interface';
 import categorySelectors from '@store/selectors/category.selectors';
 import { Category } from '@interfaces/category.interface';
-import categoryActionCreators from '@store/actionCreators/category-action.creators';
 import { TaskDialogType } from '@enums/task-dialog-type.enum';
 import taskSelectors from '@store/selectors/task.selectors';
 import { MINUTES_IN_HOUR } from '@consts/date.consts';
