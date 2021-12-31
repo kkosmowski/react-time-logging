@@ -21,6 +21,7 @@ const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);
   const categories = useSelector(categorySelectors.categories);
   const filters = useSelector(taskSelectors.filters);
+  const defaultFilters = useSelector(taskSelectors.defaultFilters);
   const { language } = useSelector(uiSelectors.settings);
   const [filtersTouched, setFiltersTouched] = useState(false);
   const [currentFilterCategories, setCurrentFilterCategories] = useState<ReactNode[]>([]);
@@ -39,21 +40,25 @@ const Header = (): ReactElement => {
     dispatch(taskActionCreators.updateFilters(filters));
   };
 
+  const setDefaultFilters = (): void => {
+    taskActionCreators.setDefaultFilters(filters)(dispatch);
+  };
+
   useEffect(() => {
     categoryActionCreators.getAll()(dispatch);
+    taskActionCreators.loadDefaultFilters()(dispatch);
   }, []);
 
   useEffect(() => {
     if (!!filters.categories.length || filters.allCategoriesRequired) {
       setTimeout(() => {
         const separator = t(filters.allCategoriesRequired ? 'AND' : 'OR');
-        console.log('language', language);
         const array: ReactNode[] = [];
 
         setFiltersTouched(true);
 
         filters.categories.forEach((category) => {
-          array.push(<strong>{ category.name }</strong>);
+          array.push(<strong key={ category.id }>{ category.name }</strong>);
           array.push(` ${ separator } `);
         });
         array.pop();
@@ -69,7 +74,12 @@ const Header = (): ReactElement => {
   return (
     <StyledHeader>
       <HeaderRow>
-        <Filters categories={ categories } onChange={ handleFiltersChange } />
+        <Filters
+          categories={ categories }
+          defaultFilters={ defaultFilters }
+          onChange={ handleFiltersChange }
+          onSave={ setDefaultFilters }
+        />
 
         <PeriodPicker
           onChange={ handlePeriodChange }

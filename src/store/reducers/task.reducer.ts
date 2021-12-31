@@ -13,6 +13,7 @@ export const initialTaskState: TaskState = {
   selectionMode: {},
   selected: {},
   filters: INITIAL_FILTERS,
+  defaultFilters: INITIAL_FILTERS,
 };
 
 const filterTasksHelper = (state: Draft<TaskState>): void => {
@@ -136,6 +137,18 @@ const taskReducer = createReducer(initialTaskState, (builder) => {
     .addCase(taskActions.updateFilters, (state, { payload }) => {
       state.filters = payload;
       filterTasksHelper(state);
+    })
+
+    .addCase(taskActions.setDefaultFilters, (state, { payload }) => {
+      state.defaultFilters = payload;
+    })
+
+    .addCase(taskActions.loadDefaultFilters, (state) => {
+      state.tasksLoading = true;
+    })
+    .addCase(taskActions.loadDefaultFiltersSuccess, (state, { payload }) => {
+      state.tasksLoading = false;
+      state.defaultFilters = payload;
     })
 });
 

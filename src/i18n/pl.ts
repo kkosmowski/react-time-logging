@@ -102,6 +102,7 @@ const pl: typeof en = {
     SAVE_FILTERS_EXPLANATION: 'Zapisanie filtrów sprawi, że będą one ładowane przy uruchomieniu aplikacji.',
     SAVE_AS_DEFAULT: 'Zapisz jako domyślne',
     RESTORE_DEFAULT: 'Przywróć domyślne',
+    ALREADY_DEFAULT_TOOLTIP: 'Powyższe filtry są już domyślne.'
   },
 };
 

@@ -37,6 +37,13 @@ const taskActions = {
   deselect: createAction<SelectTaskPayload>('DESELECT_TASK'),
 
   updateFilters: createAction<FiltersInterface>('UPDATE_FILTERS'),
+
+  setDefaultFilters: createAction<FiltersInterface>('SET_DEFAULT_FILTERS'),
+
+  loadDefaultFilters: createAction<void>('LOAD_DEFAULT_FILTERS'),
+  loadDefaultFiltersSuccess: createAction<FiltersInterface>('LOAD_DEFAULT_FILTERS_SUCCESS'),
+
+  createDefaultFilters: createAction<void>('CREATE_DEFAULT_FILTERS'),
 };
 
 export default taskActions;
