@@ -2,6 +2,7 @@ import { ReactElement, ReactNode, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Language } from '@enums/language.enum';
 import { FiltersInterface } from '@interfaces/filters.interface';
+import styled from 'styled-components/macro';
 
 interface Props {
   filters: FiltersInterface;
@@ -37,11 +38,17 @@ const CurrentFilters = ({ filters, language }: Props): ReactElement | null => {
 
   return filtersTouched
     ? (
-      <span>
+      <StyledSpan>
         { t('CURRENT_FILTERS') }: { currentFilterCategories }
-      </span>
+      </StyledSpan>
     )
     : null;
 }
 
 export default CurrentFilters;
+
+const StyledSpan = styled.span`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+`;

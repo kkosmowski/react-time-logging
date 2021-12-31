@@ -23,7 +23,8 @@ const Header = (): ReactElement => {
   const categories = useSelector(categorySelectors.categories);
   const filters = useSelector(taskSelectors.filters);
   const defaultFilters = useSelector(taskSelectors.defaultFilters);
-  const { language, weekendDisplay, dayLimit } = useSelector(uiSelectors.settings);
+  const { language, weekendDisplay, dayTarget } = useSelector(uiSelectors.settings);
+  const columns = useSelector(boardSelectors.columns);
   const dispatch = useDispatch();
 
   const handlePeriodChange = (date: Moment): void => {
@@ -67,7 +68,7 @@ const Header = (): ReactElement => {
 
       <DetailsRow>
         <CurrentFilters filters={ filters } language={ language } />
-        <TotalTime weekendDisplay={ weekendDisplay } dayLimit={ dayLimit } />
+        <TotalTime weekendDisplay={ weekendDisplay } dayTarget={ dayTarget } columns={ columns } />
       </DetailsRow>
     </StyledHeader>
   );
