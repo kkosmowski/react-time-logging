@@ -93,15 +93,18 @@ const en = {
     ANY_OR_EVERY_TOOLTIP: 'Should tasks contain any or every selected category?',
     ANY: 'Any',
     EVERY: 'Every',
-    CURRENT_FILTERS: 'Currently showing tasks with categories',
-    AND: 'and',
-    OR: 'or',
     SAVE_FILTERS: 'Save filters',
     SAVE_FILTERS_EXPLANATION: 'This will save current filters and load them when you come back.',
     SAVE_AS_DEFAULT: 'Save as default',
     RESTORE_DEFAULT: 'Restore default',
     ALREADY_DEFAULT_TOOLTIP: 'Current filters are already default ones.'
   },
+  HEADER: {
+    CURRENT_FILTERS: 'Currently showing tasks with categories',
+    AND: 'and',
+    OR: 'or',
+    TOTAL_TIME_THIS_WEEK: 'Total time this week',
+  }
 };
 
 export default en;

@@ -1,11 +1,10 @@
-import { ReactElement, ReactNode, useEffect, useState } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Moment } from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { SettingOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
 
 import PeriodPicker from '@components/PeriodPicker';
-import { CurrentFiltersRow, HeaderRow, SettingsButton, StyledHeader } from './Header.styled';
+import { DetailsRow, HeaderRow, SettingsButton, StyledHeader } from './Header.styled';
 import boardSelectors from '@store/selectors/board.selectors';
 import boardActionCreators from '@store/actionCreators/board-action.creators';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
@@ -16,17 +15,16 @@ import { FiltersInterface } from '@interfaces/filters.interface';
 import taskActionCreators from '@store/actionCreators/task-action.creators';
 import taskSelectors from '@store/selectors/task.selectors';
 import uiSelectors from '@store/selectors/ui.selectors';
+import TotalTime from './components/TotalTime';
+import CurrentFilters from './components/CurrentFilters';
 
 const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);
   const categories = useSelector(categorySelectors.categories);
   const filters = useSelector(taskSelectors.filters);
   const defaultFilters = useSelector(taskSelectors.defaultFilters);
-  const { language } = useSelector(uiSelectors.settings);
-  const [filtersTouched, setFiltersTouched] = useState(false);
-  const [currentFilterCategories, setCurrentFilterCategories] = useState<ReactNode[]>([]);
+  const { language, weekendDisplay, dayLimit } = useSelector(uiSelectors.settings);
   const dispatch = useDispatch();
-  const { t } = useTranslation('FILTERS');
 
   const handlePeriodChange = (date: Moment): void => {
     dispatch(boardActionCreators.setViewedDate(date));
@@ -49,28 +47,6 @@ const Header = (): ReactElement => {
     taskActionCreators.loadDefaultFilters()(dispatch);
   }, []);
 
-  useEffect(() => {
-    if (!!filters.categories.length || filters.allCategoriesRequired) {
-      setTimeout(() => {
-        const separator = t(filters.allCategoriesRequired ? 'AND' : 'OR');
-        const array: ReactNode[] = [];
-
-        setFiltersTouched(true);
-
-        filters.categories.forEach((category) => {
-          array.push(<strong key={ category.id }>{ category.name }</strong>);
-          array.push(` ${ separator } `);
-        });
-        array.pop();
-
-        setCurrentFilterCategories(array);
-      });
-    } else {
-      setFiltersTouched(false);
-      setCurrentFilterCategories([]);
-    }
-  }, [filters, language]);
-
   return (
     <StyledHeader>
       <HeaderRow>
@@ -81,24 +57,18 @@ const Header = (): ReactElement => {
           onSave={ setDefaultFilters }
         />
 
-        <PeriodPicker
-          onChange={ handlePeriodChange }
-          value={ viewedDate }
-          withMargin
-        />
+        <PeriodPicker onChange={ handlePeriodChange } value={ viewedDate } withMargin />
 
-        <SettingsButton
-          onClick={ handleSettingsButtonClick }
+        <SettingsButton onClick={ handleSettingsButtonClick }
           icon={ <SettingOutlined /> }
           shape="circle"
         />
       </HeaderRow>
 
-      { filtersTouched && (
-        <CurrentFiltersRow>
-          { t('CURRENT_FILTERS') }: { currentFilterCategories }
-        </CurrentFiltersRow>
-      ) }
+      <DetailsRow>
+        <CurrentFilters filters={ filters } language={ language } />
+        <TotalTime weekendDisplay={ weekendDisplay } dayLimit={ dayLimit } />
+      </DetailsRow>
     </StyledHeader>
   );
 };
