@@ -100,6 +100,7 @@ const en = {
     SAVE_FILTERS_EXPLANATION: 'This will save current filters and load them when you come back.',
     SAVE_AS_DEFAULT: 'Save as default',
     RESTORE_DEFAULT: 'Restore default',
+    ALREADY_DEFAULT_TOOLTIP: 'Current filters are already default ones.'
   },
 };
 

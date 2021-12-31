@@ -8,15 +8,19 @@ import { SelectOption } from '@interfaces/select-option.interface';
 import { FiltersInterface } from '@interfaces/filters.interface';
 import { FilterOutlined } from '@ant-design/icons';
 import { useTranslation } from 'react-i18next';
-import { INITIAL_FILTERS } from '@consts/task.consts';
 import Row from '@components/Row';
+import { usePrevious } from '@hooks/use-previous';
+import { equalFilters } from '@utils/filters.utils';
+import { INITIAL_FILTERS } from '@consts/task.consts';
 
 interface Props {
   categories: Category[];
+  defaultFilters: FiltersInterface;
   onChange: (filters: FiltersInterface) => void;
+  onSave: () => void;
 }
 
-const Filters = ({ categories, onChange }: Props): ReactElement => {
+const Filters = ({ categories, defaultFilters, onChange, onSave }: Props): ReactElement => {
   const [categoryOptions, setCategoryOptions] = useState<SelectOption[]>([]);
   const formik = useFormik<FiltersInterface>({
     initialValues: INITIAL_FILTERS,
@@ -24,6 +28,8 @@ const Filters = ({ categories, onChange }: Props): ReactElement => {
   });
   const { setFieldValue, values, resetForm } = formik;
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isDefaultFilter, setIsDefaultFilter] = useState(true);
+  const previousValues = usePrevious(values);
   const { t } = useTranslation('FILTERS');
 
   const handleCategorySelect = (option: string): void => {
@@ -50,8 +56,12 @@ const Filters = ({ categories, onChange }: Props): ReactElement => {
     setIsDropdownVisible(true);
   };
 
+  const handleClear = (): void => {
+    resetForm({ values: INITIAL_FILTERS });
+  };
+
   const restoreDefault = (): void => {
-    //
+    resetForm({ values: defaultFilters });
   };
 
   useEffect(() => {
@@ -69,8 +79,18 @@ const Filters = ({ categories, onChange }: Props): ReactElement => {
   }, [categories]);
 
   useEffect(() => {
+    setIsDefaultFilter(equalFilters(values, defaultFilters));
+
+    if (!previousValues || equalFilters(values, previousValues)) {
+      return;
+    }
+
     onChange(values);
-  }, [values]);
+  }, [values, defaultFilters]);
+
+  useEffect(() => {
+    resetForm({ values: defaultFilters });
+  }, [defaultFilters]);
 
   const filtersMenu = (
     <Menu>
@@ -107,13 +127,24 @@ const Filters = ({ categories, onChange }: Props): ReactElement => {
 
         <Filter>
           <label>{ t('SAVE_FILTERS') }</label>
-          <Button type="primary">{ t('SAVE_AS_DEFAULT') }</Button>
+          <Tooltip title={ isDefaultFilter ? t('ALREADY_DEFAULT_TOOLTIP') : '' }>
+            <Button
+              onClick={ onSave }
+              disabled={ isDefaultFilter }
+              type="primary"
+            >{ t('SAVE_AS_DEFAULT') }</Button>
+          </Tooltip>
           <Explanation>{ t('SAVE_FILTERS_EXPLANATION') }</Explanation>
         </Filter>
 
         <Row gap={ 8 }>
-          <Button onClick={ restoreDefault }>{ t('RESTORE_DEFAULT') }</Button>
-          <Button onClick={ () => resetForm() }>{ t('CLEAR') }</Button>
+          <Tooltip title={ isDefaultFilter ? t('ALREADY_DEFAULT_TOOLTIP') : '' }>
+            <Button
+              onClick={ restoreDefault }
+              disabled={ isDefaultFilter }
+            >{ t('RESTORE_DEFAULT') }</Button>
+          </Tooltip>
+          <Button onClick={ handleClear }>{ t('CLEAR') }</Button>
           <Button onClick={ handleDropdownClose }>{ t('COMMON:CLOSE') }</Button>
         </Row>
       </FiltersMenuWrapper>

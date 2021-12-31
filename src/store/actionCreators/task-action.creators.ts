@@ -16,7 +16,9 @@ import { ClipboardPayload } from '@payloads/clipboard.payload';
 import { SelectionModePayload } from '@payloads/selection-mode.payload';
 import { SelectTaskPayload } from '@payloads/select-task.payload';
 import { TaskDialogPayload } from '@payloads/task-dialog.payload';
-import { FiltersInterface } from '@interfaces/filters.interface';
+import { FiltersInterface, FiltersModel } from '@interfaces/filters.interface';
+import { INITIAL_FILTERS } from '@consts/task.consts';
+import { filtersInterfaceToModel, filtersModelToInterface } from '@utils/filters.utils';
 
 const taskActionCreators = {
   add(task: TaskModel): (d: Dispatch) => Promise<void> {
@@ -137,7 +139,39 @@ const taskActionCreators = {
 
   updateFilters(filters: FiltersInterface): Action {
     return taskActions.updateFilters(filters);
-  }
+  },
+
+  setDefaultFilters(filters: FiltersInterface): (d: Dispatch) => Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      await StorageService.set<FiltersModel>(
+        'filters',
+        null,
+        filtersInterfaceToModel(filters),
+      );
+
+      dispatch(taskActions.setDefaultFilters(filters));
+    }
+  },
+
+  loadDefaultFilters(): (d: Dispatch) => Promise<void> {
+    return async function (dispatch: Dispatch): Promise<void> {
+      dispatch(taskActions.loadDefaultFilters());
+
+      const model = await StorageService.getAll<FiltersModel>('filters');
+      let filters: FiltersInterface;
+
+      if (model.length) {
+        filters = filtersModelToInterface(model);
+      } else {
+        await StorageService.set<FiltersModel>('filters', null, filtersInterfaceToModel(INITIAL_FILTERS));
+        dispatch(taskActions.createDefaultFilters());
+        console.log(filtersInterfaceToModel(INITIAL_FILTERS));
+        filters = INITIAL_FILTERS;
+      }
+
+      dispatch(taskActions.loadDefaultFiltersSuccess(filters));
+    }
+  },
 }
 
 export default taskActionCreators;

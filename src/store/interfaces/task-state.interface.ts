@@ -10,4 +10,5 @@ export interface TaskState {
   selectionMode: Record<string, boolean>;
   selected: Record<string, EntityUid[]>;
   filters: FiltersInterface;
+  defaultFilters: FiltersInterface;
 }
