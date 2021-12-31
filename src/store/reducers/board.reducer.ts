@@ -6,6 +6,7 @@ import boardActions from '../actions/board.actions';
 export const initialBoardState: BoardState = {
   viewedDate: null,
   week: null,
+  columns: [],
 };
 
 const boardReducer = createReducer(initialBoardState, (builder) => {
@@ -16,6 +17,10 @@ const boardReducer = createReducer(initialBoardState, (builder) => {
 
     .addCase(boardActions.setWeek, (state, { payload }) => {
       state.week = payload;
+    })
+
+    .addCase(boardActions.setColumns, (state, { payload }) => {
+      state.columns = payload;
     })
 });
 

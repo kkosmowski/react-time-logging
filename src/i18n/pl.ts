@@ -95,15 +95,18 @@ const pl: typeof en = {
     ANY_OR_EVERY_TOOLTIP: 'Wybierz czy zadanie musi zawierać wszystkie wybrane kategorie czy jakąkolwiek.',
     ANY: 'Jakakolwiek',
     EVERY: 'Wszystkie',
-    CURRENT_FILTERS: 'Obecnie wyswietlane są zadania z kategoriami',
-    AND: 'oraz',
-    OR: 'lub',
     SAVE_FILTERS: 'Zapisz filtry',
     SAVE_FILTERS_EXPLANATION: 'Zapisanie filtrów sprawi, że będą one ładowane przy uruchomieniu aplikacji.',
     SAVE_AS_DEFAULT: 'Zapisz jako domyślne',
     RESTORE_DEFAULT: 'Przywróć domyślne',
     ALREADY_DEFAULT_TOOLTIP: 'Powyższe filtry są już domyślne.'
   },
+  HEADER: {
+    CURRENT_FILTERS: 'Obecnie wyswietlane są zadania z kategoriami',
+    AND: 'oraz',
+    OR: 'lub',
+    TOTAL_TIME_THIS_WEEK: 'Łącznie w tym tygodniu',
+  }
 };
 
 export default pl;

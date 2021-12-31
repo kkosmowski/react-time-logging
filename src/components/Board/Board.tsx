@@ -14,8 +14,9 @@ import { EntityUid } from '@mytypes/entity-uid.type';
 import BoardOverlay from './BoardOverlay';
 import uiSelectors from '@store/selectors/ui.selectors';
 import { calculateDaysToRender } from '@utils/calculate-days-to-render.util';
-import { DAYS_IN_WEEK } from '@consts/date.consts';
 import { DragData } from '@interfaces/drag-data.interface';
+import { ColumnInterface } from '@interfaces/column.interface';
+import boardActionCreators from '@store/actionCreators/board-action.creators';
 
 const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
@@ -24,10 +25,16 @@ const Board = (): ReactElement => {
   const { weekendDisplay, weekStart, language } = useSelector(uiSelectors.settings);
   const tasksLoading = useSelector(taskSelectors.tasksLoading);
   const [organizedTasks, setOrganizedTasks] = useState<Record<string, TaskModel[]>>({});
-  const [columns, setColumns] = useState<ReactElement[]>([]);
+  const [columnElements, setColumnElements] = useState<ReactElement[]>([]);
   const [dragData, setDragData] = useState<DragData>({});
-  const [daysToRender, setDaysToRender] = useState(DAYS_IN_WEEK);
+  const [daysToRender, setDaysToRender] = useState(0);
   const dispatch = useDispatch();
+
+  const getTotalMinutes = (tasks: TaskModel[], dateString: string): number => {
+    return tasks
+      .filter(task => task.date === dateString)
+      .reduce((sum, task) => sum + task.duration, 0);
+  }
 
   useEffect(() => {
     taskActionCreators.getAll()(dispatch);
@@ -54,31 +61,35 @@ const Board = (): ReactElement => {
   }, [filteredTasks]);
 
   const renderColumns = useCallback(() => {
-    if (week) {
+    if (week && daysToRender) {
       const items: ReactElement[] = [];
+      const columns: ColumnInterface[] = [];
       const newWeek = moment(week.start.toISOString());
-      {
-        for (let i = 0; i < daysToRender; i++) {
-          const daysToAdd = (i + weekStart - 1) % daysToRender;
-          const date = moment(newWeek).add(daysToAdd, 'days');
-          const dateString = date.toISOString();
-          const totalMinutes = tasks
-            .filter(task => task.date === dateString)
-            .reduce((sum, task) => sum + task.duration, 0);
 
-          items.push(
-            <Column
-              date={ date }
-              tasks={ organizedTasks[dateString] || [] }
-              totalMinutes={ totalMinutes }
-              dragData={ dragData }
-              key={ i }
-            />
-          )
-        }
+      for (let i = 0; i < daysToRender; i++) {
+        const daysToAdd = (i + weekStart - 1) % daysToRender;
+        const date = moment(newWeek).add(daysToAdd, 'days');
+        const dateString = date.toISOString();
+        const totalMinutes = getTotalMinutes(tasks, dateString);
 
-        setColumns(items);
+        columns.push({
+          totalMinutes,
+          filteredMinutes: getTotalMinutes(filteredTasks, dateString),
+        });
+
+        items.push(
+          <Column
+            date={ date }
+            tasks={ organizedTasks[dateString] || [] }
+            totalMinutes={ totalMinutes }
+            dragData={ dragData }
+            key={ i }
+          />
+        )
       }
+
+      setColumnElements(items);
+      dispatch(boardActionCreators.setColumns(columns));
     }
   }, [week, daysToRender, weekStart, organizedTasks, dragData]);
 
@@ -140,7 +151,7 @@ const Board = (): ReactElement => {
   return (
     <DragDropContext onDragEnd={ handleDragEnd } onDragStart={ handleDragStart }>
       <BoardSection>
-        { columns }
+        { columnElements }
         { tasksLoading && <BoardOverlay /> }
       </BoardSection>
     </DragDropContext>

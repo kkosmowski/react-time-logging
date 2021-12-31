@@ -21,10 +21,14 @@ export const HeaderRow = styled.div`
   align-items: center;
 `;
 
-export const CurrentFiltersRow = styled.p`
+export const DetailsRow = styled.p`
   position: absolute;
   bottom: 8px;
   left: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   color: var(--foreground-700);
   
   strong {
