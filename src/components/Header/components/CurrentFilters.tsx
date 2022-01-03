@@ -60,8 +60,8 @@ const CurrentFilters = ({ filters, language }: Props): ReactElement | null => {
 
         const numberOfCategoriesToRemove = Math.ceil(itemsToRemove / odd) // exclude ORs/ANDs
         const removedCategories = filters.categories
-          .slice(itemsToRemove + 1)
-          .map(category => category.name + '\n');
+          .slice(filters.categories.length - numberOfCategoriesToRemove)
+          .map(category => <>{ category.name }<br /></>);
 
         setCurrentFilterCategories([
           ...currentFilterCategories.slice(0, currentFilterCategories.length - itemsToRemove),
