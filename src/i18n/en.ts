@@ -104,6 +104,7 @@ const en = {
     AND: 'and',
     OR: 'or',
     TOTAL_TIME_THIS_WEEK: 'Total time this week',
+    X_MORE: '{{ x }} more',
   }
 };
 

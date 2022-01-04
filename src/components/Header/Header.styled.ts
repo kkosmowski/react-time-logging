@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import { Button } from 'antd';
 
 export const StyledHeader = styled.header`

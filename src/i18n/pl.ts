@@ -106,6 +106,7 @@ const pl: typeof en = {
     AND: 'oraz',
     OR: 'lub',
     TOTAL_TIME_THIS_WEEK: 'Łącznie w tym tygodniu',
+    X_MORE: '{{ x }} inne',
   }
 };
 

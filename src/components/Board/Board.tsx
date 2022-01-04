@@ -60,7 +60,7 @@ const Board = (): ReactElement => {
     setOrganizedTasks(organized);
   }, [filteredTasks]);
 
-  const renderColumns = useCallback(() => {
+  useEffect(() => {
     if (week && daysToRender) {
       const items: ReactElement[] = [];
       const columns: ColumnInterface[] = [];
@@ -92,14 +92,6 @@ const Board = (): ReactElement => {
       dispatch(boardActionCreators.setColumns(columns));
     }
   }, [week, daysToRender, weekStart, organizedTasks, dragData]);
-
-  useEffect(() => {
-    setTimeout(() => { renderColumns(); });
-  }, [language]);
-
-  useEffect(() => {
-    renderColumns();
-  }, [renderColumns]);
 
   const handleDragStart = (initial: DragStart): void => {
     const taskId = initial.draggableId;
