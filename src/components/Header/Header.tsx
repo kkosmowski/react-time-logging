@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SettingOutlined } from '@ant-design/icons';
 
 import PeriodPicker from '@components/PeriodPicker';
-import { DetailsRow, HeaderRow, SettingsButton, StyledHeader } from './Header.styled';
+import { DetailsRow, HeaderRow, SettingsButton, StyledHeader, Version } from './Header.styled';
 import boardSelectors from '@store/selectors/board.selectors';
 import boardActionCreators from '@store/actionCreators/board-action.creators';
 import uiActionCreators from '@store/actionCreators/ui-action.creators';
@@ -17,6 +17,8 @@ import taskSelectors from '@store/selectors/task.selectors';
 import uiSelectors from '@store/selectors/ui.selectors';
 import TotalTime from './components/TotalTime';
 import CurrentFilters from './components/CurrentFilters';
+
+const version = '1.0.0';
 
 const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);
@@ -50,6 +52,7 @@ const Header = (): ReactElement => {
 
   return (
     <StyledHeader>
+      <Version>{ version }</Version>
       <HeaderRow>
         <Filters
           categories={ categories }

@@ -1,13 +1,25 @@
 import styled from 'styled-components/macro';
 import { Button } from 'antd';
 
+const headerMargin = 16;
+const versionMargin = 6;
+
 export const StyledHeader = styled.header`
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 0 16px;
+  margin: 0 ${ headerMargin }px;
   height: 128px;
+`;
+
+export const Version = styled.span`
+  position: absolute;
+  top: ${ versionMargin }px;
+  right: ${ versionMargin - headerMargin }px;
+  color: var(--foreground29);
+  font-size: 12px;
+  line-height: 1;
 `;
 
 export const SettingsButton = styled(Button)`
