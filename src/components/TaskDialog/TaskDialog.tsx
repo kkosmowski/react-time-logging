@@ -27,7 +27,7 @@ const TaskDialog = (): ReactElement => {
   const isNewTask = state.data?.type === TaskDialogType.NewTask;
   const { weekendDisplay, dayLimit } = useSelector(uiSelectors.settings);
   const categories: Category[] = useSelector(categorySelectors.categories);
-  const [isEditMode, setIsEditMode] = useState(isNewTask);
+  const [isEditMode, setIsEditMode] = useState(isNewTask || !!state.data?.editMode);
   const titleTranslationKey = isNewTask
     ? 'ADD_TASK'
     : isEditMode ? 'EDIT_TASK' : 'VIEW_TASK';

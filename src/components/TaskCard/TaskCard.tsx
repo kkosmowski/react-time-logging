@@ -12,13 +12,17 @@ interface Props {
   onClick: (task: TaskInterface) => void;
   onCut: (task: TaskInterface) => void;
   onCopy: (task: TaskInterface) => void;
+  onEdit: (task: TaskInterface) => void;
+  onDelete: (task: TaskInterface) => void;
   task: TaskInterface;
   selected: boolean;
   selectable: boolean;
   cut: boolean;
 }
 
-const TaskCard = ({ task, selected, selectable, cut, onClick, onCut, onCopy }: Props): ReactElement => {
+const TaskCard = (
+  { task, selected, selectable, cut, onClick, onCut, onCopy, onEdit, onDelete }: Props
+): ReactElement => {
   const { t } = useTranslation('COMMON');
 
   const getClassName = (): string => {
@@ -37,22 +41,18 @@ const TaskCard = ({ task, selected, selectable, cut, onClick, onCut, onCopy }: P
     return result.trimRight();
   }
 
-  const handleClick = (): void => {
-    onClick(task);
-  };
-
-  const handleCut = (): void => {
-    onCut(task);
-  };
-
-  const handleCopy = (): void => {
-    onCopy(task);
-  };
+  const handleClick = (): void => { onClick(task); };
+  const handleCut = (): void => { onCut(task); };
+  const handleCopy = (): void => { onCopy(task); };
+  const handleEdit = (): void => { onEdit(task); };
+  const handleDelete = (): void => { onDelete(task); };
 
   const menu = (
     <Menu>
       <Menu.Item onClick={ handleCut } key="cut">{ t('CUT') }</Menu.Item>
       <Menu.Item onClick={ handleCopy } key="copy">{ t('COPY') }</Menu.Item>
+      <Menu.Item onClick={ handleEdit } key="edit">{ t('EDIT') }</Menu.Item>
+      <Menu.Item onClick={ handleDelete } danger key="delete">{ t('DELETE') }</Menu.Item>
     </Menu>
   );
 

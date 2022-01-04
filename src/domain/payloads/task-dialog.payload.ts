@@ -6,4 +6,5 @@ export interface TaskDialogPayload {
   date?: string;
   task?: TaskModel;
   totalColumnMinutes?: number;
+  editMode?: boolean;
 }
