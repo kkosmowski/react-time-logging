@@ -138,6 +138,22 @@ const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement =>
     setClipboard(ClipboardAction.Copy, task);
   };
 
+  const handleTaskEdit = (task: TaskInterface): void => {
+    dispatch(uiActionCreators.openTaskDialog({
+      type: TaskDialogType.ExistingTask,
+      task,
+      totalColumnMinutes: totalMinutes,
+      editMode: true,
+    }));
+  };
+
+  const handleTaskDelete = (task: TaskInterface): void => {
+    dispatch(uiActionCreators.openConfirmationDialog(
+      ConfirmationAction.DeleteTask,
+      task,
+    ));
+  };
+
   const handlePaste = (): void => {
     if (clipboard) {
       taskActionCreators.paste(clipboard, date)(dispatch);
@@ -170,6 +186,8 @@ const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement =>
           onClick={ handleTaskCardClick }
           onCut={ handleTaskCut }
           onCopy={ handleTaskCopy }
+          onEdit={ handleTaskEdit }
+          onDelete={ handleTaskDelete }
           task={ {...task, numericId: index } }
           selected={ selectedTasks?.includes(task.id) }
           selectable={ selectionMode }
