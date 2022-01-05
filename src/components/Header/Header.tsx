@@ -18,7 +18,7 @@ import uiSelectors from '@store/selectors/ui.selectors';
 import TotalTime from './components/TotalTime';
 import CurrentFilters from './components/CurrentFilters';
 
-const version = '1.0.0';
+const version = '1.0.1';
 
 const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);

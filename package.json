@@ -1,6 +1,6 @@
 {
   "name": "react-time-logging",
-  "version": "1.0.0",
+  "version": "1.0.1changelog.md",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
