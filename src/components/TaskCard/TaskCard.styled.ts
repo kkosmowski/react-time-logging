@@ -4,23 +4,27 @@ import { Card } from 'antd';
 import { TASK_DESCRIPTION_MAX_HEIGHT } from '@consts/task.consts';
 
 export const StyledCard = styled(Card)`
+  line-height: var(--task-card-line-height);
+  
   &:first-child {
-    margin-top: 8px;
+    margin-top: var(--task-card-margin-top);
   }
-  margin-bottom: 8px;
+  margin-bottom: var(--task-card-margin-bottom);
   
   > .ant-card-head {
-    min-height: 28px;
+    padding: var(--task-card-header-padding);
+    min-height: var(--task-card-header-min-height);
     
     > .ant-card-head-wrapper > .ant-card-head-title {
-      padding: 4px 0;
+      padding: var(--task-card-title-padding);
     }
   }
   
   .ant-card-body {
     display: flex;
     flex-direction: column;
-    padding-bottom: 4px;
+    padding: var(--task-card-body-padding);
+    white-space: pre-wrap;
   }
   
   .--today & {

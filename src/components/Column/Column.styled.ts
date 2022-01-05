@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components/macro';
 
 const columnPadding = css`
-  padding-left: 12px;
-  padding-right: 12px;
+  padding-left: var(--column-horizontal-padding);
+  padding-right: var(--column-horizontal-padding);
 `;
 
 export const ColumnWrapper = styled.section`
@@ -32,8 +32,8 @@ export const ColumnWrapper = styled.section`
 export const ColumnHeader = styled.header`
   display: flex;
   flex-direction: column;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding-top: var(--column-header-vertical-padding);
+  padding-bottom: var(--column-header-vertical-padding);
   font-size: 17px;
   ${ columnPadding };
 `;
@@ -109,6 +109,8 @@ export const ColumnBody = styled.div<{ draggedOver: boolean; isDropDisabled: boo
 `;
 
 export const Controls = styled.div`
+  display: flex;
+  column-gap: 4px;
   align-self: center;
   flex-shrink: 0;
   opacity: 0;

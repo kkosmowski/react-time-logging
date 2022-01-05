@@ -53,6 +53,9 @@ const en = {
     HOURS_SUFFIX: 'hours',
     LANGUAGE: 'Language',
     THEME: 'Theme',
+    CONDENSED_VIEW: 'Condensed view',
+    YES: 'Yes',
+    NO: 'No',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Add task',

@@ -10,7 +10,7 @@ export const StyledHeader = styled.header`
   flex-direction: column;
   justify-content: center;
   margin: 0 ${ headerMargin }px;
-  height: 128px;
+  height: var(--header-height);
 `;
 
 export const Version = styled.span`

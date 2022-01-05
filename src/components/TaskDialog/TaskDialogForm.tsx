@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Moment } from 'moment';
 
 import ErrorText from '@components/ErrorText';
-import { Italic, StyledForm, StyledTextArea, TaskDialogHeading } from './TaskDialogForm.styled';
+import { Italic, StyledForm, StyledTextArea, TaskDialogHeading, TaskDialogRow, TaskView } from './TaskDialogForm.styled';
 import { DATE_FORMAT, MINUTES_IN_HOUR } from '@consts/date.consts';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { Category } from '@interfaces/category.interface';
@@ -171,32 +171,32 @@ const TaskDialogForm = ({
       </StyledForm>
     )
     : (
-      <>
-        <Row column gap={ 24 }>
+      <TaskView>
+        <TaskDialogRow>
           <TaskDialogHeading>{ t('TASK_NAME_TITLE') }</TaskDialogHeading>
           <p>{ values.title }</p>
-        </Row>
+        </TaskDialogRow>
 
-        <Row column gap={ 24 }>
+        <TaskDialogRow>
           <TaskDialogHeading>{ t('TASK_DESCRIPTION_TITLE') }</TaskDialogHeading>
-          <p>{ values.description }</p>
-        </Row>
+          <p style={ { whiteSpace: 'pre-wrap' } }>{ values.description }</p>
+        </TaskDialogRow>
 
-        <Row column gap={ 24 }>
+        <TaskDialogRow>
           <TaskDialogHeading>{ t('TASK_CATEGORIES_TITLE') }</TaskDialogHeading>
           <p>{ categoryTags.length ? categoryTags : noneText }</p>
-        </Row>
+        </TaskDialogRow>
 
-        <Row column gap={ 24 }>
+        <TaskDialogRow>
           <TaskDialogHeading>{ t('TASK_DATE_TITLE') }</TaskDialogHeading>
           <p>{ values.date.format(DATE_FORMAT) }</p>
-        </Row>
+        </TaskDialogRow>
 
-        <Row column gap={ 24 }>
+        <TaskDialogRow>
           <TaskDialogHeading>{ t('TASK_DURATION_TITLE') }</TaskDialogHeading>
           <p>{ values.duration }</p>
-        </Row>
-      </>
+        </TaskDialogRow>
+      </TaskView>
     );
 };
 

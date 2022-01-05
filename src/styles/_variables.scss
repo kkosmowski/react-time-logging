@@ -1,3 +1,15 @@
 :root {
+  --header-height: 128px;
 
+  --column-header-vertical-padding: 8px;
+  --column-horizontal-padding: 12px;
+
+  --task-card-margin-top: 8px;
+  --task-card-margin-bottom: 8px;
+  --task-card-header-min-height: 28px;
+  --task-card-title-padding: 4px 0;
+  --task-card-horizontal-padding: 12px;
+  --task-card-header-padding: 0 var(--task-card-horizontal-padding);
+  --task-card-body-padding: 12px var(--task-card-horizontal-padding) 4px;
+  --task-card-line-height: 1.572;
 }
