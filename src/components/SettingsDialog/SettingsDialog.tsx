@@ -1,5 +1,5 @@
 import { ChangeEvent, ReactElement, useLayoutEffect, useRef, useState } from 'react';
-import { Button, Input, Modal, Select } from 'antd';
+import { Button, Input, Modal, Select, Switch } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +31,7 @@ const SettingsDialog = (): ReactElement => {
     weekStart,
     language,
     theme,
+    condensed,
   } = useSelector(uiSelectors.settings);
   const [isAddCategoryMode, setIsAddCategoryMode] = useState(false);
   const [categoryName, setCategoryName] = useState('');
@@ -98,6 +99,10 @@ const SettingsDialog = (): ReactElement => {
 
   const handleThemeChange = (theme: Theme): void => {
     uiActionCreators.updateSetting<Theme>('theme', theme)(dispatch);
+  };
+
+  const handleCondensedChange = (condensed: boolean): void => {
+    uiActionCreators.updateSetting<boolean>('condensed', condensed)(dispatch);
   };
 
   useLayoutEffect(() => {
@@ -223,6 +228,18 @@ const SettingsDialog = (): ReactElement => {
             options={ translateOptions(THEME_OPTIONS, t) }
             value={ theme }
             aria-labelledby="themeTitle"
+          />
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3 id="condensedView">{ t('CONDENSED_VIEW') }</h3>
+
+          <Switch
+            checked={ condensed }
+            onChange={ handleCondensedChange }
+            checkedChildren={ t('YES') }
+            unCheckedChildren={ t('NO') }
+            aria-labelledby="condensedView"
           />
         </SettingsRow>
       </SettingsSection>

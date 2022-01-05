@@ -55,6 +55,9 @@ const pl: typeof en = {
     HOURS_SUFFIX: 'godzin',
     LANGUAGE: 'Język',
     THEME: 'Motyw',
+    CONDENSED_VIEW: 'Skondensowany widok',
+    YES: 'Tak',
+    NO: 'Nie',
   },
   TASK_DIALOG: {
     ADD_TASK: 'Dodawanie zadanie',

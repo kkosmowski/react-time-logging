@@ -23,7 +23,7 @@ moment.locale('en-US');
 
 const Main = (): ReactElement => {
   const [locale, setLocale] = useState(enUS);
-  const { language, theme } = useSelector(uiSelectors.settings);
+  const { language, theme, condensed } = useSelector(uiSelectors.settings);
   const taskDialogOpened = useSelector(uiSelectors.taskDialogOpened);
   const confirmationDialogOpened = useSelector(uiSelectors.confirmationDialogOpened);
   const settingsDialogOpened = useSelector(uiSelectors.settingsDialogOpened);
@@ -46,8 +46,8 @@ const Main = (): ReactElement => {
   }, [language]);
 
   useEffect(() => {
-    document.body.className = theme;
-  }, [theme]);
+    document.body.className = theme + (condensed ? ' --condensed' : '');
+  }, [theme, condensed]);
 
   return (
     <ConfigProvider locale={ locale }>

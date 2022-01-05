@@ -31,3 +31,14 @@ export const TaskDialogHeading = styled.h2`
 export const Italic = styled.span`
   font-style: italic;
 `;
+
+export const TaskView = styled.section`
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+`;
+
+export const TaskDialogRow = styled.article`
+  display: flex;
+  flex-direction: column;
+`;

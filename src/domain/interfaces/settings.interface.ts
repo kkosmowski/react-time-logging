@@ -28,6 +28,10 @@ export type SettingsModel = [
     id: 'theme',
     theme: Theme,
   },
+  {
+    id: 'condensed',
+    condensed: boolean,
+  },
 ];
 
 export type SettingsInterface = {
@@ -37,4 +41,5 @@ export type SettingsInterface = {
   dayLimit: number;
   language: Language;
   theme: Theme;
+  condensed: boolean;
 }

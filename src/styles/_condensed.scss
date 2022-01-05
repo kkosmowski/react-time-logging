@@ -1,0 +1,15 @@
+body.--condensed {
+  --header-height: 100px;
+
+  --column-header-vertical-padding: 3px;
+  --column-horizontal-padding: 10px;
+
+  --task-card-margin-top: 6px;
+  --task-card-margin-bottom: 0px;
+  --task-card-header-min-height: 24px;
+  --task-card-title-padding: 3px 0;
+  --task-card-horizontal-padding: 8px;
+  --task-card-header-padding: 0 var(--task-card-horizontal-padding);
+  --task-card-body-padding: 5px var(--task-card-horizontal-padding) 2px;
+  --task-card-line-height: 1.414;
+}

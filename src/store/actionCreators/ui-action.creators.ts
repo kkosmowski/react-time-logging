@@ -8,6 +8,7 @@ import { SettingsInterface, SettingsModel } from '@interfaces/settings.interface
 import { StorageService } from '@services/storage.service';
 import { DEFAULT_SETTINGS_MODEL } from '@consts/settings.consts';
 import { ConfirmationDialogData } from '@components/ConfirmationDialog/domain/confirmation-dialog.payload';
+import { SettingType } from '@payloads/update-setting-success.payload';
 
 const uiActionCreators = {
   openTaskDialog(payload: TaskDialogPayload): Action<string> {
@@ -60,17 +61,24 @@ const uiActionCreators = {
     }
   },
 
-  updateSetting<T extends string | number>(settingName: keyof SettingsInterface, value: T): (d: Dispatch) => Promise<void> {
+  updateSetting<T extends SettingType>(settingName: keyof SettingsInterface, value: T): (d: Dispatch) => Promise<void> {
     return async function (dispatch: Dispatch): Promise<void> {
       dispatch(uiActions.updateSetting());
 
-      await StorageService.update(
-        'settings',
-        { id: settingName },
-        { [(settingName).toString()]: value }
-      );
+      try {
+        await StorageService.update(
+          'settings',
+          { id: settingName },
+          { [(settingName).toString()]: value }
+        );
 
-      dispatch(uiActions.updateSettingSuccess({ settingName, value }));
+        dispatch(uiActions.updateSettingSuccess({ settingName, value }));
+      } catch {
+        await StorageService.add(
+          'settings',
+          { id: settingName, [(settingName).toString()]: value }
+        );
+      }
     }
   },
 }

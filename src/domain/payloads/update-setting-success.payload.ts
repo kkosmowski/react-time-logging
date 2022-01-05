@@ -1,6 +1,8 @@
 import { SettingsInterface } from '@interfaces/settings.interface';
 
-export interface UpdateSettingSuccessPayload<T = string | number> {
+export type SettingType = string | number | boolean;
+
+export interface UpdateSettingSuccessPayload<T = SettingType> {
   settingName: keyof SettingsInterface;
   value: T;
 }

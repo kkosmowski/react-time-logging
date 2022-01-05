@@ -11,6 +11,7 @@ export const DEFAULT_DAY_TARGET = 8;
 export const DEFAULT_DAY_LIMIT = 12;
 export const DEFAULT_LANGUAGE = Language.EN;
 export const DEFAULT_THEME = Theme.LightBlue;
+export const DEFAULT_CONDENSED = false;
 
 export const DEFAULT_SETTINGS_INTERFACE: SettingsInterface = {
   weekendDisplay: DEFAULT_WEEKEND_DISPLAY,
@@ -19,6 +20,7 @@ export const DEFAULT_SETTINGS_INTERFACE: SettingsInterface = {
   dayLimit: DEFAULT_DAY_LIMIT,
   language: DEFAULT_LANGUAGE,
   theme: DEFAULT_THEME,
+  condensed: DEFAULT_CONDENSED,
 };
 
 export const DEFAULT_SETTINGS_MODEL: SettingsModel = [
@@ -45,6 +47,10 @@ export const DEFAULT_SETTINGS_MODEL: SettingsModel = [
   {
     id: 'theme',
     theme: DEFAULT_THEME,
+  },
+  {
+    id: 'condensed',
+    condensed: DEFAULT_CONDENSED,
   },
 ];
 
