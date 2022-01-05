@@ -1,13 +1,13 @@
 import { ReactElement, useEffect, useState } from 'react';
 import { Button, Menu, Select, Switch, Tooltip } from 'antd';
 import { useFormik } from 'formik';
+import { FilterOutlined } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 import { Explanation, Filter, FiltersDropdown, FiltersDropdownBackdrop, FiltersMenuWrapper } from './Filters.styled';
 import { Category } from '@interfaces/category.interface';
 import { SelectOption } from '@interfaces/select-option.interface';
 import { FiltersInterface } from '@interfaces/filters.interface';
-import { FilterOutlined } from '@ant-design/icons';
-import { useTranslation } from 'react-i18next';
 import Row from '@components/Row';
 import { usePrevious } from '@hooks/use-previous';
 import { equalFilters } from '@utils/filters.utils';

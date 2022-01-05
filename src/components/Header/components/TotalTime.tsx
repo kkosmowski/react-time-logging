@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
+import styled from 'styled-components/macro';
+
 import { calculateDaysToRender } from '@utils/calculate-days-to-render.util';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
-import styled from 'styled-components/macro';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import { ColumnInterface } from '@interfaces/column.interface';
 

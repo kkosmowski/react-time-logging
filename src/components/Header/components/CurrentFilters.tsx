@@ -1,9 +1,10 @@
 import { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Language } from '@enums/language.enum';
-import { FiltersInterface } from '@interfaces/filters.interface';
 import styled from 'styled-components/macro';
 import { Tooltip } from 'antd';
+
+import { Language } from '@enums/language.enum';
+import { FiltersInterface } from '@interfaces/filters.interface';
 
 interface Props {
   filters: FiltersInterface;
@@ -40,14 +41,14 @@ const CurrentFilters = ({ filters, language }: Props): ReactElement | null => {
 
   useEffect(() => {
     if (ref.current) {
-      const clientW = ref.current!.clientWidth;
-      const scrollW = ref.current!.scrollWidth;
+      const clientW = ref.current.clientWidth;
+      const scrollW = ref.current.scrollWidth;
 
       if (clientW && scrollW && clientW !== scrollW) {
         const odd = 2;
         const difference = scrollW - clientW;
         const xMoreWidth = 50;
-        const children = ref.current!.children;
+        const children = ref.current.children;
         let widthToReclaim = difference + xMoreWidth;
         let itemsToRemove = 0;
         let i = children.length - 1;

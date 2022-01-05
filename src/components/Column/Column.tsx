@@ -9,6 +9,7 @@ import {
   DeleteOutlined,
   PlusCircleOutlined
 } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 import {
   ColumnBody,
@@ -37,7 +38,6 @@ import taskActionCreators from '@store/actionCreators/task-action.creators';
 import { ConfirmationAction } from '@enums/confirmation-action.enum';
 import taskSelectors from '@store/selectors/task.selectors';
 import { SelectTaskPayload } from '@payloads/select-task.payload';
-import { useTranslation } from 'react-i18next';
 import { DragData } from '@interfaces/drag-data.interface';
 
 interface Props {
@@ -81,7 +81,7 @@ const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement =>
 
   const handleDeleteTasks = (): void => {
     if (selectedTasks?.length === 1) {
-      const taskToDelete = tasks.find(t => t.id === selectedTasks[0]);
+      const taskToDelete = tasks.find(task => task.id === selectedTasks[0]);
 
       if (taskToDelete) {
         dispatch(uiActionCreators.openConfirmationDialog(

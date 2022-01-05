@@ -1,4 +1,5 @@
 import { ReactElement } from 'react';
+
 import { StyledText } from './ErrorText.styled';
 
 interface Props {

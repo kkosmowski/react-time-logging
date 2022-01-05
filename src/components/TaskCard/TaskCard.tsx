@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import { Dropdown, Menu } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 import { TaskInterface } from '@interfaces/task.interface';
 import { minutesToHoursAndMinutes } from '@utils/task.utils';
 import { Description, Duration, StyledCard } from './TaskCard.styled';
 import { stopPropagation } from '@utils/stop-propagation.util';
-import { useTranslation } from 'react-i18next';
 
 interface Props {
   onClick: (task: TaskInterface) => void;

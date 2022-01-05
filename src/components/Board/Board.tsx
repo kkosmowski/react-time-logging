@@ -1,4 +1,4 @@
-import { ReactElement, useCallback, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import { DragDropContext, DragStart, DropResult } from 'react-beautiful-dnd';
@@ -22,7 +22,7 @@ const Board = (): ReactElement => {
   const week: Week | null = useSelector(boardSelectors.week);
   const tasks: TaskModel[] = useSelector(taskSelectors.tasks);
   const filteredTasks: TaskModel[] = useSelector(taskSelectors.filtered);
-  const { weekendDisplay, weekStart, language } = useSelector(uiSelectors.settings);
+  const { weekendDisplay, weekStart } = useSelector(uiSelectors.settings);
   const tasksLoading = useSelector(taskSelectors.tasksLoading);
   const [organizedTasks, setOrganizedTasks] = useState<Record<string, TaskModel[]>>({});
   const [columnElements, setColumnElements] = useState<ReactElement[]>([]);
