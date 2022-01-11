@@ -31,10 +31,6 @@ export const SettingsRow = styled(Row)`
   
   .ant-input-affix-wrapper {
     width: auto;
-    
-    .ant-input-suffix {
-      color: var(--foreground-300);
-    }
   }
   
   input[type="number"] {

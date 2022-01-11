@@ -21,14 +21,16 @@ import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util
 import { LANGUAGE_OPTIONS, THEME_OPTIONS } from '@consts/settings.consts';
 import { Language } from '@enums/language.enum';
 import { Theme } from '@enums/theme.enum';
+import InfoIconWithTooltip from '@components/InfoIconWithTooltip/InfoIconWithTooltip';
 
 const SettingsDialog = (): ReactElement => {
   const categories = useSelector(categorySelectors.categories);
   const {
-    dayTarget,
-    dayLimit,
     weekendDisplay,
     weekStart,
+    disableTimeCheck,
+    dayTarget,
+    dayLimit,
     language,
     theme,
     condensed,
@@ -103,6 +105,10 @@ const SettingsDialog = (): ReactElement => {
 
   const handleCondensedChange = (condensed: boolean): void => {
     uiActionCreators.updateSetting<boolean>('condensed', condensed)(dispatch);
+  };
+
+  const handleTimeCheckDisableChange = (disabled: boolean): void => {
+    uiActionCreators.updateSetting<boolean>('disableTimeCheck', disabled)(dispatch);
   };
 
   useLayoutEffect(() => {
@@ -184,26 +190,49 @@ const SettingsDialog = (): ReactElement => {
         </SettingsRow>
 
         <SettingsRow>
-          <h3 id="dayTargetTitle">{ t('DAY_TARGET') }</h3>
+          <h3 id="disableTimeCheck">
+            <span>{ t('DISABLE_TIME_CHECK') }</span>
+            <InfoIconWithTooltip text={ t('DISABLE_TIME_CHECK_INFO') } />
+          </h3>
+
+          <Switch
+            checked={ disableTimeCheck }
+            onChange={ handleTimeCheckDisableChange }
+            checkedChildren={ t('YES') }
+            unCheckedChildren={ t('NO') }
+            aria-labelledby="condensedView"
+          />
+        </SettingsRow>
+
+        <SettingsRow>
+          <h3 id="dayTargetTitle">
+            <span>{ t('DAY_TARGET') }</span>
+            <InfoIconWithTooltip text={ t('DAY_TARGET_INFO') } />
+          </h3>
 
           <Input
             id="dayTarget"
             type="number"
             onChange={ handleDayTargetOrLimitChange }
             value={ dayTarget }
+            disabled={ disableTimeCheck }
             suffix={ t('HOURS_SUFFIX') }
             aria-labelledby="dayTargetTitle"
           />
         </SettingsRow>
 
         <SettingsRow>
-          <h3 id="dayLimitTitle">{ t('DAY_LIMIT') }</h3>
+          <h3 id="dayLimitTitle">
+            <span>{ t('DAY_LIMIT') }</span>
+            <InfoIconWithTooltip text={ t('DAY_LIMIT_INFO') } />
+          </h3>
 
           <Input
             id="dayLimit"
             type="number"
             onChange={ handleDayTargetOrLimitChange }
             value={ dayLimit }
+            disabled={ disableTimeCheck }
             suffix={ t('HOURS_SUFFIX') }
             aria-labelledby="dayLimitTitle"
           />

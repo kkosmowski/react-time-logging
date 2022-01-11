@@ -7,6 +7,7 @@ import { Theme } from '@enums/theme.enum';
 
 export const DEFAULT_WEEKEND_DISPLAY = WeekendDisplay.Full;
 export const DEFAULT_WEEK_START = DayNumber.Monday;
+export const DEFAULT_DISABLE_TIME_CHECK = false;
 export const DEFAULT_DAY_TARGET = 8;
 export const DEFAULT_DAY_LIMIT = 12;
 export const DEFAULT_LANGUAGE = Language.EN;
@@ -16,6 +17,7 @@ export const DEFAULT_CONDENSED = false;
 export const DEFAULT_SETTINGS_INTERFACE: SettingsInterface = {
   weekendDisplay: DEFAULT_WEEKEND_DISPLAY,
   weekStart: DEFAULT_WEEK_START,
+  disableTimeCheck: DEFAULT_DISABLE_TIME_CHECK,
   dayTarget: DEFAULT_DAY_TARGET,
   dayLimit: DEFAULT_DAY_LIMIT,
   language: DEFAULT_LANGUAGE,
@@ -31,6 +33,10 @@ export const DEFAULT_SETTINGS_MODEL: SettingsModel = [
   {
     id: 'weekStart',
     weekStart: DEFAULT_WEEK_START,
+  },
+  {
+    id: 'disableTimeCheck',
+    disableTimeCheck: DEFAULT_DISABLE_TIME_CHECK,
   },
   {
     id: 'dayTarget',

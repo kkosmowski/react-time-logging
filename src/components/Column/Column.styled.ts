@@ -97,8 +97,7 @@ export const ColumnBody = styled.div<{ draggedOver: boolean; isDropDisabled: boo
     display: none;
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 0;
     height: 100%;
     justify-content: center;
     align-items: center;

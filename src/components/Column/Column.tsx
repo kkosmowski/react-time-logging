@@ -50,7 +50,7 @@ interface Props {
 const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement => {
   const dateString = date.toISOString();
   const clipboard = useSelector(uiSelectors.clipboard);
-  const { dayTarget, dayLimit } = useSelector(uiSelectors.settings);
+  const { dayTarget, dayLimit, disableTimeCheck } = useSelector(uiSelectors.settings);
   const selectionMode = useSelector(taskSelectors.selectionMode(dateString));
   const selectedTasks = useSelector(taskSelectors.selected(dateString));
   const [cards, setCards] = useState<ReactElement[]>([]);
@@ -161,14 +161,14 @@ const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement =>
   };
 
   useEffect(() => {
-    if (!dragData.task || dragData.sourceColumn === dateString) {
+    if (!dragData.task || dragData.sourceColumn === dateString || disableTimeCheck) {
       setIsDropDisabled(false);
       return;
     }
 
     const maxAllowedMinutes = dayLimitInMinutes - totalMinutes;
     setIsDropDisabled(dragData.task.duration > maxAllowedMinutes);
-  }, [dragData]);
+  }, [dragData, disableTimeCheck]);
 
   useEffect(() => {
     checkIfIsToday();
@@ -203,11 +203,14 @@ const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement =>
   }, [tasks, selectedTasks, selectionMode, clipboard]);
 
   useEffect(() => {
-    setIsPasteDisabled(clipboard?.task
-      ? clipboard.task.duration + totalMinutes > dayLimitInMinutes
-      : false
-    );
-  }, [clipboard, cards]);
+    let disabled = false;
+
+    if (clipboard?.task) {
+      disabled = !disableTimeCheck && clipboard.task.duration + totalMinutes > dayLimitInMinutes;
+    }
+
+    setIsPasteDisabled(disabled);
+  }, [clipboard, cards, disableTimeCheck]);
 
   const menu = (
     <Menu>
@@ -235,13 +238,17 @@ const Column = ({ date, tasks, totalMinutes, dragData }: Props): ReactElement =>
             <DayDate>{ date.format(COLUMN_DATE_FORMAT) }</DayDate>
           </p>
 
-          <HoursDetails>
-            { minutesToHoursAndMinutes(totalMinutes) }
-          </HoursDetails>
+          { !disableTimeCheck && (
+            <HoursDetails>
+              { minutesToHoursAndMinutes(totalMinutes) }
+            </HoursDetails>
+          ) }
         </Row>
       </ColumnHeader>
 
-      <TimeIndicator value={ totalMinutes } dayTarget={ dayTarget } dayLimit={ dayLimit } />
+      { !disableTimeCheck && (
+        <TimeIndicator value={ totalMinutes } dayTarget={ dayTarget } dayLimit={ dayLimit } />
+      ) }
 
       <Droppable droppableId={ dateString } isDropDisabled={ isDropDisabled }>
         { (provided, snapshot) => (
