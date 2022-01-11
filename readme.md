@@ -81,8 +81,10 @@ User can set multiple different options:
 * first day of the week
 * target hours per day (amount of hours that are expected each day to reach 100% of progress bar)
 * limit of hours per day (amount of hours that cannot be exceeded)
+* option to disable time related checks and limits
 * language
 * theme
+* condensed mode
 
 ---
 
