@@ -14,7 +14,6 @@ import { TASK_DESCRIPTION_MAX_LENGTH } from '@consts/task.consts';
 import { calculateDurationFromString, minutesToHoursAndMinutes } from '@utils/task.utils';
 import { calculateDatesToDisable } from '@utils/calculate-dates-to-disabled.util';
 import { WeekendDisplay } from '@enums/weekend-display.enum';
-import Row from '@components/Row';
 import { EntityUid } from '@mytypes/entity-uid.type';
 
 interface Props {
