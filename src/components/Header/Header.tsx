@@ -18,14 +18,14 @@ import uiSelectors from '@store/selectors/ui.selectors';
 import TotalTime from './components/TotalTime';
 import CurrentFilters from './components/CurrentFilters';
 
-const version = '1.0.2';
+const version = '1.0.3';
 
 const Header = (): ReactElement => {
   const viewedDate = useSelector(boardSelectors.viewedDate);
   const categories = useSelector(categorySelectors.categories);
   const filters = useSelector(taskSelectors.filters);
   const defaultFilters = useSelector(taskSelectors.defaultFilters);
-  const { language, weekendDisplay, dayTarget } = useSelector(uiSelectors.settings);
+  const { language, weekendDisplay, dayTarget, disableTimeCheck } = useSelector(uiSelectors.settings);
   const columns = useSelector(boardSelectors.columns);
   const dispatch = useDispatch();
 
@@ -71,7 +71,9 @@ const Header = (): ReactElement => {
 
       <DetailsRow>
         <CurrentFilters filters={ filters } language={ language } />
-        <TotalTime weekendDisplay={ weekendDisplay } dayTarget={ dayTarget } columns={ columns } />
+        { !disableTimeCheck && (
+          <TotalTime weekendDisplay={ weekendDisplay } dayTarget={ dayTarget } columns={ columns } />
+        ) }
       </DetailsRow>
     </StyledHeader>
   );

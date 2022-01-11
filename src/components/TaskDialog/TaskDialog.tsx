@@ -25,7 +25,7 @@ import { MINUTES_IN_HOUR } from '@consts/date.consts';
 const TaskDialog = (): ReactElement => {
   const state: TaskDialogState = useSelector(uiSelectors.taskDialog);
   const isNewTask = state.data?.type === TaskDialogType.NewTask;
-  const { weekendDisplay, dayLimit } = useSelector(uiSelectors.settings);
+  const { weekendDisplay, dayLimit, disableTimeCheck } = useSelector(uiSelectors.settings);
   const categories: Category[] = useSelector(categorySelectors.categories);
   const [isEditMode, setIsEditMode] = useState(isNewTask || !!state.data?.editMode);
   const titleTranslationKey = isNewTask
@@ -111,7 +111,9 @@ const TaskDialog = (): ReactElement => {
   };
 
   useEffect(() => {
-    if (state.data?.task && typeof state.data?.totalColumnMinutes === 'number') {
+    if (disableTimeCheck) {
+      setIsDuplicateDisabled(false);
+    } else if (state.data?.task && typeof state.data?.totalColumnMinutes === 'number') {
       const totalMinutes = state.data.totalColumnMinutes;
       const taskMinutes = state.data.task.duration;
       const dayLimitInMinutes = dayLimit * MINUTES_IN_HOUR;
@@ -162,6 +164,7 @@ const TaskDialog = (): ReactElement => {
         categories={ categories }
         weekendDisplay={ weekendDisplay }
         dayLimit={ dayLimit }
+        disableTimeCheck={ disableTimeCheck }
         originalDuration={ !isNewTask && state.data && state.data.task ? state.data.task.duration : 0 }
         totalMinutes={ totalMinutesOnDate }
       />

@@ -13,6 +13,10 @@ export type SettingsModel = [
     weekStart: DayNumber,
   },
   {
+    id: 'disableTimeCheck',
+    disableTimeCheck: boolean,
+  },
+  {
     id: 'dayTarget',
     dayTarget: number,
   },
@@ -37,6 +41,7 @@ export type SettingsModel = [
 export type SettingsInterface = {
   weekendDisplay: WeekendDisplay;
   weekStart: DayNumber;
+  disableTimeCheck: boolean;
   dayTarget: number;
   dayLimit: number;
   language: Language;
