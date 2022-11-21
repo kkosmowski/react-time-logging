@@ -24,7 +24,7 @@ const TotalTime = ({ weekendDisplay, dayTarget, columns }: Props): ReactElement 
     <StyledSpan>
       { t('TOTAL_TIME_THIS_WEEK') }: <strong>{ totalFilteredTime }</strong>
       { totalFilteredTime !== totalTime && <>&nbsp;(<strong>{ totalTime }</strong>)</> }
-      &nbsp;/ <strong>{ weekTargetHours }h</strong>
+      &nbsp;/ <strong>{ weekTargetHours }hehess</strong>
     </StyledSpan>
   )
 };
